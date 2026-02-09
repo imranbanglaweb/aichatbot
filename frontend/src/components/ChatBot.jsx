@@ -10,9 +10,12 @@ import './ChatBot.css';
 const ChatBot = ({ 
   apiUrl = 'http://localhost:8000/api',
   position = 'bottom-right',
-  title = 'Medical Appointment Assistant',
-  primaryColor = '#007bff',
-  welcomeMessage = 'Hello! I\'m your Medical Appointment Assistant. How can I help you today?'
+  title = 'Gulshan Clinic',
+  subtitle = 'Medical Appointment Assistant',
+  logoUrl = null,
+  primaryColor = '#1a5f7a',
+  secondaryColor = '#159895',
+  welcomeMessage = 'Hello! Welcome to Gulshan Clinic. I\'m your Medical Appointment Assistant. How can I help you today?'
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -171,22 +174,52 @@ const ChatBot = ({
       {/* Chat window */}
       {isOpen && (
         <div className="chatbot-window">
-          {/* Header */}
-          <div className="chatbot-header" style={{ backgroundColor: primaryColor }}>
-            <div className="chatbot-title">
-              <span className="chatbot-icon">🏥</span>
-              <span>{title}</span>
+          {/* Premium Header */}
+          <div 
+            className="chatbot-header"
+            style={{ 
+              background: `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)` 
+            }}
+          >
+            <div className="chatbot-title-wrapper">
+              <div className="chatbot-logo">
+                {logoUrl ? (
+                  <img src={logoUrl} alt="Gulshan Clinic Logo" className="logo-image" />
+                ) : (
+                  <div className="logo-placeholder">
+                    <svg viewBox="0 0 40 40" className="logo-svg">
+                      <path d="M20 2C10.06 2 2 10.06 2 20s8.06 18 18 18 18-8.06 18-18S29.94 2 20 2zm0 32c-7.72 0-14-6.28-14-14S12.28 6 20 6s14 6.28 14 14-6.28 14-14 14z" fill="currentColor"/>
+                      <path d="M20 8c-6.63 0-12 5.37-12 12s5.37 12 12 12 12-5.37 12-12-5.37-12-12-12zm0 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z" fill="currentColor"/>
+                      <circle cx="20" cy="20" r="4" fill="currentColor"/>
+                    </svg>
+                  </div>
+                )}
+              </div>
+              <div className="chatbot-title-info">
+                <span className="chatbot-title">{title}</span>
+                <span className="chatbot-subtitle">{subtitle}</span>
+              </div>
             </div>
             <button className="chatbot-close" onClick={toggleChat}>
-              ✕
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+              </svg>
             </button>
+          </div>
+
+          {/* Hospital Info Banner */}
+          <div className="hospital-info-banner">
+            <div className="hospital-info-content">
+              <span className="hospital-address">📍 GP-GA-13, Pragati Sharani, Gulshan-2, Dhaka-1212</span>
+              <span className="hospital-phone">📞 09606-991133</span>
+            </div>
           </div>
 
           {/* Messages */}
           <MessageList 
             messages={messages} 
             isTyping={isTyping} 
-            botTypingText="Typing..."
+            botTypingText="Gulshan Clinic is typing..."
           />
 
           {/* Quick Replies */}
@@ -201,6 +234,7 @@ const ChatBot = ({
           <MessageInput 
             onSend={handleSendMessage}
             disabled={isTyping}
+            placeholder="Type your message..."
           />
 
           {/* Voice button */}
@@ -218,9 +252,15 @@ const ChatBot = ({
         <button 
           className="chatbot-toggle" 
           onClick={toggleChat}
-          style={{ backgroundColor: primaryColor }}
+          style={{ 
+            background: `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)` 
+          }}
         >
-          <span className="chatbot-toggle-icon">💬</span>
+          <div className="toggle-icon-wrapper">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+            </svg>
+          </div>
         </button>
       )}
     </div>
