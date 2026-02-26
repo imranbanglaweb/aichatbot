@@ -44,6 +44,9 @@ class AIService
     protected array $bookingKeywords = [
         'book', 'appointment', 'schedule', 'visit', 'see a doctor',
         'consult', 'make an appointment', 'schedule an appointment',
+        // Bangla
+        'অ্যাপয়েন্টমেন্ট', 'বুক', 'সাক্ষাৎ', 'ডাক্তার দেখাতে', 'সময় নিতে',
+        'আমাকে একটি অ্যাপয়েন্টমেন্ট দিন', 'আমি অ্যাপয়েন্টমেন্ট নিতে চাই',
     ];
 
     // List doctors keywords
@@ -355,6 +358,29 @@ class AIService
                 'bn' => "{$specialization} ডাক্তারের অ্যাপয়েন্টমেন্ট নিতে চাইছেন। কোন তারিখ এবং সময় আপনার জন্য সুবিধাজনক?",
                 'hi' => "आप {$specialization} डॉक्टर से मिलना चाहते हैं। कौन सी तारीख और समय आपके लिए सुविधाजनक है?",
                 default => "I see you'd like to see a {$specialization}. What date and time works best for you?",
+            };
+        }
+
+        // Show available doctors for booking
+        $doctors = Doctor::available()
+            ->with(['specialization'])
+            ->limit(5)
+            ->get();
+        
+        if ($doctors->isNotEmpty()) {
+            $doctorList = "";
+            foreach ($doctors as $index => $doctor) {
+                $spec = $doctor->specialization ? $doctor->specialization->name : 'General';
+                $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctor->user->name . " - {$spec}";
+                if ($doctor->consultation_fee > 0) {
+                    $doctorList .= " (Tk. " . number_format($doctor->consultation_fee) . ")";
+                }
+            }
+            
+            return match($language) {
+                'bn' => "নিচের ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nডাক্তারের নম্বর বলুন।",
+                'hi' => "नीचे दिए गए डॉक्टरों में से अपना डॉक्टर चुनें:{$doctorList}\n\nडॉक्टर का नंबर बताएं।",
+                default => "Choose a doctor from the list below:{$doctorList}\n\nPlease specify the doctor's number.",
             };
         }
 

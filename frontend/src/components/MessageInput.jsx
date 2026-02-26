@@ -38,7 +38,7 @@ export const MessageInput = ({ onSend, disabled }) => {
         value={message}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        placeholder="Type your message..."
+        placeholder="Type your message... (আপনার মেসেজ লিখুন)"
         disabled={disabled}
         rows={1}
         style={{ 

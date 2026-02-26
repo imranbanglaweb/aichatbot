@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +12,16 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 */
+
+// Test route
+Route::get('/test', function() {
+    return ['status' => 'ok', 'message' => 'API is working'];
+});
+
+// Simple POST test
+Route::post('/test-post', function() {
+    return ['status' => 'ok', 'message' => 'POST test works'];
+});
 
 // Chat routes
 Route::prefix('chat')->group(function () {
@@ -52,4 +64,29 @@ Route::get('/health', function () {
         'status' => 'ok',
         'timestamp' => now()->toIso8601String(),
     ]);
+});
+
+// Authentication routes (public)
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+});
+
+// Protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    // Auth
+    Route::prefix('auth')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/me', [AuthController::class, 'me']);
+        Route::put('/profile', [AuthController::class, 'updateProfile']);
+        Route::put('/password', [AuthController::class, 'changePassword']);
+    });
+
+    // Dashboard
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/patient', [DashboardController::class, 'patientDashboard']);
+        Route::get('/doctor', [DashboardController::class, 'doctorDashboard']);
+        Route::get('/admin', [DashboardController::class, 'adminDashboard']);
+        Route::get('/sidebar', [DashboardController::class, 'sidebarMenu']);
+    });
 });

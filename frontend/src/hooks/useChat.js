@@ -48,7 +48,7 @@ export const useChat = (apiUrl = 'http://localhost:8000/api') => {
         formData.append('session_id', sessionId);
       }
 
-      const response = await fetch(`${apiUrl}/voice/stt`, {
+      const response = await fetch(`${apiUrl}/chat/voice/stt`, {
         method: 'POST',
         body: formData,
       });
