@@ -24,7 +24,7 @@ class DashboardController extends Controller
             ->where('status', '!=', 'cancelled')
             ->with(['doctor.specialization'])
             ->orderBy('appointment_date')
-            ->orderBy('appointment_time')
+            ->orderBy('start_time')
             ->limit(5)
             ->get();
 
@@ -36,7 +36,7 @@ class DashboardController extends Controller
             })
             ->with(['doctor.specialization'])
             ->orderBy('appointment_date', 'desc')
-            ->orderBy('appointment_time', 'desc')
+            ->orderBy('start_time', 'desc')
             ->limit(5)
             ->get();
 
@@ -108,7 +108,7 @@ class DashboardController extends Controller
             ->where('appointment_date', now()->toDateString())
             ->where('status', '!=', 'cancelled')
             ->with(['patient'])
-            ->orderBy('appointment_time')
+            ->orderBy('start_time')
             ->get();
 
         // Get upcoming appointments
@@ -117,7 +117,7 @@ class DashboardController extends Controller
             ->where('status', '!=', 'cancelled')
             ->with(['patient'])
             ->orderBy('appointment_date')
-            ->orderBy('appointment_time')
+            ->orderBy('start_time')
             ->limit(10)
             ->get();
 
@@ -208,7 +208,7 @@ class DashboardController extends Controller
         // Get today's appointments
         $todayAppointments = Appointment::where('appointment_date', now()->toDateString())
             ->with(['doctor', 'patient'])
-            ->orderBy('appointment_time')
+            ->orderBy('start_time')
             ->limit(20)
             ->get();
 
