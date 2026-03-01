@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ChatSession;
 use App\Services\AIService;
+use App\Services\VoiceService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,10 +14,12 @@ use Illuminate\Support\Str;
 class ChatController extends Controller
 {
     protected AIService $aiService;
+    protected VoiceService $voiceService;
 
-    public function __construct(AIService $aiService)
+    public function __construct(AIService $aiService, VoiceService $voiceService)
     {
         $this->aiService = $aiService;
+        $this->voiceService = $voiceService;
     }
 
     /**
@@ -28,6 +31,7 @@ class ChatController extends Controller
         try {
             $message = $request->input('message');
             $sessionId = $request->input('session_id');
+            $language = $request->input('language', 'en');
 
             if (empty($message)) {
                 return response()->json([
@@ -36,8 +40,8 @@ class ChatController extends Controller
                 ], 400);
             }
 
-            // Get or create session
-            $session = $this->getOrCreateSession($sessionId);
+            // Get or create session with language
+            $session = $this->getOrCreateSession($sessionId, $language);
 
             // Detect emergency
             if ($this->aiService->detectEmergency($message)) {
@@ -49,6 +53,7 @@ class ChatController extends Controller
                     'intent' => 'emergency',
                     'emergency' => true,
                     'session_id' => $session->session_id,
+                    'language' => $session->language,
                     'audio_url' => null,
                 ]);
             }
@@ -68,14 +73,25 @@ class ChatController extends Controller
                 'last_activity_at' => now(),
             ]);
 
+            // Generate TTS audio if response text is provided
+            $audioUrl = null;
+            if (!empty($result['response'])) {
+                $ttsLanguage = $this->mapLanguageForTTS($session->language);
+                $ttsResult = $this->voiceService->textToSpeech($result['response'], $ttsLanguage);
+                if ($ttsResult['success']) {
+                    $audioUrl = $ttsResult['audio_url'];
+                }
+            }
+
             return response()->json([
                 'success' => true,
                 'response' => $result['response'],
                 'intent' => $result['intent'],
                 'emergency' => $result['emergency'] ?? false,
                 'session_id' => $session->session_id,
+                'language' => $session->language,
                 'extracted_data' => $result['extracted_data'] ?? [],
-                'audio_url' => null,
+                'audio_url' => $audioUrl,
             ]);
         } catch (Exception $e) {
             Log::error('Chat Error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
@@ -90,7 +106,7 @@ class ChatController extends Controller
 
     /**
      * Speech-to-Text endpoint
-     * POST /api/voice/stt
+     * POST /api/chat/voice/stt
      */
     public function speechToText(Request $request): JsonResponse
     {
@@ -102,20 +118,113 @@ class ChatController extends Controller
                 ], 400);
             }
 
-            // For now, just return a placeholder
-            // In production, use Whisper API
+            $sessionId = $request->input('session_id');
+            $language = $request->input('language', 'en');
+            
+            // Get or create session
+            $session = $this->getOrCreateSession($sessionId, $language);
+
+            // Save uploaded audio
+            $audioFile = $request->file('audio');
+            $audioPath = $this->voiceService->saveUploadedAudio($audioFile);
+
+            // Convert speech to text with language hint
+            $sttLanguage = $this->mapLanguageForSTT($language);
+            $sttResult = $this->voiceService->speechToText($audioPath, $sttLanguage);
+
+            if (!$sttResult['success']) {
+                return response()->json([
+                    'success' => false,
+                    'error' => $sttResult['error'] ?? 'Failed to transcribe audio',
+                ], 500);
+            }
+
+            $transcribedText = $sttResult['text'];
+
+            // Process the transcribed text with AI
+            $result = $this->aiService->processMessage($transcribedText, [
+                'language' => $session->language,
+                'extracted_data' => $session->extracted_data ?? [],
+                'current_intent' => $session->current_intent,
+            ]);
+
+            // Update session
+            $session->update([
+                'extracted_data' => $result['extracted_data'] ?? [],
+                'current_intent' => $result['intent'],
+                'message_count' => $session->message_count + 1,
+                'last_activity_at' => now(),
+            ]);
+
+            // Generate TTS audio for response
+            $audioUrl = null;
+            if (!empty($result['response'])) {
+                $ttsLanguage = $this->mapLanguageForTTS($session->language);
+                $ttsResult = $this->voiceService->textToSpeech($result['response'], $ttsLanguage);
+                if ($ttsResult['success']) {
+                    $audioUrl = $ttsResult['audio_url'];
+                }
+            }
+
             return response()->json([
-                'success' => false,
-                'error' => 'Voice processing not configured. Please add OpenAI or Whisper API key.',
-            ], 400);
+                'success' => true,
+                'text' => $transcribedText,
+                'response' => $result['response'],
+                'intent' => $result['intent'],
+                'emergency' => $result['emergency'] ?? false,
+                'session_id' => $session->session_id,
+                'language' => $session->language,
+                'audio_url' => $audioUrl,
+                'extracted_data' => $result['extracted_data'] ?? [],
+            ]);
         } catch (Exception $e) {
             Log::error('STT Error: ' . $e->getMessage());
             
             return response()->json([
                 'success' => false,
-                'error' => 'Failed to process audio',
+                'error' => 'Failed to process audio: ' . $e->getMessage(),
             ], 500);
         }
+    }
+
+    /**
+     * Map frontend language code to TTS language code
+     */
+    protected function mapLanguageForTTS(string $language): string
+    {
+        $mapping = [
+            'en' => 'en-US',
+            'bn' => 'bn-BD',
+            'hi' => 'hi-IN',
+            'es' => 'es-ES',
+            'fr' => 'fr-FR',
+            'de' => 'de-DE',
+            'zh' => 'zh-CN',
+            'ar' => 'ar-SA',
+            'ja' => 'ja-JP',
+        ];
+
+        return $mapping[$language] ?? 'en-US';
+    }
+
+    /**
+     * Map frontend language code to STT language code
+     */
+    protected function mapLanguageForSTT(string $language): string
+    {
+        $mapping = [
+            'en' => 'en',
+            'bn' => 'bn',
+            'hi' => 'hi',
+            'es' => 'es',
+            'fr' => 'fr',
+            'de' => 'de',
+            'zh' => 'zh',
+            'ar' => 'ar',
+            'ja' => 'ja',
+        ];
+
+        return $mapping[$language] ?? 'en';
     }
 
     /**
@@ -171,11 +280,15 @@ class ChatController extends Controller
     /**
      * Get or create chat session
      */
-    protected function getOrCreateSession(?string $sessionId): ChatSession
+    protected function getOrCreateSession(?string $sessionId, string $language = 'en'): ChatSession
     {
         if ($sessionId) {
             $session = ChatSession::where('session_id', $sessionId)->first();
             if ($session) {
+                // Update language if provided and different
+                if ($language !== 'en' && $session->language !== $language) {
+                    $session->update(['language' => $language]);
+                }
                 return $session;
             }
         }
@@ -184,7 +297,7 @@ class ChatController extends Controller
             'session_id' => 'CHAT-' . strtoupper(Str::random(16)),
             'user_id' => null,
             'guest_id' => null,
-            'language' => 'en',
+            'language' => $language,
             'status' => 'active',
             'extracted_data' => [],
             'message_count' => 0,

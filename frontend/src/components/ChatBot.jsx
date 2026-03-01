@@ -24,24 +24,27 @@ const ChatBot = ({
   const [sessionId, setSessionId] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
   const [quickReplies, setQuickReplies] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   
   const messagesEndRef = useRef(null);
   const audioPlayerRef = useRef(null);
 
-  const { sendMessage, sendVoice } = useChat(apiUrl);
-  const { isRecording, startRecording, stopRecording, audioBlob } = useVoice();
+  const { sendMessage, sendVoice } = useChat(apiUrl, selectedLanguage);
+  const { isRecording, startRecording, stopRecording, transcribedText, interimTranscript, error: voiceError, isSupported, clearRecording } = useVoice(selectedLanguage);
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  // Handle audio blob for voice processing
+  // Handle transcribed text from Web Speech API
   useEffect(() => {
-    if (audioBlob) {
-      handleVoiceInput();
+    if (transcribedText && !isRecording) {
+      handleVoiceInput(transcribedText);
+      clearRecording();
     }
-  }, [audioBlob]);
+  }, [transcribedText, isRecording]);
 
   const handleSendMessage = useCallback(async (text) => {
     if (!text.trim()) return;
@@ -97,34 +100,35 @@ const ChatBot = ({
     }
   }, [sessionId, sendMessage]);
 
-  const handleVoiceInput = useCallback(async () => {
-    if (!audioBlob) return;
+  const handleVoiceInput = useCallback(async (text) => {
+    if (!text || !text.trim()) return;
+
+    const trimmedText = text.trim();
 
     try {
       setIsTyping(true);
 
-      const response = await sendVoice(audioBlob, sessionId);
+      // Use sendMessage with the transcribed text (no need for voice API)
+      const response = await sendMessage(trimmedText, sessionId);
 
       if (response.session_id && !sessionId) {
         setSessionId(response.session_id);
       }
 
       // Add user message (transcribed text)
-      if (response.text) {
-        setMessages(prev => [...prev, {
-          id: Date.now().toString(),
-          type: 'user',
-          content: response.text,
-          isVoice: true,
-          timestamp: new Date()
-        }]);
-      }
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        type: 'user',
+        content: trimmedText,
+        isVoice: true,
+        timestamp: new Date()
+      }]);
 
       // Add bot response
       const botMessage = {
         id: (Date.now() + 1).toString(),
         type: 'bot',
-        content: response.text ? response.response : response.response,
+        content: response.response,
         audio_url: response.audio_url,
         intent: response.intent,
         emergency: response.emergency,
@@ -132,7 +136,7 @@ const ChatBot = ({
       };
       setMessages(prev => [...prev, botMessage]);
 
-      // Play audio response
+      // Play audio response if available
       if (response.audio_url && audioPlayerRef.current) {
         audioPlayerRef.current.src = response.audio_url;
         audioPlayerRef.current.play().catch(console.error);
@@ -149,7 +153,7 @@ const ChatBot = ({
     } finally {
       setIsTyping(false);
     }
-  }, [audioBlob, sessionId, sendVoice]);
+  }, [sessionId, sendMessage]);
 
   const handleQuickReply = (reply) => {
     handleSendMessage(reply);
@@ -205,6 +209,59 @@ const ChatBot = ({
                 <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
               </svg>
             </button>
+            {/* Language Selector */}
+            <div className="language-selector-container">
+              <button 
+                className="language-selector-button"
+                onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+                title="Select Language"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+                </svg>
+                <span className="language-code">{selectedLanguage.toUpperCase()}</span>
+              </button>
+              {showLanguageMenu && (
+                <div className="language-dropdown">
+                  <button 
+                    className={`language-option ${selectedLanguage === 'en' ? 'active' : ''}`}
+                    onClick={() => { setSelectedLanguage('en'); setShowLanguageMenu(false); }}
+                  >
+                    🇺🇸 English
+                  </button>
+                  <button 
+                    className={`language-option ${selectedLanguage === 'bn' ? 'active' : ''}`}
+                    onClick={() => { setSelectedLanguage('bn'); setShowLanguageMenu(false); }}
+                  >
+                    🇧🇩 বাংলা
+                  </button>
+                  <button 
+                    className={`language-option ${selectedLanguage === 'hi' ? 'active' : ''}`}
+                    onClick={() => { setSelectedLanguage('hi'); setShowLanguageMenu(false); }}
+                  >
+                    🇮🇳 हिंदी
+                  </button>
+                  <button 
+                    className={`language-option ${selectedLanguage === 'es' ? 'active' : ''}`}
+                    onClick={() => { setSelectedLanguage('es'); setShowLanguageMenu(false); }}
+                  >
+                    🇪🇸 Español
+                  </button>
+                  <button 
+                    className={`language-option ${selectedLanguage === 'fr' ? 'active' : ''}`}
+                    onClick={() => { setSelectedLanguage('fr'); setShowLanguageMenu(false); }}
+                  >
+                    🇫🇷 Français
+                  </button>
+                  <button 
+                    className={`language-option ${selectedLanguage === 'ar' ? 'active' : ''}`}
+                    onClick={() => { setSelectedLanguage('ar'); setShowLanguageMenu(false); }}
+                  >
+                    🇸🇦 العربية
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Hospital Info Banner */}
@@ -235,6 +292,7 @@ const ChatBot = ({
             onSend={handleSendMessage}
             disabled={isTyping}
             placeholder="Type your message..."
+            language={selectedLanguage}
           />
 
           {/* Voice button */}
@@ -243,6 +301,10 @@ const ChatBot = ({
             onStartRecording={startRecording}
             onStopRecording={stopRecording}
             primaryColor={primaryColor}
+            language={selectedLanguage}
+            interimTranscript={interimTranscript}
+            error={voiceError}
+            isSupported={isSupported}
           />
         </div>
       )}

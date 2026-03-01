@@ -15,9 +15,9 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const data = await login(email, password);
-      // Redirect based on role
-      const role = data.data.user.role;
+      const response = await login(email, password);
+      // Redirect based on role - response contains user and token
+      const role = response.user.role;
       if (role === 'admin') {
         window.location.href = '/admin/dashboard';
       } else if (role === 'doctor') {

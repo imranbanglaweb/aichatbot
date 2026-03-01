@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 import DashboardLayout from './DashboardLayout';
 import api from '../services/api';
 
@@ -101,7 +102,7 @@ const PatientDashboard = () => {
         <div className="content-card">
           <div className="card-header">
             <h3>Upcoming Appointments</h3>
-            <a href="/patient/appointments" className="view-all">View All</a>
+            <Link to="/patient/appointments" className="view-all">View All</Link>
           </div>
           
           {upcomingAppointments.length > 0 ? (
@@ -146,15 +147,15 @@ const PatientDashboard = () => {
           </div>
           
           <div className="quick-actions">
-            <a href="/patient/doctors" className="quick-action-btn">
+            <Link to="/patient/doctors" className="quick-action-btn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
               <span>Find a Doctor</span>
-            </a>
+            </Link>
             
-            <a href="/patient/appointments/book" className="quick-action-btn">
+            <Link to="/patient/appointments/book" className="quick-action-btn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                 <line x1="16" y1="2" x2="16" y2="6" />
@@ -164,22 +165,22 @@ const PatientDashboard = () => {
                 <line x1="10" y1="16" x2="14" y2="16" />
               </svg>
               <span>Book Appointment</span>
-            </a>
+            </Link>
             
-            <a href="/patient/chat" className="quick-action-btn">
+            <Link to="/patient/chat" className="quick-action-btn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
               </svg>
               <span>Chat with AI Assistant</span>
-            </a>
+            </Link>
             
-            <a href="/patient/profile" className="quick-action-btn">
+            <Link to="/patient/profile" className="quick-action-btn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
               </svg>
               <span>My Profile</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

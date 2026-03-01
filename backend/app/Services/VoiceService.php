@@ -28,11 +28,21 @@ class VoiceService
     /**
      * Convert speech to text using OpenAI Whisper
      */
-    public function speechToText(string $audioFilePath): array
+    public function speechToText(string $audioFilePath, string $language = null): array
     {
         try {
             if (!file_exists($audioFilePath)) {
                 throw new Exception('Audio file not found');
+            }
+
+            $requestData = [
+                'model' => 'whisper-1',
+                'response_format' => 'verbose_json',
+            ];
+
+            // Add language if specified (helps with accuracy)
+            if ($language && in_array($language, ['en', 'bn', 'hi', 'es', 'fr', 'de', 'zh', 'ar', 'ja'])) {
+                $requestData['language'] = $language;
             }
 
             $response = Http::attach(
@@ -41,11 +51,7 @@ class VoiceService
                 basename($audioFilePath)
             )->withHeaders([
                 'Authorization' => 'Bearer ' . $this->openAiApiKey,
-            ])->timeout(60)->post($this->openAiBaseUrl . '/audio/transcriptions', [
-                'model' => 'whisper-1',
-                'language' => null, // Auto-detect language
-                'response_format' => 'verbose_json',
-            ]);
+            ])->timeout(60)->post($this->openAiBaseUrl . '/audio/transcriptions', $requestData);
 
             if (!$response->successful()) {
                 throw new Exception('Whisper API Error: ' . $response->body());

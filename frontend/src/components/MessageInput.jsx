@@ -1,7 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './MessageInput.css';
 
-export const MessageInput = ({ onSend, disabled }) => {
+// Language-specific placeholders
+const placeholders = {
+  en: 'Type your message...',
+  bn: 'আপনার মেসেজ লিখুন...',
+  hi: 'अपना संदेश लिखें...',
+  es: 'Escribe tu mensaje...',
+  fr: 'Écrivez votre message...',
+  ar: 'اكتب رسالتك...',
+};
+
+export const MessageInput = ({ onSend, disabled, language = 'en' }) => {
   const [message, setMessage] = useState('');
   const inputRef = useRef(null);
 
@@ -38,7 +48,7 @@ export const MessageInput = ({ onSend, disabled }) => {
         value={message}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        placeholder="Type your message... (আপনার মেসেজ লিখুন)"
+        placeholder={placeholders[language] || placeholders.en}
         disabled={disabled}
         rows={1}
         style={{ 

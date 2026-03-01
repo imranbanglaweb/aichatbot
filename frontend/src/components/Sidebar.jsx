@@ -1,9 +1,16 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLocation, Link } from 'react-router-dom';
 import './Sidebar.css';
 
 const Sidebar = ({ menus, isOpen, onClose }) => {
   const { user, logout } = useAuth();
+  const location = useLocation();
+  
+  const handleLinkClick = (e, path) => {
+    e.preventDefault();
+    // Just navigate without any reload
+  };
 
   const getIcon = (iconName) => {
     const icons = {
@@ -117,14 +124,17 @@ const Sidebar = ({ menus, isOpen, onClose }) => {
 
         <nav className="sidebar-nav">
           <ul>
-            {menus?.map((menu) => (
-              <li key={menu.id}>
-                <a href={menu.path} className="nav-link">
-                  <span className="nav-icon">{getIcon(menu.icon)}</span>
-                  <span className="nav-title">{menu.title}</span>
-                </a>
-              </li>
-            ))}
+            {menus?.map((menu) => {
+              const isActive = location.pathname === menu.path;
+              return (
+                <li key={menu.id}>
+                  <Link to={menu.path} className={`nav-link ${isActive ? 'active' : ''}`}>
+                    <span className="nav-icon">{getIcon(menu.icon)}</span>
+                    <span className="nav-title">{menu.title}</span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 

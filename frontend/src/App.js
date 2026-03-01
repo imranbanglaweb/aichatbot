@@ -3,7 +3,21 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import PatientDashboard from './pages/PatientDashboard';
+import PatientAppointments from './pages/PatientAppointments';
+import PatientDoctors from './pages/PatientDoctors';
+import PatientProfile from './pages/PatientProfile';
+import PatientChat from './pages/PatientChat';
 import DoctorDashboard from './pages/DoctorDashboard';
+import DoctorAppointments from './pages/DoctorAppointments';
+import DoctorSchedule from './pages/DoctorSchedule';
+import DoctorPatients from './pages/DoctorPatients';
+import DoctorProfile from './pages/DoctorProfile';
+import DoctorChat from './pages/DoctorChat';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminUsers from './pages/AdminUsers';
+import AdminDoctors from './pages/AdminDoctors';
+import AdminAppointments from './pages/AdminAppointments';
+import AdminReports from './pages/AdminReports';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -40,21 +54,6 @@ const PublicRoute = ({ children }) => {
   return children;
 };
 
-// ChatBot Page (for AI assistant)
-const ChatBotPage = () => {
-  const { user } = useAuth();
-  return (
-    <div className="chat-page">
-      <h1>AI Health Assistant</h1>
-      <p>Welcome, {user?.name}!</p>
-      {/* ChatBot component will be rendered here */}
-      <div style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
-        Chat interface coming soon...
-      </div>
-    </div>
-  );
-};
-
 function AppRoutes() {
   return (
     <Routes>
@@ -80,7 +79,7 @@ function AppRoutes() {
         path="/patient/appointments" 
         element={
           <ProtectedRoute allowedRoles={['patient']}>
-            <div className="page">Appointments - Coming Soon</div>
+            <PatientAppointments />
           </ProtectedRoute>
         } 
       />
@@ -88,7 +87,7 @@ function AppRoutes() {
         path="/patient/doctors" 
         element={
           <ProtectedRoute allowedRoles={['patient']}>
-            <div className="page">Find Doctors - Coming Soon</div>
+            <PatientDoctors />
           </ProtectedRoute>
         } 
       />
@@ -96,7 +95,7 @@ function AppRoutes() {
         path="/patient/chat" 
         element={
           <ProtectedRoute allowedRoles={['patient']}>
-            <ChatBotPage />
+            <PatientChat />
           </ProtectedRoute>
         } 
       />
@@ -104,7 +103,7 @@ function AppRoutes() {
         path="/patient/profile" 
         element={
           <ProtectedRoute allowedRoles={['patient']}>
-            <div className="page">Profile - Coming Soon</div>
+            <PatientProfile />
           </ProtectedRoute>
         } 
       />
@@ -122,7 +121,7 @@ function AppRoutes() {
         path="/doctor/appointments" 
         element={
           <ProtectedRoute allowedRoles={['doctor']}>
-            <div className="page">Appointments - Coming Soon</div>
+            <DoctorAppointments />
           </ProtectedRoute>
         } 
       />
@@ -130,7 +129,7 @@ function AppRoutes() {
         path="/doctor/schedule" 
         element={
           <ProtectedRoute allowedRoles={['doctor']}>
-            <div className="page">Schedule - Coming Soon</div>
+            <DoctorSchedule />
           </ProtectedRoute>
         } 
       />
@@ -138,7 +137,7 @@ function AppRoutes() {
         path="/doctor/patients" 
         element={
           <ProtectedRoute allowedRoles={['doctor']}>
-            <div className="page">Patients - Coming Soon</div>
+            <DoctorPatients />
           </ProtectedRoute>
         } 
       />
@@ -146,7 +145,7 @@ function AppRoutes() {
         path="/doctor/chat" 
         element={
           <ProtectedRoute allowedRoles={['doctor']}>
-            <ChatBotPage />
+            <DoctorChat />
           </ProtectedRoute>
         } 
       />
@@ -154,7 +153,7 @@ function AppRoutes() {
         path="/doctor/profile" 
         element={
           <ProtectedRoute allowedRoles={['doctor']}>
-            <div className="page">Profile - Coming Soon</div>
+            <DoctorProfile />
           </ProtectedRoute>
         } 
       />
@@ -164,7 +163,7 @@ function AppRoutes() {
         path="/admin/dashboard" 
         element={
           <ProtectedRoute allowedRoles={['admin']}>
-            <div className="page">Admin Dashboard - Coming Soon</div>
+            <AdminDashboard />
           </ProtectedRoute>
         } 
       />
@@ -172,7 +171,7 @@ function AppRoutes() {
         path="/admin/users" 
         element={
           <ProtectedRoute allowedRoles={['admin']}>
-            <div className="page">Users - Coming Soon</div>
+            <AdminUsers />
           </ProtectedRoute>
         } 
       />
@@ -180,7 +179,7 @@ function AppRoutes() {
         path="/admin/doctors" 
         element={
           <ProtectedRoute allowedRoles={['admin']}>
-            <div className="page">Doctors - Coming Soon</div>
+            <AdminDoctors />
           </ProtectedRoute>
         } 
       />
@@ -188,7 +187,7 @@ function AppRoutes() {
         path="/admin/appointments" 
         element={
           <ProtectedRoute allowedRoles={['admin']}>
-            <div className="page">Appointments - Coming Soon</div>
+            <AdminAppointments />
           </ProtectedRoute>
         } 
       />
@@ -196,7 +195,7 @@ function AppRoutes() {
         path="/admin/reports" 
         element={
           <ProtectedRoute allowedRoles={['admin']}>
-            <div className="page">Reports - Coming Soon</div>
+            <AdminReports />
           </ProtectedRoute>
         } 
       />
@@ -210,11 +209,11 @@ function AppRoutes() {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <AppRoutes />
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

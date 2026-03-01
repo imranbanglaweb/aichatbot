@@ -103,12 +103,17 @@ class DatabaseSeeder extends Seeder
                 'email' => $data['user']['email'],
                 'phone' => $data['user']['phone'],
                 'password' => bcrypt('password123'),
+                'is_active' => true,
+                'is_doctor' => true,
             ]);
 
             $doctor = Doctor::create(array_merge(
                 $data['doctor'],
                 ['user_id' => $user->id]
             ));
+
+            // Update user with doctor_id
+            $user->update(['doctor_id' => $doctor->id]);
 
             // Create schedules for each doctor
             foreach ($data['doctor']['available_days'] as $day) {
@@ -127,5 +132,29 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('Database seeded successfully!');
         $this->command->info('Sample doctors created with login password: password123');
+
+        // Create Demo Patient User
+        $patientUser = User::create([
+            'name' => 'John Patient',
+            'email' => 'patient@demo.com',
+            'phone' => '+1234567001',
+            'password' => bcrypt('password'),
+            'is_active' => true,
+            'is_doctor' => false,
+            'is_admin' => false,
+        ]);
+        $this->command->info('Demo patient created: patient@demo.com / password');
+
+        // Create Demo Admin User
+        $adminUser = User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@demo.com',
+            'phone' => '+1234567002',
+            'password' => bcrypt('password'),
+            'is_active' => true,
+            'is_doctor' => false,
+            'is_admin' => true,
+        ]);
+        $this->command->info('Demo admin created: admin@demo.com / password');
     }
 }

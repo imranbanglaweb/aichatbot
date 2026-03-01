@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-export const useChat = (apiUrl = 'http://localhost:8000/api') => {
+export const useChat = (apiUrl = 'http://localhost:8000/api', language = 'en') => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -11,6 +11,7 @@ export const useChat = (apiUrl = 'http://localhost:8000/api') => {
     try {
       const formData = new FormData();
       formData.append('message', message);
+      formData.append('language', language);
       
       if (sessionId) {
         formData.append('session_id', sessionId);
@@ -34,7 +35,7 @@ export const useChat = (apiUrl = 'http://localhost:8000/api') => {
     } finally {
       setIsLoading(false);
     }
-  }, [apiUrl]);
+  }, [apiUrl, language]);
 
   const sendVoice = useCallback(async (audioBlob, sessionId = null) => {
     setIsLoading(true);
@@ -43,6 +44,7 @@ export const useChat = (apiUrl = 'http://localhost:8000/api') => {
     try {
       const formData = new FormData();
       formData.append('audio', audioBlob, 'voice.webm');
+      formData.append('language', language);
       
       if (sessionId) {
         formData.append('session_id', sessionId);
@@ -66,7 +68,7 @@ export const useChat = (apiUrl = 'http://localhost:8000/api') => {
     } finally {
       setIsLoading(false);
     }
-  }, [apiUrl]);
+  }, [apiUrl, language]);
 
   const getChatHistory = useCallback(async (sessionId) => {
     try {
