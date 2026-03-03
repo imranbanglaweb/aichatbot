@@ -18,6 +18,7 @@ import AdminUsers from './pages/AdminUsers';
 import AdminDoctors from './pages/AdminDoctors';
 import AdminAppointments from './pages/AdminAppointments';
 import AdminReports from './pages/AdminReports';
+import Settings from './pages/Settings';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -107,6 +108,14 @@ function AppRoutes() {
           </ProtectedRoute>
         } 
       />
+      <Route 
+        path="/patient/settings" 
+        element={
+          <ProtectedRoute allowedRoles={['patient']}>
+            <Settings />
+          </ProtectedRoute>
+        } 
+      />
 
       {/* Doctor Routes */}
       <Route 
@@ -157,6 +166,14 @@ function AppRoutes() {
           </ProtectedRoute>
         } 
       />
+      <Route 
+        path="/doctor/settings" 
+        element={
+          <ProtectedRoute allowedRoles={['doctor']}>
+            <Settings />
+          </ProtectedRoute>
+        } 
+      />
 
       {/* Admin Routes */}
       <Route 
@@ -164,6 +181,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute allowedRoles={['admin']}>
             <AdminDashboard />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/settings" 
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <Settings />
           </ProtectedRoute>
         } 
       />

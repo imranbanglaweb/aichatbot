@@ -1,8 +1,8 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+import config from '../config';
 
 class ApiService {
   constructor() {
-    this.baseUrl = API_BASE_URL;
+    this.baseUrl = config.api.baseUrl;
   }
 
   getHeaders() {

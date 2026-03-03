@@ -1847,3 +1847,75 @@ Did you mean one of these?
   }
 }
   
+[2026-03-03 05:05:45] local.WARNING: AI API failed, using local fallback: HuggingFace API Error: {"error":"https://api-inference.huggingface.co is no longer supported. Please use https://router.huggingface.co instead."}  
+[2026-03-03 05:05:46] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "API key not valid. Please pass a valid API key.",
+    "status": "INVALID_ARGUMENT",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+        "reason": "API_KEY_INVALID",
+        "domain": "googleapis.com",
+        "metadata": {
+          "service": "texttospeech.googleapis.com"
+        }
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.LocalizedMessage",
+        "locale": "en-US",
+        "message": "API key not valid. Please pass a valid API key."
+      }
+    ]
+  }
+}
+  
+[2026-03-03 05:06:20] local.WARNING: AI API failed, using local fallback: HuggingFace API Error: {"error":"https://api-inference.huggingface.co is no longer supported. Please use https://router.huggingface.co instead."}  
+[2026-03-03 05:06:21] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "API key not valid. Please pass a valid API key.",
+    "status": "INVALID_ARGUMENT",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+        "reason": "API_KEY_INVALID",
+        "domain": "googleapis.com",
+        "metadata": {
+          "service": "texttospeech.googleapis.com"
+        }
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.LocalizedMessage",
+        "locale": "en-US",
+        "message": "API key not valid. Please pass a valid API key."
+      }
+    ]
+  }
+}
+  
+[2026-03-03 05:06:38] local.WARNING: AI API failed, using local fallback: HuggingFace API Error: {"error":"https://api-inference.huggingface.co is no longer supported. Please use https://router.huggingface.co instead."}  
+[2026-03-03 05:06:39] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "API key not valid. Please pass a valid API key.",
+    "status": "INVALID_ARGUMENT",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+        "reason": "API_KEY_INVALID",
+        "domain": "googleapis.com",
+        "metadata": {
+          "service": "texttospeech.googleapis.com"
+        }
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.LocalizedMessage",
+        "locale": "en-US",
+        "message": "API key not valid. Please pass a valid API key."
+      }
+    ]
+  }
+}
+  

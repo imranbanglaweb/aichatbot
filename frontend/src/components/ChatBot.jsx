@@ -5,17 +5,17 @@ import { VoiceButton } from './VoiceButton';
 import { QuickReplies } from './QuickReplies';
 import { useChat } from '../hooks/useChat';
 import { useVoice } from '../hooks/useVoice';
+import config from '../config';
 import './ChatBot.css';
 
 const ChatBot = ({ 
-  apiUrl = 'http://localhost:8000/api',
-  position = 'bottom-right',
-  title = 'Gulshan Clinic',
-  subtitle = 'Medical Appointment Assistant',
+  position = config.ui.position,
+  title = config.chat.title,
+  subtitle = config.chat.subtitle,
   logoUrl = null,
-  primaryColor = '#1a5f7a',
-  secondaryColor = '#159895',
-  welcomeMessage = 'Hello! Welcome to Gulshan Clinic. I\'m your Medical Appointment Assistant. How can I help you today?'
+  primaryColor = config.ui.primaryColor,
+  secondaryColor = config.ui.secondaryColor,
+  welcomeMessage = config.chat.welcomeMessage
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -30,7 +30,7 @@ const ChatBot = ({
   const messagesEndRef = useRef(null);
   const audioPlayerRef = useRef(null);
 
-  const { sendMessage, sendVoice } = useChat(apiUrl, selectedLanguage);
+  const { sendMessage, sendVoice } = useChat(selectedLanguage);
   const { isRecording, startRecording, stopRecording, transcribedText, interimTranscript, error: voiceError, isSupported, clearRecording } = useVoice(selectedLanguage);
 
   // Auto-scroll to bottom when new messages arrive
@@ -267,8 +267,8 @@ const ChatBot = ({
           {/* Hospital Info Banner */}
           <div className="hospital-info-banner">
             <div className="hospital-info-content">
-              <span className="hospital-address">📍 GP-GA-13, Pragati Sharani, Gulshan-2, Dhaka-1212</span>
-              <span className="hospital-phone">📞 09606-991133</span>
+              <span className="hospital-address">📍 {config.chat.clinicAddress}</span>
+              <span className="hospital-phone">📞 {config.chat.clinicPhone}</span>
             </div>
           </div>
 

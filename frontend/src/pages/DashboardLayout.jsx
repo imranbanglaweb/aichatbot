@@ -29,6 +29,7 @@ const DashboardLayout = ({ children, title }) => {
         { id: 'doctors', title: 'Find Doctors', icon: 'users', path: '/patient/doctors' },
         { id: 'chatbot', title: 'AI Assistant', icon: 'message-circle', path: '/patient/chat' },
         { id: 'profile', title: 'My Profile', icon: 'user', path: '/patient/profile' },
+        { id: 'settings', title: 'Settings', icon: 'settings', path: '/patient/settings' },
       ];
     } else if (isDoctor) {
       return [
@@ -38,6 +39,7 @@ const DashboardLayout = ({ children, title }) => {
         { id: 'patients', title: 'Patients', icon: 'users', path: '/doctor/patients' },
         { id: 'chatbot', title: 'AI Assistant', icon: 'message-circle', path: '/doctor/chat' },
         { id: 'profile', title: 'My Profile', icon: 'user', path: '/doctor/profile' },
+        { id: 'settings', title: 'Settings', icon: 'settings', path: '/doctor/settings' },
       ];
     } else if (isAdmin) {
       return [
@@ -46,6 +48,7 @@ const DashboardLayout = ({ children, title }) => {
         { id: 'doctors', title: 'Doctors', icon: 'user-md', path: '/admin/doctors' },
         { id: 'appointments', title: 'Appointments', icon: 'calendar', path: '/admin/appointments' },
         { id: 'reports', title: 'Reports', icon: 'bar-chart', path: '/admin/reports' },
+        { id: 'settings', title: 'Settings', icon: 'settings', path: '/admin/settings' },
       ];
     }
     return [];

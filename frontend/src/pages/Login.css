@@ -57,6 +57,8 @@
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 14px;
+  color: #1a1a2e !important;
+  -webkit-text-fill-color: #1a1a2e !important;
   transition: all 0.2s ease;
 }
 

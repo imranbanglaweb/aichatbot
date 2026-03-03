@@ -1,8 +1,11 @@
 import { useCallback, useState } from 'react';
+import config from '../config';
 
-export const useChat = (apiUrl = 'http://localhost:8000/api', language = 'en') => {
+export const useChat = (language = 'en') => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const apiUrl = config.api.baseUrl;
 
   const sendMessage = useCallback(async (message, sessionId = null) => {
     setIsLoading(true);

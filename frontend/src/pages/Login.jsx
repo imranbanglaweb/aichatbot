@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
 const Login = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const emailInputRef = useRef(null);
+
+  const handleDemoClick = (demoEmail, demoPassword) => {
+    setEmail(demoEmail);
+    setPassword(demoPassword);
+    // Focus on email input after setting values
+    setTimeout(() => {
+      emailInputRef.current?.focus();
+    }, 100);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,14 +28,19 @@ const Login = () => {
 
     try {
       const response = await login(email, password);
-      // Redirect based on role - response contains user and token
-      const role = response.user.role;
+      // Redirect based on role - response.data contains user and token
+      const role = response.data.user.role;
+      
+      // Store role in localStorage for persistence
+      localStorage.setItem('userRole', role);
+      
+      // Use React Router navigate for smooth redirect
       if (role === 'admin') {
-        window.location.href = '/admin/dashboard';
+        navigate('/admin/dashboard');
       } else if (role === 'doctor') {
-        window.location.href = '/doctor/dashboard';
+        navigate('/doctor/dashboard');
       } else {
-        window.location.href = '/patient/dashboard';
+        navigate('/patient/dashboard');
       }
     } catch (err) {
       setError(err.message || 'Login failed. Please try again.');
@@ -46,6 +63,7 @@ const Login = () => {
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <input
+              ref={emailInputRef}
               type="email"
               id="email"
               value={email}
@@ -94,21 +112,21 @@ const Login = () => {
           <div className="demo-buttons">
             <button
               type="button"
-              onClick={() => { setEmail('patient@demo.com'); setPassword('password'); }}
+              onClick={() => handleDemoClick('patient@demo.com', 'password')}
               className="demo-button patient"
             >
               Patient
             </button>
             <button
               type="button"
-              onClick={() => { setEmail('doctor@demo.com'); setPassword('password'); }}
+              onClick={() => handleDemoClick('doctor@demo.com', 'password')}
               className="demo-button doctor"
             >
               Doctor
             </button>
             <button
               type="button"
-              onClick={() => { setEmail('admin@demo.com'); setPassword('password'); }}
+              onClick={() => handleDemoClick('admin@demo.com', 'password')}
               className="demo-button admin"
             >
               Admin
