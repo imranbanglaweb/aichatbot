@@ -1,0 +1,4 @@
+# Project specific ignore
+/.idea
+/.vscode
+*.log
