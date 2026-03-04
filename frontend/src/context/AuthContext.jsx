@@ -63,6 +63,8 @@ export const AuthProvider = ({ children }) => {
       console.error('Logout error:', err);
     } finally {
       localStorage.removeItem('token');
+      localStorage.removeItem('sidebarMenus');
+      localStorage.removeItem('userRole');
       setUser(null);
       navigate('/login');
     }

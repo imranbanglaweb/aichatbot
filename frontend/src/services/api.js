@@ -96,8 +96,10 @@ class ApiService {
   }
 
   // Doctor endpoints
-  async getDoctors() {
-    return this.request('/doctors/available');
+  async getDoctors(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    const url = queryString ? `/doctors/available?${queryString}` : '/doctors/available';
+    return this.request(url);
   }
 
   async getDoctor(id) {

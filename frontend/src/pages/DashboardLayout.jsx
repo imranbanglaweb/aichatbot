@@ -9,9 +9,16 @@ const DashboardLayout = ({ children, title }) => {
   const { user, isPatient, isDoctor, isAdmin, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [menus, setMenus] = useState(() => {
-    // Try to get cached menus from localStorage
+    // Try to get cached menus from localStorage but only if it matches current role
     const cached = localStorage.getItem('sidebarMenus');
-    return cached ? JSON.parse(cached) : null;
+    const cachedRole = localStorage.getItem('userRole');
+    const currentRole = isPatient ? 'patient' : (isDoctor ? 'doctor' : (isAdmin ? 'admin' : null));
+    
+    // Only use cached menus if role matches
+    if (cached && cachedRole === currentRole) {
+      return JSON.parse(cached);
+    }
+    return null;
   });
 
   useEffect(() => {
@@ -57,13 +64,17 @@ const DashboardLayout = ({ children, title }) => {
   const fetchMenus = async () => {
     try {
       const response = await api.getSidebarMenu();
-      setMenus(response.data.menus);
-      localStorage.setItem('sidebarMenus', JSON.stringify(response.data.menus));
+      const role = response.data.role;
+      const fetchedMenus = response.data.menus;
+      setMenus(fetchedMenus);
+      localStorage.setItem('sidebarMenus', JSON.stringify(fetchedMenus));
+      localStorage.setItem('userRole', role);
     } catch (error) {
       console.error('Error fetching sidebar menu:', error);
       const defaultMenus = getDefaultMenus();
       setMenus(defaultMenus);
       localStorage.setItem('sidebarMenus', JSON.stringify(defaultMenus));
+      localStorage.setItem('userRole', isPatient ? 'patient' : (isDoctor ? 'doctor' : (isAdmin ? 'admin' : 'patient')));
     }
   };
 

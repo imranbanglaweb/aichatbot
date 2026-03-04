@@ -33,6 +33,8 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   }
 
   if (allowedRoles && !allowedRoles.includes(user?.role)) {
+    // Clear potentially cached wrong menus
+    localStorage.removeItem('sidebarMenus');
     return <Navigate to={`/${user?.role}/dashboard`} replace />;
   }
 

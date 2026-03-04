@@ -74,6 +74,7 @@ const ChatBot = ({
         type: 'bot',
         content: response.response,
         audio_url: response.audio_url,
+        audio_content: response.audio_content,
         intent: response.intent,
         emergency: response.emergency,
         extracted_data: response.extracted_data,
@@ -82,7 +83,10 @@ const ChatBot = ({
       setMessages(prev => [...prev, botMessage]);
 
       // Play audio if available
-      if (response.audio_url && audioPlayerRef.current) {
+      if (response.audio_content) {
+        const audio = new Audio('data:audio/mp3;base64,' + response.audio_content);
+        audio.play().catch(console.error);
+      } else if (response.audio_url) {
         audioPlayerRef.current.src = response.audio_url;
         audioPlayerRef.current.play().catch(console.error);
       }
@@ -130,6 +134,7 @@ const ChatBot = ({
         type: 'bot',
         content: response.response,
         audio_url: response.audio_url,
+        audio_content: response.audio_content,
         intent: response.intent,
         emergency: response.emergency,
         timestamp: new Date()
@@ -137,7 +142,10 @@ const ChatBot = ({
       setMessages(prev => [...prev, botMessage]);
 
       // Play audio response if available
-      if (response.audio_url && audioPlayerRef.current) {
+      if (response.audio_content) {
+        const audio = new Audio('data:audio/mp3;base64,' + response.audio_content);
+        audio.play().catch(console.error);
+      } else if (response.audio_url && audioPlayerRef.current) {
         audioPlayerRef.current.src = response.audio_url;
         audioPlayerRef.current.play().catch(console.error);
       }

@@ -11,19 +11,29 @@ const AdminDoctors = () => {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [specFilter, setSpecFilter] = useState('');
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalDoctors, setTotalDoctors] = useState(0);
+  const perPage = 10;
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentPage]);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const [doctorsRes, specsRes] = await Promise.all([
-        api.getDoctors(),
+        api.getDoctors({ page: currentPage, per_page: perPage }),
         api.getSpecializations()
       ]);
-      setDoctors(doctorsRes.data || []);
-      setSpecializations(specsRes.data || []);
+      const doctorsData = doctorsRes.doctors || doctorsRes.data || [];
+      const pagination = doctorsRes.pagination || { total: doctorsData.length, last_page: 1 };
+      setDoctors(doctorsData);
+      setTotalDoctors(pagination.total || doctorsData.length);
+      setTotalPages(pagination.last_page || 1);
+      setSpecializations(specsRes.specializations || specsRes.data || []);
     } catch (err) {
       setError('Failed to load doctors');
       console.error(err);
@@ -32,22 +42,38 @@ const AdminDoctors = () => {
     }
   };
 
-  const handleToggleStatus = async (doctorId) => {
-    // Would need API endpoint
-    alert('Doctor status toggled');
-  };
-
   const filteredDoctors = doctors.filter(d => {
     const matchesSearch = d.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          d.license_number?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesSpec = !specFilter || d.specialization_id === parseInt(specFilter);
+                          d.license_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          d.specialization?.name?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSpec = !specFilter || d.specialization?.id === parseInt(specFilter);
     return matchesSearch && matchesSpec;
   });
+
+  const getStatusBadge = (doctor) => {
+    if (doctor.is_available && doctor.is_verified) {
+      return <span className="status-badge active">Active</span>;
+    } else if (doctor.is_verified) {
+      return <span className="status-badge pending">Verified</span>;
+    }
+    return <span className="status-badge inactive">Inactive</span>;
+  };
+
+  const handleViewProfile = (doctor) => {
+    setSelectedDoctor(doctor);
+  };
+
+  const closeModal = () => {
+    setSelectedDoctor(null);
+  };
 
   if (loading) {
     return (
       <DashboardLayout title="Manage Doctors">
-        <div className="loading">Loading...</div>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading doctors...</p>
+        </div>
       </DashboardLayout>
     );
   }
@@ -56,12 +82,19 @@ const AdminDoctors = () => {
     <DashboardLayout title="Manage Doctors">
       <div className="page-container">
         <div className="page-header">
-          <h3>All Doctors</h3>
+          <div className="header-left">
+            <h3>All Doctors ({totalDoctors})</h3>
+            <p className="header-subtitle">Manage and view all registered doctors</p>
+          </div>
           <div className="header-actions">
             <div className="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
               <input
                 type="text"
-                placeholder="Search doctors..."
+                placeholder="Search doctors, specializations..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -69,6 +102,7 @@ const AdminDoctors = () => {
             <select
               value={specFilter}
               onChange={(e) => setSpecFilter(e.target.value)}
+              className="filter-select"
             >
               <option value="">All Specializations</option>
               {specializations.map(spec => (
@@ -83,42 +117,108 @@ const AdminDoctors = () => {
         {filteredDoctors.length > 0 ? (
           <div className="doctors-grid">
             {filteredDoctors.map((doctor) => (
-              <div key={doctor.id} className="doctor-card admin-card">
-                <div className="doctor-header">
+              <div key={doctor.id} className="doctor-card premium-card">
+                <div className="card-header">
                   <div className="doctor-avatar-large">
                     {doctor.name?.charAt(0) || 'D'}
                   </div>
                   <div className="doctor-title">
-                    <h4>Dr. {doctor.name}</h4>
+                    <h4>{doctor.name || 'Unknown Doctor'}</h4>
                     <span className="specialization">
                       {doctor.specialization?.name || 'General Medicine'}
                     </span>
+                    {getStatusBadge(doctor)}
                   </div>
                 </div>
                 
                 <div className="doctor-details">
-                  <p><strong>License #:</strong> {doctor.license_number || 'N/A'}</p>
-                  <p><strong>Qualification:</strong> {doctor.qualification || 'N/A'}</p>
-                  <p><strong>Experience:</strong> {doctor.experience_years || 0} years</p>
-                  <p><strong>Hospital:</strong> {doctor.hospital_clinic || 'N/A'}</p>
-                  <p><strong>City:</strong> {doctor.city || 'N/A'}</p>
-                  <p><strong>Fee:</strong> ৳{doctor.consultation_fee || 0}</p>
+                  <div className="detail-row">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    <div>
+                      <span className="label">License</span>
+                      <span className="value">{doctor.license_number || 'N/A'}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="detail-row">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    </svg>
+                    <div>
+                      <span className="label">Qualification</span>
+                      <span className="value">{doctor.qualification || 'N/A'}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="detail-row">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <div>
+                      <span className="label">Experience</span>
+                      <span className="value">{doctor.experience_years || 0} Years</span>
+                    </div>
+                  </div>
+                  
+                  <div className="detail-row">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                      <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                    <div>
+                      <span className="label">Hospital</span>
+                      <span className="value">{doctor.hospital_clinic || 'N/A'}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="detail-row">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <div>
+                      <span className="label">City</span>
+                      <span className="value">{doctor.city || 'N/A'}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="detail-row fee">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="12" y1="1" x2="12" y2="23" />
+                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                    <div>
+                      <span className="label">Consultation Fee</span>
+                      <span className="value price">৳{doctor.consultation_fee || 0}</span>
+                    </div>
+                  </div>
                   
                   {doctor.rating > 0 && (
                     <div className="rating">
-                      <span className="stars">{'★'.repeat(Math.round(doctor.rating))}</span>
-                      <span className="rating-value">{doctor.rating}</span>
+                      <div className="stars">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className={i < Math.round(doctor.rating) ? 'star filled' : 'star'}>★</span>
+                        ))}
+                      </div>
+                      <span className="rating-value">{doctor.rating} ({doctor.total_reviews || 0} reviews)</span>
                     </div>
                   )}
                 </div>
 
                 <div className="doctor-actions">
-                  <button className="btn btn-sm btn-primary">View Profile</button>
                   <button 
-                    className="btn btn-sm btn-secondary"
-                    onClick={() => handleToggleStatus(doctor.id)}
+                    className="btn btn-primary btn-full"
+                    onClick={() => handleViewProfile(doctor)}
                   >
-                    Toggle Status
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    View Profile
                   </button>
                 </div>
               </div>
@@ -129,12 +229,143 @@ const AdminDoctors = () => {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
               <circle cx="8.5" cy="7" r="4" />
+              <line x1="20" y1="8" x2="20" y2="14" />
+              <line x1="23" y1="11" x2="17" y2="11" />
             </svg>
             <h4>No Doctors Found</h4>
             <p>No doctors match your search criteria</p>
           </div>
         )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button 
+              className="page-btn"
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+            >
+              ← Previous
+            </button>
+            <span className="page-info">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button 
+              className="page-btn"
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+            >
+              Next →
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* Doctor Profile Modal */}
+      {selectedDoctor && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeModal}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            
+            <div className="modal-header">
+              <div className="modal-avatar">
+                {selectedDoctor.name?.charAt(0) || 'D'}
+              </div>
+              <h2>{selectedDoctor.name || 'Unknown Doctor'}</h2>
+              <span className="modal-specialization">
+                {selectedDoctor.specialization?.name || 'General Medicine'}
+              </span>
+              {getStatusBadge(selectedDoctor)}
+            </div>
+
+            <div className="modal-body">
+              <div className="modal-section">
+                <h3>Personal Information</h3>
+                <div className="info-grid">
+                  <div className="info-item">
+                    <span className="info-label">License Number</span>
+                    <span className="info-value">{selectedDoctor.license_number || 'N/A'}</span>
+                  </div>
+                  <div className="info-item">
+                    <span className="info-label">Qualification</span>
+                    <span className="info-value">{selectedDoctor.qualification || 'N/A'}</span>
+                  </div>
+                  <div className="info-item">
+                    <span className="info-label">Experience</span>
+                    <span className="info-value">{selectedDoctor.experience_years || 0} Years</span>
+                  </div>
+                  <div className="info-item">
+                    <span className="info-label">Languages</span>
+                    <span className="info-value">{(selectedDoctor.languages || ['English', 'Bengali']).join(', ')}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-section">
+                <h3>Practice Information</h3>
+                <div className="info-grid">
+                  <div className="info-item full-width">
+                    <span className="info-label">Hospital/Clinic</span>
+                    <span className="info-value">{selectedDoctor.hospital_clinic || 'N/A'}</span>
+                  </div>
+                  <div className="info-item">
+                    <span className="info-label">Address</span>
+                    <span className="info-value">{selectedDoctor.address || 'N/A'}</span>
+                  </div>
+                  <div className="info-item">
+                    <span className="info-label">City</span>
+                    <span className="info-value">{selectedDoctor.city || 'N/A'}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-section">
+                <h3>Consultation</h3>
+                <div className="info-grid">
+                  <div className="info-item">
+                    <span className="info-label">Consultation Fee</span>
+                    <span className="info-value price">৳{selectedDoctor.consultation_fee || 0}</span>
+                  </div>
+                  <div className="info-item">
+                    <span className="info-label">Rating</span>
+                    <span className="info-value">
+                      {selectedDoctor.rating > 0 ? `★ ${selectedDoctor.rating}/5 (${selectedDoctor.total_reviews || 0} reviews)` : 'Not rated'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {selectedDoctor.bio && (
+                <div className="modal-section">
+                  <h3>About</h3>
+                  <p className="bio-text">{selectedDoctor.bio}</p>
+                </div>
+              )}
+
+              {selectedDoctor.available_days && selectedDoctor.available_days.length > 0 && (
+                <div className="modal-section">
+                  <h3>Available Days</h3>
+                  <div className="days-grid">
+                    {['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].map(day => (
+                      <span 
+                        key={day} 
+                        className={`day-badge ${selectedDoctor.available_days.includes(day) ? 'available' : ''}`}
+                      >
+                        {day.charAt(0).toUpperCase() + day.slice(1, 3)}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </DashboardLayout>
   );
 };
