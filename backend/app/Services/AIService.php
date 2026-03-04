@@ -10,8 +10,7 @@ use App\Models\Doctor;
 class AIService
 {
     protected string $apiKey;
-    protected string $baseUrl = 'https://api-inference.huggingface.co/v1/models';
-    protected string $model = 'meta-llama/Meta-Llama-3-8B-Instruct';
+    protected string $model = 'gemini-2.5-flash';
     protected bool $useLocalFallback = true;
 
     // Supported intents
@@ -49,12 +48,27 @@ class AIService
         'আমাকে একটি অ্যাপয়েন্টমেন্ট দিন', 'আমি অ্যাপয়েন্টমেন্ট নিতে চাই',
     ];
 
-    // List doctors keywords
+    // List doctors keywords with OPD/IPD and Bangla support
     protected array $listDoctorsKeywords = [
+        // English
         'doctor list', 'list of doctors', 'show doctors', 'available doctors',
         'all doctors', 'browse doctors', 'find a doctor', 'search doctor',
         'which doctors', 'what doctors', 'doctors available', 'dau gcl er',
-        'ডাক্তার', 'ডাক্তার তালিকা', 'কোন ডাক্তার',
+        // OPD/IPD terms
+        'opd', 'outdoor patient', 'outdoor', 'general opd',
+        'ipd', 'indoor patient', 'indoor', 'admitted patient',
+        'emergency', '24 hours', '24/7',
+        // Common conditions
+        'fever', 'cold', 'cough', 'flu', 'headache', 'stomach pain',
+        'diabetes', 'blood pressure', 'bp', 'sugar',
+        // Bangla
+        'ডাক্তার', 'ডাক্তার তালিকা', 'কোন ডাক্তার', 'ডাক্তার দেখাতে চাই',
+        'ডাক্তারের তালিকা', 'ডাক্তার কোথায়', 'সব ডাক্তার',
+        // Bangla OPD/IPD
+        'ওপিডি', 'আউটডোর', 'ইনডোর', 'আইপিডি', 'জরুরি',
+        // Bangla common conditions
+        'জ্বর', 'সর্দি', 'কাশি', 'মাথাব্যথা', 'পেটে ব্যথা',
+        'ডায়াবেটিস', 'উচ্চ রক্তচাপ', 'চিনি',
     ];
 
     // Cancel keywords
@@ -69,56 +83,207 @@ class AIService
         'move appointment', 'different time', 'different date',
     ];
 
-    // Specializations mapping
+    // Specializations mapping with OPD/IPD and Bangla terms
     protected array $specializations = [
+        // OPD / General Medicine terms
+        'opd' => 'General Medicine',
+        'outdoor' => 'General Medicine',
+        'general' => 'General Medicine',
+        'medicine' => 'General Medicine',
+        'physician' => 'General Medicine',
+        'md' => 'General Medicine',
+        'fcps part 1' => 'General Medicine',
+        // IPD terms
+        'ipd' => 'General Medicine',
+        'indoor' => 'General Medicine',
+        'admitted' => 'General Medicine',
+        // Cardiology
         'cardiologist' => 'Cardiology',
         'heart' => 'Cardiology',
         'cardiac' => 'Cardiology',
+        'chest pain' => 'Cardiology',
+        'bp' => 'Cardiology',
+        'blood pressure' => 'Cardiology',
+        'heart disease' => 'Cardiology',
+        // Dermatology
         'dermatologist' => 'Dermatology',
         'skin' => 'Dermatology',
+        'skin disease' => 'Dermatology',
+        'dermatology' => 'Dermatology',
+        // Neurology
         'neurologist' => 'Neurology',
         'brain' => 'Neurology',
         'nervous' => 'Neurology',
+        'neuro' => 'Neurology',
+        'headache' => 'Neurology',
+        'migraine' => 'Neurology',
+        // Orthopedics
         'orthopedic' => 'Orthopedics',
+        'orthopaedics' => 'Orthopedics',
         'bone' => 'Orthopedics',
         'joint' => 'Orthopedics',
+        'fracture' => 'Orthopedics',
+        'back pain' => 'Orthopedics',
+        'arthritis' => 'Orthopedics',
+        // Pediatrics
         'pediatrician' => 'Pediatrics',
+        'pediatric' => 'Pediatrics',
         'child' => 'Pediatrics',
+        'children' => 'Pediatrics',
         'kids' => 'Pediatrics',
+        'baby' => 'Pediatrics',
+        'infant' => 'Pediatrics',
+        // Psychiatry
         'psychiatrist' => 'Psychiatry',
+        'psychiatric' => 'Psychiatry',
         'mental' => 'Psychiatry',
         'anxiety' => 'Psychiatry',
         'depression' => 'Psychiatry',
+        'stress' => 'Psychiatry',
+        'mental health' => 'Psychiatry',
+        // Ophthalmology
         'ophthalmologist' => 'Ophthalmology',
+        'ophthalmology' => 'Ophthalmology',
         'eye' => 'Ophthalmology',
+        'eyes' => 'Ophthalmology',
         'vision' => 'Ophthalmology',
-        'ENT' => 'ENT',
+        'eye disease' => 'Ophthalmology',
+        // ENT
+        'ent' => 'ENT',
         'ear' => 'ENT',
         'nose' => 'ENT',
         'throat' => 'ENT',
+        'ear nose throat' => 'ENT',
+        'hearing' => 'ENT',
+        'sinus' => 'ENT',
+        // Gastroenterology
         'gastroenterologist' => 'Gastroenterology',
+        'gastroenterology' => 'Gastroenterology',
+        'gastro' => 'Gastroenterology',
         'stomach' => 'Gastroenterology',
         'digestive' => 'Gastroenterology',
+        'liver' => 'Gastroenterology',
+        'intestine' => 'Gastroenterology',
+        // Urology
         'urologist' => 'Urology',
+        'urology' => 'Urology',
         'urinary' => 'Urology',
+        'kidney' => 'Urology',
+        'urine' => 'Urology',
+        // Gynecology
         'gynecologist' => 'Gynecology',
+        'gynecology' => 'Gynecology',
+        'gynae' => 'Gynecology',
         'pregnancy' => 'Gynecology',
         'women' => 'Gynecology',
+        'female' => 'Gynecology',
+        'maternity' => 'Gynecology',
+        'delivery' => 'Gynecology',
+        'childbirth' => 'Gynecology',
+        // Oncology
         'oncologist' => 'Oncology',
-        'cancer' => 'Oncology',
         'oncology' => 'Oncology',
+        'cancer' => 'Oncology',
+        'tumor' => 'Oncology',
+        // Nephrology
         'nephrologist' => 'Nephrology',
-        'kidney' => 'Nephrology',
+        'nephrology' => 'Nephrology',
+        'kidney disease' => 'Nephrology',
         'renal' => 'Nephrology',
+        // Endocrinology
         'endocrinologist' => 'Endocrinology',
+        'endocrinology' => 'Endocrinology',
         'diabetes' => 'Endocrinology',
+        'sugar' => 'Endocrinology',
+        'thyroid' => 'Endocrinology',
         'hormone' => 'Endocrinology',
+
+        // Bangla terms - General
+        'সাধারণ' => 'General Medicine',
+        'মেডিসিন' => 'General Medicine',
+        'ডাক্তার' => 'General Medicine',
+        'চিকিৎসক' => 'General Medicine',
+        
+        // Bangla terms - Heart/Cardiology
+        'হৃদরোগ' => 'Cardiology',
+        'হৃদস্পন্দন' => 'Cardiology',
+        'বুকে ব্যথা' => 'Cardiology',
+        'উচ্চ রক্তচাপ' => 'Cardiology',
+        'উচ্চ রক্তচাপ' => 'Cardiology',
+        
+        // Bangla terms - Skin/Dermatology
+        'চর্ম' => 'Dermatology',
+        'চামড়া' => 'Dermatology',
+        'ত্বক' => 'Dermatology',
+        'চর্মরোগ' => 'Dermatology',
+        
+        // Bangla terms - Neurology
+        'স্নায়ু' => 'Neurology',
+        'মস্তিষ্ক' => 'Neurology',
+        'মাথাব্যথা' => 'Neurology',
+        
+        // Bangla terms - Orthopedics
+        'হাড়' => 'Orthopedics',
+        'জয়েন্ট' => 'Orthopedics',
+        'পেশি' => 'Orthopedics',
+        'ফ্র্যাকচার' => 'Orthopedics',
+        'হাড় ভাঙা' => 'Orthopedics',
+        
+        // Bangla terms - Pediatrics
+        'শিশু' => 'Pediatrics',
+        'বাচ্চা' => 'Pediatrics',
+        'ছোট বাচ্চা' => 'Pediatrics',
+        
+        // Bangla terms - Mental Health
+        'মানসিক' => 'Psychiatry',
+        'দুঃচিন্তা' => 'Psychiatry',
+        'বিষণ্নতা' => 'Psychiatry',
+        'অবসাদ' => 'Psychiatry',
+        
+        // Bangla terms - Eye
+        'চোখ' => 'Ophthalmology',
+        'চোখের' => 'Ophthalmology',
+        'দৃষ্টি' => 'Ophthalmology',
+        
+        // Bangla terms - ENT
+        'কান' => 'ENT',
+        'নাক' => 'ENT',
+        'গলা' => 'ENT',
+        
+        // Bangla terms - Stomach/Gastroenterology
+        'পাকস্থলী' => 'Gastroenterology',
+        'পেট' => 'Gastroenterology',
+        'আমাশয়' => 'Gastroenterology',
+        'কলি' => 'Gastroenterology',
+        'লিভার' => 'Gastroenterology',
+        
+        // Bangla terms - Kidney/Urology
+        'কিডনি' => 'Nephrology',
+        ' প্রস্রাব' => 'Urology',
+        
+        // Bangla terms - Gynecology
+        'গাইনি' => 'Gynecology',
+        'মা' => 'Gynecology',
+        'সন্তান' => 'Gynecology',
+        'প্রসব' => 'Gynecology',
+        'গর্ভবতী' => 'Gynecology',
+        
+        // Bangla terms - Cancer
+        'ক্যান্সার' => 'Oncology',
+        'টিউমার' => 'Oncology',
+        
+        // Bangla terms - Diabetes/Thyroid
+        'ডায়াবেটিস' => 'Endocrinology',
+        'চিনি' => 'Endocrinology',
+        'থাইরয়েড' => 'Endocrinology',
     ];
 
     public function __construct()
     {
-        $this->apiKey = config('services.huggingface.api_key', env('HUGGINGFACE_API_KEY'));
-        $this->model = config('services.huggingface.model', env('HUGGINGFACE_MODEL', 'meta-llama/Meta-Llama-3-8B-Instruct'));
+        // Use Gemini API (configured in .env)
+        $this->apiKey = config('services.gemini.api_key', env('GEMINI_API_KEY'));
+        $this->model = config('services.gemini.model', env('GEMINI_MODEL', 'gemini-1.5-flash'));
+        
         $this->useLocalFallback = env('AI_USE_LOCAL_FALLBACK', true);
     }
 
@@ -133,27 +298,20 @@ class AIService
                 return $this->buildEmergencyResponse();
             }
 
-            // Try AI API first if available
-            if (!empty($this->apiKey) && $this->apiKey !== 'your_huggingface_api_key') {
+            // Try Gemini API (configured in .env)
+            if (!empty($this->apiKey) && strpos($this->apiKey, 'gen-lang-client-') === 0) {
                 try {
                     $systemPrompt = $this->buildSystemPrompt($context);
                     
-                    $response = $this->callAPI([
-                        'inputs' => "<|system|>\n{$systemPrompt}\n<|user|>\n{$message}\n<|assistant|>",
-                        'parameters' => [
-                            'max_new_tokens' => 500,
-                            'temperature' => 0.3,
-                            'return_full_text' => false,
-                        ],
-                    ]);
-
+                    $response = $this->callGeminiAPI($message, $systemPrompt);
+                    
                     $content = $this->extractJsonFromResponse($response);
 
                     if (!empty($content)) {
                         return $this->normalizeResponse($content);
                     }
                 } catch (Exception $e) {
-                    Log::warning('AI API failed, using local fallback: ' . $e->getMessage());
+                    Log::warning('Gemini API failed, using local fallback: ' . $e->getMessage());
                 }
             }
 
@@ -361,8 +519,8 @@ class AIService
             };
         }
 
-        // Show available doctors for booking
-        $doctors = Doctor::available()
+        // Show all doctors for booking
+        $doctors = Doctor::query()
             ->with(['specialization'])
             ->limit(5)
             ->get();
@@ -398,8 +556,8 @@ class AIService
     {
         $specialization = $data['specialization'] ?? null;
         
-        // Fetch doctors from database
-        $doctors = Doctor::available()
+        // Fetch all doctors from database (not just available ones)
+        $doctors = Doctor::query()
             ->with(['specialization'])
             ->when($specialization, function ($query) use ($specialization) {
                 $query->whereHas('specialization', function ($q) use ($specialization) {
@@ -525,8 +683,8 @@ class AIService
      */
     protected function buildGeneralResponse(array $data, string $language): string
     {
-        // Get a few available doctors
-        $doctors = Doctor::available()
+        // Get all doctors
+        $doctors = Doctor::query()
             ->with(['specialization'])
             ->limit(3)
             ->get();
@@ -560,6 +718,48 @@ class AIService
             'extracted_data' => [],
             'emergency_detected' => true,
         ];
+    }
+
+    /**
+     * Call Google Gemini API
+     */
+    protected function callGeminiAPI(string $message, string $systemPrompt): array
+    {
+        $geminiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/' . $this->model . ':generateContent?key=' . $this->apiKey;
+        
+        $payload = [
+            'contents' => [
+                [
+                    'parts' => [
+                        ['text' => $systemPrompt . "\n\nUser message: " . $message]
+                    ]
+                ]
+            ],
+            'generationConfig' => [
+                'temperature' => 0.3,
+                'maxOutputTokens' => 500,
+                'topP' => 0.8,
+                'topK' => 40,
+            ]
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->timeout(60)->post($geminiUrl, $payload);
+
+        if (!$response->successful()) {
+            throw new Exception('Gemini API Error: ' . $response->body());
+        }
+
+        $result = $response->json();
+        
+        // Extract text from Gemini response
+        $text = '';
+        if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
+            $text = $result['candidates'][0]['content']['parts'][0]['text'];
+        }
+
+        return ['generated_text' => $text];
     }
 
     /**
@@ -691,8 +891,8 @@ class AIService
         $hour = now()->hour;
         $timeGreeting = $hour < 12 ? 'Good morning' : ($hour < 17 ? 'Good afternoon' : 'Good evening');
         
-        // Get a few available doctors for the greeting
-        $doctors = Doctor::available()
+        // Get all doctors for greeting
+        $doctors = Doctor::query()
             ->with(['specialization'])
             ->limit(3)
             ->get();

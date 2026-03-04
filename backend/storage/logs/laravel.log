@@ -2365,3 +2365,1129 @@ Did you mean one of these?
   }
 }
   
+[2026-03-04 05:00:33] local.ERROR: Command "cache:config" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"cache:config\" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php:759)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('cache:config')
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 {main}
+"} 
+[2026-03-04 05:02:40] local.ERROR: Cannot assign null to property App\Services\AIService::$apiKey of type string {"exception":"[object] (TypeError(code: 0): Cannot assign null to property App\\Services\\AIService::$apiKey of type string at D:/TMSPROJECT/htdocs/aichatbot/backend/app/Services/AIService.php:120)
+[stacktrace]
+#0 [internal function]: App/Services/AIService->__construct()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1004): ReflectionClass->newInstanceArgs(Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Services//AI...')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Services//AI...', Array, true)
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Services//AI...', Array)
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Services//AI...', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1133): Illuminate/Foundation/Application->make('App//Services//AI...')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1043): Illuminate/Container/Container->resolveClass(Object(ReflectionParameter))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(994): Illuminate/Container/Container->resolveDependencies(Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Http//Contro...')
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Http//Contro...', Array, true)
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Http//Contro...', Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Http//Contro...', Array)
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(285): Illuminate/Foundation/Application->make('App//Http//Contro...')
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1125): Illuminate/Routing/Route->getController()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1054): Illuminate/Routing/Route->controllerMiddleware()
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(820): Illuminate/Routing/Route->gatherMiddleware()
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(802): Illuminate/Routing/Router->gatherRouteMiddleware(Object(Illuminate/Routing/Route))
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
+#45 {main}
+"} 
+[2026-03-04 05:03:15] local.ERROR: Cannot assign null to property App\Services\AIService::$apiKey of type string {"exception":"[object] (TypeError(code: 0): Cannot assign null to property App\\Services\\AIService::$apiKey of type string at D:/TMSPROJECT/htdocs/aichatbot/backend/app/Services/AIService.php:120)
+[stacktrace]
+#0 [internal function]: App/Services/AIService->__construct()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1004): ReflectionClass->newInstanceArgs(Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Services//AI...')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Services//AI...', Array, true)
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Services//AI...', Array)
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Services//AI...', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1133): Illuminate/Foundation/Application->make('App//Services//AI...')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1043): Illuminate/Container/Container->resolveClass(Object(ReflectionParameter))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(994): Illuminate/Container/Container->resolveDependencies(Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Http//Contro...')
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Http//Contro...', Array, true)
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Http//Contro...', Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Http//Contro...', Array)
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(285): Illuminate/Foundation/Application->make('App//Http//Contro...')
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1125): Illuminate/Routing/Route->getController()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1054): Illuminate/Routing/Route->controllerMiddleware()
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(820): Illuminate/Routing/Route->gatherMiddleware()
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(802): Illuminate/Routing/Router->gatherRouteMiddleware(Object(Illuminate/Routing/Route))
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
+#45 {main}
+"} 
+[2026-03-04 05:03:27] local.ERROR: Cannot assign null to property App\Services\AIService::$apiKey of type string {"exception":"[object] (TypeError(code: 0): Cannot assign null to property App\\Services\\AIService::$apiKey of type string at D:/TMSPROJECT/htdocs/aichatbot/backend/app/Services/AIService.php:120)
+[stacktrace]
+#0 [internal function]: App/Services/AIService->__construct()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1004): ReflectionClass->newInstanceArgs(Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Services//AI...')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Services//AI...', Array, true)
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Services//AI...', Array)
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Services//AI...', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1133): Illuminate/Foundation/Application->make('App//Services//AI...')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1043): Illuminate/Container/Container->resolveClass(Object(ReflectionParameter))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(994): Illuminate/Container/Container->resolveDependencies(Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Http//Contro...')
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Http//Contro...', Array, true)
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Http//Contro...', Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Http//Contro...', Array)
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(285): Illuminate/Foundation/Application->make('App//Http//Contro...')
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1125): Illuminate/Routing/Route->getController()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1054): Illuminate/Routing/Route->controllerMiddleware()
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(820): Illuminate/Routing/Route->gatherMiddleware()
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(802): Illuminate/Routing/Router->gatherRouteMiddleware(Object(Illuminate/Routing/Route))
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
+#45 {main}
+"} 
+[2026-03-04 05:06:28] local.ERROR: Cannot assign null to property App\Services\AIService::$apiKey of type string {"exception":"[object] (TypeError(code: 0): Cannot assign null to property App\\Services\\AIService::$apiKey of type string at D:/TMSPROJECT/htdocs/aichatbot/backend/app/Services/AIService.php:120)
+[stacktrace]
+#0 [internal function]: App/Services/AIService->__construct()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1004): ReflectionClass->newInstanceArgs(Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Services//AI...')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Services//AI...', Array, true)
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Services//AI...', Array)
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Services//AI...', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1133): Illuminate/Foundation/Application->make('App//Services//AI...')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1043): Illuminate/Container/Container->resolveClass(Object(ReflectionParameter))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(994): Illuminate/Container/Container->resolveDependencies(Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Http//Contro...')
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Http//Contro...', Array, true)
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Http//Contro...', Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Http//Contro...', Array)
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(285): Illuminate/Foundation/Application->make('App//Http//Contro...')
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1125): Illuminate/Routing/Route->getController()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1054): Illuminate/Routing/Route->controllerMiddleware()
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(820): Illuminate/Routing/Route->gatherMiddleware()
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(802): Illuminate/Routing/Router->gatherRouteMiddleware(Object(Illuminate/Routing/Route))
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
+#45 {main}
+"} 
+[2026-03-04 05:14:54] local.ERROR: Command "cache:config" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"cache:config\" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php:759)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('cache:config')
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 {main}
+"} 
+[2026-03-04 05:16:30] local.ERROR: Cannot assign null to property App\Services\AIService::$apiKey of type string {"exception":"[object] (TypeError(code: 0): Cannot assign null to property App\\Services\\AIService::$apiKey of type string at D:/TMSPROJECT/htdocs/aichatbot/backend/app/Services/AIService.php:120)
+[stacktrace]
+#0 [internal function]: App/Services/AIService->__construct()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1004): ReflectionClass->newInstanceArgs(Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Services//AI...')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Services//AI...', Array, true)
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Services//AI...', Array)
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Services//AI...', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1133): Illuminate/Foundation/Application->make('App//Services//AI...')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1043): Illuminate/Container/Container->resolveClass(Object(ReflectionParameter))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(994): Illuminate/Container/Container->resolveDependencies(Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Http//Contro...')
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Http//Contro...', Array, true)
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Http//Contro...', Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Http//Contro...', Array)
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(285): Illuminate/Foundation/Application->make('App//Http//Contro...')
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1125): Illuminate/Routing/Route->getController()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1054): Illuminate/Routing/Route->controllerMiddleware()
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(820): Illuminate/Routing/Route->gatherMiddleware()
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(802): Illuminate/Routing/Router->gatherRouteMiddleware(Object(Illuminate/Routing/Route))
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
+#45 {main}
+"} 
+[2026-03-04 05:24:13] local.ERROR: Cannot assign null to property App\Services\AIService::$huggingfaceApiKey of type string {"exception":"[object] (TypeError(code: 0): Cannot assign null to property App\\Services\\AIService::$huggingfaceApiKey of type string at D:/TMSPROJECT/htdocs/aichatbot/backend/app/Services/AIService.php:129)
+[stacktrace]
+#0 [internal function]: App/Services/AIService->__construct()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1004): ReflectionClass->newInstanceArgs(Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Services//AI...')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Services//AI...', Array, true)
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Services//AI...', Array)
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Services//AI...', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1133): Illuminate/Foundation/Application->make('App//Services//AI...')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1043): Illuminate/Container/Container->resolveClass(Object(ReflectionParameter))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(994): Illuminate/Container/Container->resolveDependencies(Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Http//Contro...')
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Http//Contro...', Array, true)
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Http//Contro...', Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Http//Contro...', Array)
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(285): Illuminate/Foundation/Application->make('App//Http//Contro...')
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1125): Illuminate/Routing/Route->getController()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1054): Illuminate/Routing/Route->controllerMiddleware()
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(820): Illuminate/Routing/Route->gatherMiddleware()
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(802): Illuminate/Routing/Router->gatherRouteMiddleware(Object(Illuminate/Routing/Route))
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
+#45 {main}
+"} 
+[2026-03-04 05:24:21] local.ERROR: Cannot assign null to property App\Services\AIService::$huggingfaceApiKey of type string {"exception":"[object] (TypeError(code: 0): Cannot assign null to property App\\Services\\AIService::$huggingfaceApiKey of type string at D:/TMSPROJECT/htdocs/aichatbot/backend/app/Services/AIService.php:129)
+[stacktrace]
+#0 [internal function]: App/Services/AIService->__construct()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1004): ReflectionClass->newInstanceArgs(Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Services//AI...')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Services//AI...', Array, true)
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Services//AI...', Array)
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Services//AI...', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1133): Illuminate/Foundation/Application->make('App//Services//AI...')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1043): Illuminate/Container/Container->resolveClass(Object(ReflectionParameter))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(994): Illuminate/Container/Container->resolveDependencies(Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Http//Contro...')
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Http//Contro...', Array, true)
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Http//Contro...', Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Http//Contro...', Array)
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(285): Illuminate/Foundation/Application->make('App//Http//Contro...')
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1125): Illuminate/Routing/Route->getController()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1054): Illuminate/Routing/Route->controllerMiddleware()
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(820): Illuminate/Routing/Route->gatherMiddleware()
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(802): Illuminate/Routing/Router->gatherRouteMiddleware(Object(Illuminate/Routing/Route))
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
+#45 {main}
+"} 
+[2026-03-04 05:24:50] local.ERROR: Cannot assign null to property App\Services\AIService::$huggingfaceApiKey of type string {"exception":"[object] (TypeError(code: 0): Cannot assign null to property App\\Services\\AIService::$huggingfaceApiKey of type string at D:/TMSPROJECT/htdocs/aichatbot/backend/app/Services/AIService.php:129)
+[stacktrace]
+#0 [internal function]: App/Services/AIService->__construct()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1004): ReflectionClass->newInstanceArgs(Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Services//AI...')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Services//AI...', Array, true)
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Services//AI...', Array)
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Services//AI...', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1133): Illuminate/Foundation/Application->make('App//Services//AI...')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(1043): Illuminate/Container/Container->resolveClass(Object(ReflectionParameter))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(994): Illuminate/Container/Container->resolveDependencies(Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(832): Illuminate/Container/Container->build('App//Http//Contro...')
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1078): Illuminate/Container/Container->resolve('App//Http//Contro...', Array, true)
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(763): Illuminate/Foundation/Application->resolve('App//Http//Contro...', Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1058): Illuminate/Container/Container->make('App//Http//Contro...', Array)
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(285): Illuminate/Foundation/Application->make('App//Http//Contro...')
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1125): Illuminate/Routing/Route->getController()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(1054): Illuminate/Routing/Route->controllerMiddleware()
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(820): Illuminate/Routing/Route->gatherMiddleware()
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(802): Illuminate/Routing/Router->gatherRouteMiddleware(Object(Illuminate/Routing/Route))
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
+#45 {main}
+"} 
+[2026-03-04 06:05:35] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:05:53] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:06:17] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:06:27] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:06:42] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:06:54] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:07:06] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:07:29] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:09:39] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:10:37] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:11:31] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:11:38] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:11:48] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:13:54] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:14:05] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:29:24] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:30:02] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:30:19] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:30:43] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:33:01] local.ERROR: Command "cache:config" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"cache:config\" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php:759)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('cache:config')
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 {main}
+"} 
+[2026-03-04 06:35:25] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:35:39] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:36:21] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:36:51] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:37:10] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:37:22] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:37:45] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:38:16] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:39:31] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:40:01] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:40:39] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:47:57] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:48:04] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:48:18] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:49:34] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:49:52] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 06:55:01] local.ERROR: Text-to-Speech Error: Google TTS API Error: {
+  "error": {
+    "code": 400,
+    "message": "Voice 'bn-BD-Standard-A' does not exist. Is it misspelled?",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+  
+[2026-03-04 07:48:36] local.ERROR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'MD-CARD-001' for key 'doctors_license_number_unique' (Connection: mysql, SQL: insert into `doctors` (`user_id`, `specialization_id`, `license_number`, `qualification`, `experience_years`, `hospital_clinic`, `consultation_fee`, `rating`, `total_reviews`, `languages`, `available_days`, `start_time`, `end_time`, `slot_duration`, `is_available`, `is_verified`, `city`, `address`, `bio`, `updated_at`, `created_at`) values (6, 11, MD-CARD-001, MD, FACC, FSCAI, 20, National Institute of Chest & Hospital, 1000, 4.9, 234, ["en","bn"], ["monday","tuesday","wednesday","thursday","friday"], 09:00:00, 17:00:00, 30, 1, 1, Dhaka, National Institute of Chest & Hospital, Dhaka, Leading cardiologist with 20+ years of experience in interventional cardiology., 2026-03-04 07:48:36, 2026-03-04 07:48:36)) {"exception":"[object] (Illuminate\\Database\\UniqueConstraintViolationException(code: 23000): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'MD-CARD-001' for key 'doctors_license_number_unique' (Connection: mysql, SQL: insert into `doctors` (`user_id`, `specialization_id`, `license_number`, `qualification`, `experience_years`, `hospital_clinic`, `consultation_fee`, `rating`, `total_reviews`, `languages`, `available_days`, `start_time`, `end_time`, `slot_duration`, `is_available`, `is_verified`, `city`, `address`, `bio`, `updated_at`, `created_at`) values (6, 11, MD-CARD-001, MD, FACC, FSCAI, 20, National Institute of Chest & Hospital, 1000, 4.9, 234, [\"en\",\"bn\"], [\"monday\",\"tuesday\",\"wednesday\",\"thursday\",\"friday\"], 09:00:00, 17:00:00, 30, 1, 1, Dhaka, National Institute of Chest & Hospital, Dhaka, Leading cardiologist with 20+ years of experience in interventional cardiology., 2026-03-04 07:48:36, 2026-03-04 07:48:36)) at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php:820)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('insert into `do...', Array, Object(Closure))
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(42): Illuminate/Database/Connection->run('insert into `do...', Array, Object(Closure))
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate/Database/MySqlConnection->insert('insert into `do...', Array, 'id')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3766): Illuminate/Database/Query/Processors/MySqlProcessor->processInsertGetId(Object(Illuminate/Database/Query/Builder), 'insert into `do...', Array, 'id')
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(2120): Illuminate/Database/Query/Builder->insertGetId(Array, 'id')
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1359): Illuminate/Database/Eloquent/Builder->__call('insertGetId', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1324): Illuminate/Database/Eloquent/Model->insertAndSetId(Object(Illuminate/Database/Eloquent/Builder), Array)
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1163): Illuminate/Database/Eloquent/Model->performInsert(Object(Illuminate/Database/Eloquent/Builder))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1128): Illuminate/Database/Eloquent/Model->save()
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}(Object(App/Models/Doctor))
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1127): tap(Object(App/Models/Doctor), Object(Closure))
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->create(Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1864): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}()
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->withSavepointIfNeeded(Object(Closure))
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(621): Illuminate/Database/Eloquent/Builder->createOrFirst(Array, Array)
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(649): Illuminate/Database/Eloquent/Builder->firstOrCreate(Array, Array)
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate/Database/Eloquent/Builder->updateOrCreate(Array, Array)
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2372): Illuminate/Database/Eloquent/Model->forwardCallTo(Object(Illuminate/Database/Eloquent/Builder), 'updateOrCreate', Array)
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2384): Illuminate/Database/Eloquent/Model->__call('updateOrCreate', Array)
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/database/seeders/MedicareDoctorsSeeder.php(1327): Illuminate/Database/Eloquent/Model::__callStatic('updateOrCreate', Array)
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Database/Seeders/MedicareDoctorsSeeder->run()
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(188): Illuminate/Container/Container->call(Array, Array)
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(197): Illuminate/Database/Seeder->Illuminate/Database/{closure}()
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(70): Illuminate/Database/Seeder->__invoke()
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/GuardsAttributes.php(155): Illuminate/Database/Console/Seeds/SeedCommand->Illuminate/Database/Console/Seeds/{closure}()
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(69): Illuminate/Database/Eloquent/Model::unguarded(Object(Closure))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/Seeds/SeedCommand->handle()
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate/Container/Container->call(Array)
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(1102): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/Seeds/SeedCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#43 {main}
+
+[previous exception] [object] (PDOException(code: 23000): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'MD-CARD-001' for key 'doctors_license_number_unique' at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php:53)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(53): PDOStatement->execute()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate/Database/MySqlConnection->Illuminate/Database/{closure}('insert into `do...', Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('insert into `do...', Array, Object(Closure))
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(42): Illuminate/Database/Connection->run('insert into `do...', Array, Object(Closure))
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate/Database/MySqlConnection->insert('insert into `do...', Array, 'id')
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3766): Illuminate/Database/Query/Processors/MySqlProcessor->processInsertGetId(Object(Illuminate/Database/Query/Builder), 'insert into `do...', Array, 'id')
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(2120): Illuminate/Database/Query/Builder->insertGetId(Array, 'id')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1359): Illuminate/Database/Eloquent/Builder->__call('insertGetId', Array)
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1324): Illuminate/Database/Eloquent/Model->insertAndSetId(Object(Illuminate/Database/Eloquent/Builder), Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1163): Illuminate/Database/Eloquent/Model->performInsert(Object(Illuminate/Database/Eloquent/Builder))
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1128): Illuminate/Database/Eloquent/Model->save()
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}(Object(App/Models/Doctor))
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1127): tap(Object(App/Models/Doctor), Object(Closure))
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->create(Array)
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1864): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->withSavepointIfNeeded(Object(Closure))
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(621): Illuminate/Database/Eloquent/Builder->createOrFirst(Array, Array)
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(649): Illuminate/Database/Eloquent/Builder->firstOrCreate(Array, Array)
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate/Database/Eloquent/Builder->updateOrCreate(Array, Array)
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2372): Illuminate/Database/Eloquent/Model->forwardCallTo(Object(Illuminate/Database/Eloquent/Builder), 'updateOrCreate', Array)
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2384): Illuminate/Database/Eloquent/Model->__call('updateOrCreate', Array)
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/database/seeders/MedicareDoctorsSeeder.php(1327): Illuminate/Database/Eloquent/Model::__callStatic('updateOrCreate', Array)
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Database/Seeders/MedicareDoctorsSeeder->run()
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(188): Illuminate/Container/Container->call(Array, Array)
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(197): Illuminate/Database/Seeder->Illuminate/Database/{closure}()
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(70): Illuminate/Database/Seeder->__invoke()
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/GuardsAttributes.php(155): Illuminate/Database/Console/Seeds/SeedCommand->Illuminate/Database/Console/Seeds/{closure}()
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(69): Illuminate/Database/Eloquent/Model::unguarded(Object(Closure))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/Seeds/SeedCommand->handle()
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate/Container/Container->call(Array)
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(1102): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/Seeds/SeedCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#45 {main}
+"} 
+[2026-03-04 07:48:55] local.ERROR: SQLSTATE[HY000]: General error: 1364 Field 'user_id' doesn't have a default value (Connection: mysql, SQL: insert into `doctors` (`license_number`, `specialization_id`, `qualification`, `experience_years`, `hospital_clinic`, `consultation_fee`, `rating`, `total_reviews`, `languages`, `available_days`, `start_time`, `end_time`, `slot_duration`, `is_available`, `is_verified`, `city`, `address`, `bio`, `updated_at`, `created_at`) values (MD-CARD-002, 11, MD(Cardiology), FCPS, FACC, 15, Bangabandhu Sheikh Mujib Medical University, 800, 4.7, 288, ["en","bn"], ["sunday","tuesday","thursday","saturday"], 10:00:00, 16:00:00, 30, 1, 1, Dhaka, BSMMU, Shahbagh, Dhaka, Expert in cardiac imaging and non-invasive cardiology procedures., 2026-03-04 07:48:55, 2026-03-04 07:48:55)) {"exception":"[object] (Illuminate\\Database\\QueryException(code: HY000): SQLSTATE[HY000]: General error: 1364 Field 'user_id' doesn't have a default value (Connection: mysql, SQL: insert into `doctors` (`license_number`, `specialization_id`, `qualification`, `experience_years`, `hospital_clinic`, `consultation_fee`, `rating`, `total_reviews`, `languages`, `available_days`, `start_time`, `end_time`, `slot_duration`, `is_available`, `is_verified`, `city`, `address`, `bio`, `updated_at`, `created_at`) values (MD-CARD-002, 11, MD(Cardiology), FCPS, FACC, 15, Bangabandhu Sheikh Mujib Medical University, 800, 4.7, 288, [\"en\",\"bn\"], [\"sunday\",\"tuesday\",\"thursday\",\"saturday\"], 10:00:00, 16:00:00, 30, 1, 1, Dhaka, BSMMU, Shahbagh, Dhaka, Expert in cardiac imaging and non-invasive cardiology procedures., 2026-03-04 07:48:55, 2026-03-04 07:48:55)) at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php:825)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('insert into `do...', Array, Object(Closure))
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(42): Illuminate/Database/Connection->run('insert into `do...', Array, Object(Closure))
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate/Database/MySqlConnection->insert('insert into `do...', Array, 'id')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3766): Illuminate/Database/Query/Processors/MySqlProcessor->processInsertGetId(Object(Illuminate/Database/Query/Builder), 'insert into `do...', Array, 'id')
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(2120): Illuminate/Database/Query/Builder->insertGetId(Array, 'id')
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1359): Illuminate/Database/Eloquent/Builder->__call('insertGetId', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1324): Illuminate/Database/Eloquent/Model->insertAndSetId(Object(Illuminate/Database/Eloquent/Builder), Array)
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1163): Illuminate/Database/Eloquent/Model->performInsert(Object(Illuminate/Database/Eloquent/Builder))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1128): Illuminate/Database/Eloquent/Model->save()
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}(Object(App/Models/Doctor))
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1127): tap(Object(App/Models/Doctor), Object(Closure))
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->create(Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1864): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}()
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->withSavepointIfNeeded(Object(Closure))
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(621): Illuminate/Database/Eloquent/Builder->createOrFirst(Array, Array)
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(649): Illuminate/Database/Eloquent/Builder->firstOrCreate(Array, Array)
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate/Database/Eloquent/Builder->updateOrCreate(Array, Array)
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2372): Illuminate/Database/Eloquent/Model->forwardCallTo(Object(Illuminate/Database/Eloquent/Builder), 'updateOrCreate', Array)
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2384): Illuminate/Database/Eloquent/Model->__call('updateOrCreate', Array)
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/database/seeders/MedicareDoctorsSeeder.php(1327): Illuminate/Database/Eloquent/Model::__callStatic('updateOrCreate', Array)
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Database/Seeders/MedicareDoctorsSeeder->run()
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(188): Illuminate/Container/Container->call(Array, Array)
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(197): Illuminate/Database/Seeder->Illuminate/Database/{closure}()
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(70): Illuminate/Database/Seeder->__invoke()
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/GuardsAttributes.php(155): Illuminate/Database/Console/Seeds/SeedCommand->Illuminate/Database/Console/Seeds/{closure}()
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(69): Illuminate/Database/Eloquent/Model::unguarded(Object(Closure))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/Seeds/SeedCommand->handle()
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate/Container/Container->call(Array)
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(1102): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/Seeds/SeedCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#43 {main}
+
+[previous exception] [object] (PDOException(code: HY000): SQLSTATE[HY000]: General error: 1364 Field 'user_id' doesn't have a default value at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php:53)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(53): PDOStatement->execute()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate/Database/MySqlConnection->Illuminate/Database/{closure}('insert into `do...', Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('insert into `do...', Array, Object(Closure))
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(42): Illuminate/Database/Connection->run('insert into `do...', Array, Object(Closure))
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate/Database/MySqlConnection->insert('insert into `do...', Array, 'id')
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3766): Illuminate/Database/Query/Processors/MySqlProcessor->processInsertGetId(Object(Illuminate/Database/Query/Builder), 'insert into `do...', Array, 'id')
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(2120): Illuminate/Database/Query/Builder->insertGetId(Array, 'id')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1359): Illuminate/Database/Eloquent/Builder->__call('insertGetId', Array)
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1324): Illuminate/Database/Eloquent/Model->insertAndSetId(Object(Illuminate/Database/Eloquent/Builder), Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1163): Illuminate/Database/Eloquent/Model->performInsert(Object(Illuminate/Database/Eloquent/Builder))
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1128): Illuminate/Database/Eloquent/Model->save()
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}(Object(App/Models/Doctor))
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1127): tap(Object(App/Models/Doctor), Object(Closure))
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->create(Array)
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1864): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->withSavepointIfNeeded(Object(Closure))
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(621): Illuminate/Database/Eloquent/Builder->createOrFirst(Array, Array)
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(649): Illuminate/Database/Eloquent/Builder->firstOrCreate(Array, Array)
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate/Database/Eloquent/Builder->updateOrCreate(Array, Array)
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2372): Illuminate/Database/Eloquent/Model->forwardCallTo(Object(Illuminate/Database/Eloquent/Builder), 'updateOrCreate', Array)
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2384): Illuminate/Database/Eloquent/Model->__call('updateOrCreate', Array)
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/database/seeders/MedicareDoctorsSeeder.php(1327): Illuminate/Database/Eloquent/Model::__callStatic('updateOrCreate', Array)
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Database/Seeders/MedicareDoctorsSeeder->run()
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(188): Illuminate/Container/Container->call(Array, Array)
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(197): Illuminate/Database/Seeder->Illuminate/Database/{closure}()
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(70): Illuminate/Database/Seeder->__invoke()
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/GuardsAttributes.php(155): Illuminate/Database/Console/Seeds/SeedCommand->Illuminate/Database/Console/Seeds/{closure}()
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(69): Illuminate/Database/Eloquent/Model::unguarded(Object(Closure))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/Seeds/SeedCommand->handle()
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate/Container/Container->call(Array)
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(1102): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/Seeds/SeedCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#45 {main}
+"} 
+[2026-03-04 07:49:28] local.ERROR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'ent' for key 'specializations_slug_unique' (Connection: mysql, SQL: insert into `specializations` (`name`, `slug`, `description`, `updated_at`, `created_at`) values (ENT, ent, Specialist in ENT, 2026-03-04 07:49:28, 2026-03-04 07:49:28)) {"exception":"[object] (Illuminate\\Database\\UniqueConstraintViolationException(code: 23000): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'ent' for key 'specializations_slug_unique' (Connection: mysql, SQL: insert into `specializations` (`name`, `slug`, `description`, `updated_at`, `created_at`) values (ENT, ent, Specialist in ENT, 2026-03-04 07:49:28, 2026-03-04 07:49:28)) at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php:820)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('insert into `sp...', Array, Object(Closure))
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(42): Illuminate/Database/Connection->run('insert into `sp...', Array, Object(Closure))
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate/Database/MySqlConnection->insert('insert into `sp...', Array, 'id')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3766): Illuminate/Database/Query/Processors/MySqlProcessor->processInsertGetId(Object(Illuminate/Database/Query/Builder), 'insert into `sp...', Array, 'id')
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(2120): Illuminate/Database/Query/Builder->insertGetId(Array, 'id')
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1359): Illuminate/Database/Eloquent/Builder->__call('insertGetId', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1324): Illuminate/Database/Eloquent/Model->insertAndSetId(Object(Illuminate/Database/Eloquent/Builder), Array)
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1163): Illuminate/Database/Eloquent/Model->performInsert(Object(Illuminate/Database/Eloquent/Builder))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1128): Illuminate/Database/Eloquent/Model->save()
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}(Object(App/Models/Specialization))
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1127): tap(Object(App/Models/Specialization), Object(Closure))
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->create(Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1864): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}()
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->withSavepointIfNeeded(Object(Closure))
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(621): Illuminate/Database/Eloquent/Builder->createOrFirst(Array, Array)
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(649): Illuminate/Database/Eloquent/Builder->firstOrCreate(Array, Array)
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate/Database/Eloquent/Builder->updateOrCreate(Array, Array)
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2372): Illuminate/Database/Eloquent/Model->forwardCallTo(Object(Illuminate/Database/Eloquent/Builder), 'updateOrCreate', Array)
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2384): Illuminate/Database/Eloquent/Model->__call('updateOrCreate', Array)
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/database/seeders/MedicareDoctorsSeeder.php(1318): Illuminate/Database/Eloquent/Model::__callStatic('updateOrCreate', Array)
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Database/Seeders/MedicareDoctorsSeeder->run()
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(188): Illuminate/Container/Container->call(Array, Array)
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(197): Illuminate/Database/Seeder->Illuminate/Database/{closure}()
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(70): Illuminate/Database/Seeder->__invoke()
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/GuardsAttributes.php(155): Illuminate/Database/Console/Seeds/SeedCommand->Illuminate/Database/Console/Seeds/{closure}()
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(69): Illuminate/Database/Eloquent/Model::unguarded(Object(Closure))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/Seeds/SeedCommand->handle()
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate/Container/Container->call(Array)
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(1102): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/Seeds/SeedCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#43 {main}
+
+[previous exception] [object] (PDOException(code: 23000): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'ent' for key 'specializations_slug_unique' at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php:53)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(53): PDOStatement->execute()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate/Database/MySqlConnection->Illuminate/Database/{closure}('insert into `sp...', Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('insert into `sp...', Array, Object(Closure))
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(42): Illuminate/Database/Connection->run('insert into `sp...', Array, Object(Closure))
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate/Database/MySqlConnection->insert('insert into `sp...', Array, 'id')
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3766): Illuminate/Database/Query/Processors/MySqlProcessor->processInsertGetId(Object(Illuminate/Database/Query/Builder), 'insert into `sp...', Array, 'id')
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(2120): Illuminate/Database/Query/Builder->insertGetId(Array, 'id')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1359): Illuminate/Database/Eloquent/Builder->__call('insertGetId', Array)
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1324): Illuminate/Database/Eloquent/Model->insertAndSetId(Object(Illuminate/Database/Eloquent/Builder), Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1163): Illuminate/Database/Eloquent/Model->performInsert(Object(Illuminate/Database/Eloquent/Builder))
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1128): Illuminate/Database/Eloquent/Model->save()
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}(Object(App/Models/Specialization))
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1127): tap(Object(App/Models/Specialization), Object(Closure))
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->create(Array)
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1864): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->withSavepointIfNeeded(Object(Closure))
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(621): Illuminate/Database/Eloquent/Builder->createOrFirst(Array, Array)
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(649): Illuminate/Database/Eloquent/Builder->firstOrCreate(Array, Array)
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate/Database/Eloquent/Builder->updateOrCreate(Array, Array)
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2372): Illuminate/Database/Eloquent/Model->forwardCallTo(Object(Illuminate/Database/Eloquent/Builder), 'updateOrCreate', Array)
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2384): Illuminate/Database/Eloquent/Model->__call('updateOrCreate', Array)
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/database/seeders/MedicareDoctorsSeeder.php(1318): Illuminate/Database/Eloquent/Model::__callStatic('updateOrCreate', Array)
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Database/Seeders/MedicareDoctorsSeeder->run()
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(188): Illuminate/Container/Container->call(Array, Array)
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(197): Illuminate/Database/Seeder->Illuminate/Database/{closure}()
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(70): Illuminate/Database/Seeder->__invoke()
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/GuardsAttributes.php(155): Illuminate/Database/Console/Seeds/SeedCommand->Illuminate/Database/Console/Seeds/{closure}()
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(69): Illuminate/Database/Eloquent/Model::unguarded(Object(Closure))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/Seeds/SeedCommand->handle()
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate/Container/Container->call(Array)
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(1102): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/Seeds/SeedCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#45 {main}
+"} 
+[2026-03-04 07:50:05] local.ERROR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'ent' for key 'specializations_slug_unique' (Connection: mysql, SQL: insert into `specializations` (`name`, `slug`, `description`, `updated_at`, `created_at`) values (ENT, ent, Specialist in ENT, 2026-03-04 07:50:05, 2026-03-04 07:50:05)) {"exception":"[object] (Illuminate\\Database\\UniqueConstraintViolationException(code: 23000): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'ent' for key 'specializations_slug_unique' (Connection: mysql, SQL: insert into `specializations` (`name`, `slug`, `description`, `updated_at`, `created_at`) values (ENT, ent, Specialist in ENT, 2026-03-04 07:50:05, 2026-03-04 07:50:05)) at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php:820)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('insert into `sp...', Array, Object(Closure))
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(42): Illuminate/Database/Connection->run('insert into `sp...', Array, Object(Closure))
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate/Database/MySqlConnection->insert('insert into `sp...', Array, 'id')
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3766): Illuminate/Database/Query/Processors/MySqlProcessor->processInsertGetId(Object(Illuminate/Database/Query/Builder), 'insert into `sp...', Array, 'id')
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(2120): Illuminate/Database/Query/Builder->insertGetId(Array, 'id')
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1359): Illuminate/Database/Eloquent/Builder->__call('insertGetId', Array)
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1324): Illuminate/Database/Eloquent/Model->insertAndSetId(Object(Illuminate/Database/Eloquent/Builder), Array)
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1163): Illuminate/Database/Eloquent/Model->performInsert(Object(Illuminate/Database/Eloquent/Builder))
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1128): Illuminate/Database/Eloquent/Model->save()
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}(Object(App/Models/Specialization))
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1127): tap(Object(App/Models/Specialization), Object(Closure))
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->create(Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1864): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}()
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->withSavepointIfNeeded(Object(Closure))
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(621): Illuminate/Database/Eloquent/Builder->createOrFirst(Array, Array)
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(649): Illuminate/Database/Eloquent/Builder->firstOrCreate(Array, Array)
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate/Database/Eloquent/Builder->updateOrCreate(Array, Array)
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2372): Illuminate/Database/Eloquent/Model->forwardCallTo(Object(Illuminate/Database/Eloquent/Builder), 'updateOrCreate', Array)
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2384): Illuminate/Database/Eloquent/Model->__call('updateOrCreate', Array)
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/database/seeders/MedicareDoctorsSeeder.php(1318): Illuminate/Database/Eloquent/Model::__callStatic('updateOrCreate', Array)
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Database/Seeders/MedicareDoctorsSeeder->run()
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(188): Illuminate/Container/Container->call(Array, Array)
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(197): Illuminate/Database/Seeder->Illuminate/Database/{closure}()
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(70): Illuminate/Database/Seeder->__invoke()
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/GuardsAttributes.php(155): Illuminate/Database/Console/Seeds/SeedCommand->Illuminate/Database/Console/Seeds/{closure}()
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(69): Illuminate/Database/Eloquent/Model::unguarded(Object(Closure))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/Seeds/SeedCommand->handle()
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate/Container/Container->call(Array)
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(1102): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/Seeds/SeedCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#43 {main}
+
+[previous exception] [object] (PDOException(code: 23000): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'ent' for key 'specializations_slug_unique' at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php:53)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(53): PDOStatement->execute()
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate/Database/MySqlConnection->Illuminate/Database/{closure}('insert into `sp...', Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('insert into `sp...', Array, Object(Closure))
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(42): Illuminate/Database/Connection->run('insert into `sp...', Array, Object(Closure))
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate/Database/MySqlConnection->insert('insert into `sp...', Array, 'id')
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3766): Illuminate/Database/Query/Processors/MySqlProcessor->processInsertGetId(Object(Illuminate/Database/Query/Builder), 'insert into `sp...', Array, 'id')
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(2120): Illuminate/Database/Query/Builder->insertGetId(Array, 'id')
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1359): Illuminate/Database/Eloquent/Builder->__call('insertGetId', Array)
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1324): Illuminate/Database/Eloquent/Model->insertAndSetId(Object(Illuminate/Database/Eloquent/Builder), Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1163): Illuminate/Database/Eloquent/Model->performInsert(Object(Illuminate/Database/Eloquent/Builder))
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1128): Illuminate/Database/Eloquent/Model->save()
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}(Object(App/Models/Specialization))
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1127): tap(Object(App/Models/Specialization), Object(Closure))
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->create(Array)
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1864): Illuminate/Database/Eloquent/Builder->Illuminate/Database/Eloquent/{closure}()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(634): Illuminate/Database/Eloquent/Builder->withSavepointIfNeeded(Object(Closure))
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(621): Illuminate/Database/Eloquent/Builder->createOrFirst(Array, Array)
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(649): Illuminate/Database/Eloquent/Builder->firstOrCreate(Array, Array)
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate/Database/Eloquent/Builder->updateOrCreate(Array, Array)
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2372): Illuminate/Database/Eloquent/Model->forwardCallTo(Object(Illuminate/Database/Eloquent/Builder), 'updateOrCreate', Array)
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2384): Illuminate/Database/Eloquent/Model->__call('updateOrCreate', Array)
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/database/seeders/MedicareDoctorsSeeder.php(1318): Illuminate/Database/Eloquent/Model::__callStatic('updateOrCreate', Array)
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Database/Seeders/MedicareDoctorsSeeder->run()
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(188): Illuminate/Container/Container->call(Array, Array)
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(197): Illuminate/Database/Seeder->Illuminate/Database/{closure}()
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(70): Illuminate/Database/Seeder->__invoke()
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/GuardsAttributes.php(155): Illuminate/Database/Console/Seeds/SeedCommand->Illuminate/Database/Console/Seeds/{closure}()
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Seeds/SeedCommand.php(69): Illuminate/Database/Eloquent/Model::unguarded(Object(Closure))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/Seeds/SeedCommand->handle()
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate/Container/Container->call(Array)
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(1102): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/Seeds/SeedCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#45 {main}
+"} 
+[2026-03-04 08:33:17] local.ERROR: Appointment Booking Error: The start time field is required. (and 2 more errors)  
+[2026-03-04 08:44:25] local.ERROR: Appointment Booking Error: The start time field is required. (and 2 more errors)  

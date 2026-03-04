@@ -13,6 +13,7 @@ class VoiceService
     protected string $googleApiKey;
     protected string $openAiBaseUrl = 'https://api.openai.com/v1';
     protected string $googleBaseUrl = 'https://texttospeech.googleapis.com/v1';
+    protected string $googleSpeechBaseUrl = 'https://speech.googleapis.com/v1';
     protected string $storagePath = 'public/audio';
 
     public function __construct()
@@ -81,6 +82,95 @@ class VoiceService
     }
 
     /**
+     * Convert speech to text using Google Cloud Speech-to-Text
+     */
+    public function speechToTextGoogle(string $audioFilePath, string $language = 'en-US'): array
+    {
+        try {
+            if (!file_exists($audioFilePath)) {
+                throw new Exception('Audio file not found');
+            }
+
+            // Read and encode audio file to base64
+            $audioContent = file_get_contents($audioFilePath);
+            $audioContentBase64 = base64_encode($audioContent);
+
+            // Detect audio format from file extension
+            $extension = strtolower(pathinfo($audioFilePath, PATHINFO_EXTENSION));
+            $encoding = $this->getAudioEncoding($extension);
+
+            $response = Http::post($this->googleSpeechBaseUrl . '/speech:recognize?key=' . $this->googleApiKey, [
+                'config' => [
+                    'encoding' => $encoding,
+                    'sampleRateHertz' => 16000,
+                    'languageCode' => $language,
+                    'enableAutomaticLanguageDetection' => false,
+                    'model' => 'default',
+                ],
+                'audio' => [
+                    'content' => $audioContentBase64,
+                ],
+            ]);
+
+            if (!$response->successful()) {
+                throw new Exception('Google Speech API Error: ' . $response->body());
+            }
+
+            $result = $response->json();
+            
+            // Clean up audio file
+            $this->cleanupAudioFile($audioFilePath);
+
+            // Extract transcription from result
+            $transcription = '';
+            $confidence = 0;
+            
+            if (isset($result['results']) && !empty($result['results'])) {
+                foreach ($result['results'] as $resultItem) {
+                    if (isset($resultItem['alternatives']) && !empty($resultItem['alternatives'])) {
+                        $transcription .= $resultItem['alternatives'][0]['transcript'] . ' ';
+                        $confidence = $resultItem['alternatives'][0]['confidence'] ?? 0;
+                    }
+                }
+            }
+
+            return [
+                'success' => true,
+                'text' => trim($transcription),
+                'language' => $language,
+                'confidence' => $confidence,
+            ];
+        } catch (Exception $e) {
+            Log::error('Google Speech-to-Text Error: ' . $e->getMessage());
+            $this->cleanupAudioFile($audioFilePath);
+            
+            return [
+                'success' => false,
+                'text' => '',
+                'error' => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Get audio encoding based on file extension
+     */
+    protected function getAudioEncoding(string $extension): string
+    {
+        $encodings = [
+            'mp3' => 'MP3',
+            'wav' => 'LINEAR16',
+            'webm' => 'WEBM_OPUS',
+            'ogg' => 'OGG_OPUS',
+            'flac' => 'FLAC',
+            'aac' => 'AAC',
+            'm4a' => 'AAC',
+        ];
+
+        return $encodings[$extension] ?? 'LINEAR16';
+    }
+
+    /**
      * Convert text to speech using Google TTS
      */
     public function textToSpeech(string $text, string $language = 'en-US', string $voiceType = 'female'): array
@@ -118,10 +208,13 @@ class VoiceService
             
             file_put_contents($filePath, $audioContent);
             $audioUrl = Storage::url($this->storagePath . '/' . $fileName);
+            
+            // Convert relative URL to full URL
+            $fullAudioUrl = config('app.url') . $audioUrl;
 
             return [
                 'success' => true,
-                'audio_url' => $audioUrl,
+                'audio_url' => $fullAudioUrl,
                 'audio_content' => $result['audioContent'],
             ];
         } catch (Exception $e) {
@@ -130,6 +223,7 @@ class VoiceService
             return [
                 'success' => false,
                 'audio_url' => null,
+                'audio_content' => null,
                 'error' => $e->getMessage(),
             ];
         }
@@ -153,9 +247,9 @@ class VoiceService
                 'language_code' => 'en-GB',
                 'gender' => $gender,
             ],
-            'bn-BD' => [
-                'name' => 'bn-BD-Standard-A',
-                'language_code' => 'bn-BD',
+            'bn-IN' => [
+                'name' => 'bn-IN-Standard-A',
+                'language_code' => 'bn-IN',
                 'gender' => $gender,
             ],
             'hi-IN' => [

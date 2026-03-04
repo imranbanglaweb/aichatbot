@@ -75,11 +75,13 @@ class ChatController extends Controller
 
             // Generate TTS audio if response text is provided
             $audioUrl = null;
+            $audioContent = null;
             if (!empty($result['response'])) {
                 $ttsLanguage = $this->mapLanguageForTTS($session->language);
                 $ttsResult = $this->voiceService->textToSpeech($result['response'], $ttsLanguage);
                 if ($ttsResult['success']) {
                     $audioUrl = $ttsResult['audio_url'];
+                    $audioContent = $ttsResult['audio_content'] ?? null;
                 }
             }
 
@@ -92,6 +94,7 @@ class ChatController extends Controller
                 'language' => $session->language,
                 'extracted_data' => $result['extracted_data'] ?? [],
                 'audio_url' => $audioUrl,
+                'audio_content' => $audioContent,
             ]);
         } catch (Exception $e) {
             Log::error('Chat Error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
@@ -130,7 +133,15 @@ class ChatController extends Controller
 
             // Convert speech to text with language hint
             $sttLanguage = $this->mapLanguageForSTT($language);
-            $sttResult = $this->voiceService->speechToText($audioPath, $sttLanguage);
+            
+            // Use Google STT or OpenAI Whisper based on configuration
+            $useGoogleStt = config('services.google.use_stt', false);
+            
+            if ($useGoogleStt) {
+                $sttResult = $this->voiceService->speechToTextGoogle($audioPath, $sttLanguage);
+            } else {
+                $sttResult = $this->voiceService->speechToText($audioPath, $sttLanguage);
+            }
 
             if (!$sttResult['success']) {
                 return response()->json([
@@ -194,7 +205,7 @@ class ChatController extends Controller
     {
         $mapping = [
             'en' => 'en-US',
-            'bn' => 'bn-BD',
+            'bn' => 'bn-IN',
             'hi' => 'hi-IN',
             'es' => 'es-ES',
             'fr' => 'fr-FR',

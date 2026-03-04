@@ -7,6 +7,12 @@ return [
         'model' => env('HUGGINGFACE_MODEL', 'meta-llama/Meta-Llama-3-8B-Instruct'),
     ],
 
+    // Gemini AI Configuration
+    'gemini' => [
+        'api_key' => env('GEMINI_API_KEY'),
+        'model' => env('GEMINI_MODEL', 'gemini-1.5-flash'),
+    ],
+
     // OpenAI Configuration (Fallback)
     'openai' => [
         'api_key' => env('OPENAI_API_KEY'),
@@ -14,10 +20,11 @@ return [
         'model' => env('OPENAI_MODEL', 'gpt-4o'),
     ],
 
-    // Google Cloud Configuration (Text-to-Speech)
+    // Google Cloud Configuration (Text-to-Speech & Speech-to-Text)
     'google' => [
         'api_key' => env('GOOGLE_API_KEY'),
         'project_id' => env('GOOGLE_PROJECT_ID'),
+        'use_stt' => env('GOOGLE_USE_STT', true), // Set to true to use Google STT instead of OpenAI Whisper
     ],
 
     // Twilio Configuration (SMS/WhatsApp)

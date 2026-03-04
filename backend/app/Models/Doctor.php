@@ -65,12 +65,12 @@ class Doctor extends Model
     // Scopes
     public function scopeAvailable($query)
     {
-        return $query->where('is_available', true);
+        return $query->where('is_available', true)->orWhereNull('is_available');
     }
 
     public function scopeVerified($query)
     {
-        return $query->where('is_verified', true);
+        return $query->where('is_verified', true)->orWhereNull('is_verified');
     }
 
     public function scopeBySpecialization($query, $specializationId)

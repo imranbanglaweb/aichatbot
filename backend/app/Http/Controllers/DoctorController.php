@@ -30,8 +30,8 @@ class DoctorController extends Controller
                 'per_page' => 'nullable|integer|min:1|max:50',
             ]);
 
-            $query = Doctor::available()
-                ->verified()
+            // Show all doctors without filtering by available/verified
+            $query = Doctor::query()
                 ->with(['user', 'specialization']);
 
             // Filter by specialization
@@ -187,32 +187,47 @@ class DoctorController extends Controller
      */
     protected function formatDoctor(Doctor $doctor, bool $includeSchedules = false): array
     {
+        // Get doctor name - try user relationship first, fallback to stored name
+        $doctorName = 'Unknown Doctor';
+        if ($doctor->user) {
+            $rawName = $doctor->user->name;
+            // Check if name already starts with Dr., Prof., or similar title
+            if (preg_match('/^(Prof|Dr|Mr|Mrs|Ms)\./i', $rawName)) {
+                $doctorName = $rawName; // Name already has title
+            } else {
+                $doctorName = 'Dr. ' . $rawName; // Add Dr. prefix
+            }
+        } elseif (!empty($doctor->name)) {
+            $doctorName = $doctor->name;
+        }
+        
         $data = [
             'id' => $doctor->id,
-            'name' => 'Dr. ' . $doctor->user->name,
-            'specialization' => [
+            'name' => $doctorName,
+            'specialization' => $doctor->specialization ? [
                 'id' => $doctor->specialization->id,
                 'name' => $doctor->specialization->name,
-            ],
-            'qualification' => $doctor->qualification,
-            'experience_years' => $doctor->experience_years,
-            'bio' => $doctor->bio,
-            'consultation_fee' => $doctor->consultation_fee,
-            'formatted_fee' => $doctor->formatted_fee,
-            'hospital_clinic' => $doctor->hospital_clinic,
-            'address' => $doctor->address,
-            'city' => $doctor->city,
-            'rating' => $doctor->rating,
-            'total_reviews' => $doctor->total_reviews,
-            'languages' => $doctor->languages,
-            'available_days' => $doctor->available_days,
+            ] : null,
+            'qualification' => $doctor->qualification ?? 'N/A',
+            'experience_years' => $doctor->experience_years ?? 0,
+            'bio' => $doctor->bio ?? 'Experienced medical professional',
+            'consultation_fee' => $doctor->consultation_fee ?? 0,
+            'formatted_fee' => $doctor->formatted_fee ?? '৳0',
+            'hospital_clinic' => $doctor->hospital_clinic ?? 'N/A',
+            'address' => $doctor->address ?? 'N/A',
+            'city' => $doctor->city ?? 'Dhaka',
+            'rating' => $doctor->rating ?? 0,
+            'total_reviews' => $doctor->total_reviews ?? 0,
+            'languages' => $doctor->languages ?? ['en', 'bn'],
+            'available_days' => $doctor->available_days ?? [],
             'working_hours' => [
-                'start' => $doctor->start_time,
-                'end' => $doctor->end_time,
+                'start' => $doctor->start_time ?? '09:00:00',
+                'end' => $doctor->end_time ?? '17:00:00',
             ],
-            'slot_duration' => $doctor->slot_duration,
-            'is_available' => $doctor->is_available,
-            'is_verified' => $doctor->is_verified,
+            'slot_duration' => $doctor->slot_duration ?? 30,
+            'is_available' => $doctor->is_available ?? true,
+            'is_verified' => $doctor->is_verified ?? true,
+            'license_number' => $doctor->license_number ?? 'N/A',
         ];
 
         if ($includeSchedules) {
