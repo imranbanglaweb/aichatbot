@@ -25,6 +25,11 @@ class AIService
     public const INTENT_GOODBYE = 'goodbye';
     public const INTENT_HELP = 'help';
     public const INTENT_GENERAL = 'general';
+    // New intents for enhanced training
+    public const INTENT_DOCTOR_INFO = 'doctor_info';
+    public const INTENT_CLINIC_INFO = 'clinic_info';
+    public const INTENT_SYMPTOMS = 'symptoms';
+    public const INTENT_APPOINTMENT_INFO = 'appointment_info';
 
     // Emergency keywords
     protected array $emergencyKeywords = [
@@ -278,6 +283,186 @@ class AIService
         'থাইরয়েড' => 'Endocrinology',
     ];
 
+    /**
+     * Training Data: 50 Real Patient Questions (English & Bengali)
+     * This data helps train the AI to recognize patient query patterns
+     */
+    protected array $trainingData = [
+        // ====== 1️⃣ APPOINTMENT BOOKING QUESTIONS ======
+        // English
+        'how can i book an appointment with a doctor' => 'book_appointment',
+        'is dr. ahmed available today' => 'check_availability',
+        'i want to see a cardiologist tomorrow' => 'book_appointment',
+        'can i book an appointment for my mother' => 'book_appointment',
+        'what time is the earliest appointment available' => 'check_availability',
+        'can i book an appointment online' => 'book_appointment',
+        'do i need to create an account to book an appointment' => 'general',
+        'can i reschedule my appointment' => 'reschedule_appointment',
+        'how can i cancel my appointment' => 'cancel_appointment',
+        'can i see the list of available doctors' => 'list_doctors',
+        // Bengali
+        'আমি কিভাবে ডাক্তারের অ্যাপয়েন্টমেন্ট বুক করব' => 'book_appointment',
+        'ডা. আহমেদ আজকে আছেন কি' => 'check_availability',
+        'আমি কাল কার্ডিওলজিস্টের কাছে যেতে চাই' => 'book_appointment',
+        'আমার মায়ের জন্য অ্যাপয়েন্টমেন্ট নিতে পারি কি' => 'book_appointment',
+        'সবার আগের অ্যাপয়েন্টমেন্ট কখন' => 'check_availability',
+        'আমি কি অনলাইনে অ্যাপয়েন্টমেন্ট বুক করতে পারি' => 'book_appointment',
+        'অ্যাপয়েন্টমেন্ট বুক করতে কি অ্যাকাউন্ট তৈরি করতে হবে' => 'general',
+        'আমি কি আমার অ্যাপয়েন্টমেন্ট পরিবর্তন করতে পারি' => 'reschedule_appointment',
+        'কিভাবে আমার অ্যাপয়েন্টমেন্ট বাতিল করব' => 'cancel_appointment',
+        'ডাক্তারদের তালিকা দেখতে পারি কি' => 'list_doctors',
+
+        // ====== 2️⃣ DOCTOR INFORMATION QUESTIONS ======
+        // English
+        'which doctor is best for heart problems' => 'doctor_info',
+        'do you have a female gynecologist' => 'doctor_info',
+        'what are dr. rahman visiting hours' => 'doctor_info',
+        'how many years of experience does this doctor have' => 'doctor_info',
+        'which doctor treats diabetes' => 'doctor_info',
+        'do you have a pediatric specialist' => 'doctor_info',
+        'which doctor is available on friday' => 'check_availability',
+        'can i see the doctor profile' => 'doctor_info',
+        'where did the doctor complete their education' => 'doctor_info',
+        'what languages does the doctor speak' => 'doctor_info',
+        // Bengali
+        'হৃদরোগের জন্য কোন ডাক্তার ভালো' => 'doctor_info',
+        'আপনাদের কি মহিলা গাইনোকোলজিস্ট আছে' => 'doctor_info',
+        'ডা. রহমানের সময়সূচি কখন' => 'doctor_info',
+        'এই ডাক্তারের কত বছর অভিজ্ঞতা' => 'doctor_info',
+        'কোন ডাক্তার ডায়াবেটিস চিকিৎসা করেন' => 'doctor_info',
+        'আপনাদের কি শিশু বিশেষজ্ঞ আছে' => 'doctor_info',
+        'কোন ডাক্তার শুক্রবারে আছেন' => 'check_availability',
+        'ডাক্তারের প্রোফাইল দেখতে পারি কি' => 'doctor_info',
+        'ডাক্তার কোথায় পড়াশোনা করেছেন' => 'doctor_info',
+        'ডাক্তার কি বাংলা বলতে পারেন' => 'doctor_info',
+
+        // ====== 3️⃣ CLINIC / HOSPITAL INFORMATION ======
+        // English
+        'what are your clinic opening hours' => 'clinic_info',
+        'are you open on weekends' => 'clinic_info',
+        'where is your clinic located' => 'clinic_info',
+        'do you have parking facilities' => 'clinic_info',
+        'is emergency service available' => 'clinic_info',
+        'do you offer online consultation' => 'clinic_info',
+        'do you accept health insurance' => 'clinic_info',
+        'what is the consultation fee' => 'clinic_info',
+        'do you have a laboratory' => 'clinic_info',
+        'do you offer home visit services' => 'clinic_info',
+        // Bengali
+        'আপনাদের ক্লিনিক কখন খোলে' => 'clinic_info',
+        'আপনারা কি সপ্তাহান্তে খোলা থাকেন' => 'clinic_info',
+        'আপনাদের ক্লিনিক কোথায়' => 'clinic_info',
+        'পার্কিং সুবিধা আছে কি' => 'clinic_info',
+        'জরুরি সেবা আছে কি' => 'clinic_info',
+        'আপনারা কি অনলাইনে পরামর্শ দেন' => 'clinic_info',
+        'স্বাস্থ্য বীমা গ্রহণ করেন কি' => 'clinic_info',
+        'পরামর্শ ফি কত' => 'clinic_info',
+        'ল্যাবরেটরি আছে কি' => 'clinic_info',
+        'বাড়িতে ডাক্তার পাঠানোর সুবিধা আছে কি' => 'clinic_info',
+
+        // ====== 4️⃣ SYMPTOM BASED QUESTIONS ======
+        // English
+        'i have chest pain which doctor should i see' => 'symptoms',
+        'i have fever and cough what should i do' => 'symptoms',
+        'which doctor treats stomach pain' => 'symptoms',
+        'my child has a high fever what should i do' => 'symptoms',
+        'i have severe headache which department should i visit' => 'symptoms',
+        'i feel dizzy and weak which doctor should i consult' => 'symptoms',
+        'i have skin allergy which doctor should i see' => 'symptoms',
+        'my blood pressure is high which doctor can help' => 'symptoms',
+        'i have back pain for a long time' => 'symptoms',
+        'i have breathing problems' => 'symptoms',
+        // Bengali
+        'আমার বুকে ব্যথা কোন ডাক্তার দেখাব' => 'symptoms',
+        'আমার জ্বর ও কাশি কি করব' => 'symptoms',
+        'পেটে ব্যথার জন্য কোন ডাক্তার' => 'symptoms',
+        'আমার বাচ্চার উচ্চ জ্বর কি করব' => 'symptoms',
+        'আমার মাথা যন্ত্রণান্ধ কোন বিভাগে যাব' => 'symptoms',
+        'আমি দুর্বল ও মাথা ঘুরছি কোন ডাক্তার' => 'symptoms',
+        'আমার ত্বকে অ্যালার্জি কোন ডাক্তার' => 'symptoms',
+        'আমার উচ্চ রক্তচাপ কোন ডাক্তার' => 'symptoms',
+        'আমার দীর্ঘদিন ধরে পিঠে ব্যথা' => 'symptoms',
+        'আমার শ্বাস নিতে সমস্যা' => 'symptoms',
+
+        // ====== 5️⃣ APPOINTMENT MANAGEMENT ======
+        // English
+        'can you remind me about my appointment' => 'appointment_info',
+        'what documents should i bring to the appointment' => 'appointment_info',
+        'how early should i arrive before my appointment' => 'appointment_info',
+        'can i change my doctor after booking' => 'appointment_info',
+        'can i book multiple appointments' => 'appointment_info',
+        'can i see my previous appointments' => 'appointment_info',
+        'can i download my prescription' => 'appointment_info',
+        'will i get an appointment confirmation message' => 'appointment_info',
+        'can i pay consultation fees online' => 'appointment_info',
+        'how can i contact the clinic directly' => 'appointment_info',
+        // Bengali
+        'আমাকে কি অ্যাপয়েন্টমেন্টের কথা মনে করিয়ে দেবেন' => 'appointment_info',
+        'অ্যাপয়েন্টমেন্টে কি কি কাগজপত্র নিতে হবে' => 'appointment_info',
+        'অ্যাপয়েন্টমেন্টের আগে কত তাড়াতাড়ি আসব' => 'appointment_info',
+        'বুকিংয়ের পরে কি ডাক্তার পরিবর্তন করতে পারি' => 'appointment_info',
+        'একাধিক অ্যাপয়েন্টমেন্ট নিতে পারি কি' => 'appointment_info',
+        'আমার আগের অ্যাপয়েন্টমেন্টগুলো দেখতে পারি কি' => 'appointment_info',
+        'আমার প্রেসক্রিপশন ডাউনলোড করতে পারি কি' => 'appointment_info',
+        'আমি কি অ্যাপয়েন্টমেন্ট কনফার্মেশন মেসেজ পাব' => 'appointment_info',
+        'অনলাইনে পরামর্শ ফি দিতে পারি কি' => 'appointment_info',
+        'ক্লিনিকে সরাসরি যোগাযোগ করব কিভাবে' => 'appointment_info',
+    ];
+
+    // Keyword mappings for new intents
+    protected array $doctorInfoKeywords = [
+        // English
+        'best doctor', 'good doctor', 'experience', 'visiting hours', 'schedule',
+        'profile', 'education', 'qualification', 'languages', 'female doctor',
+        'woman doctor', 'male doctor', 'specialist', 'expert',
+        // Bengali
+        'ভালো ডাক্তার', 'অভিজ্ঞতা', 'সময়সূচি', 'প্রোফাইল', 'শিক্ষা',
+        'যোগ্যতা', 'ভাষা', 'মহিলা ডাক্তার', 'পুরুষ ডাক্তার', 'বিশেষজ্ঞ',
+    ];
+
+    protected array $clinicInfoKeywords = [
+        // English
+        'opening hours', 'open hours', 'hours', 'location', 'address', 'parking',
+        'emergency', '24 hours', 'online consultation', 'insurance', 'fee',
+        'consultation fee', 'price', 'cost', 'laboratory', 'lab', 'home visit',
+        // Bengali
+        'খোলার সময়', 'খোলা', 'সময়', 'ঠিকানা', 'লোকেশন', 'পার্কিং',
+        'জরুরি', '২৪ ঘণ্টা', 'অনলাইন', 'বীমা', 'ফি', 'পরামর্শ ফি',
+        'ল্যাব', 'ল্যাবরেটরি', 'বাড়িতে', 'হোম ভিজিট',
+    ];
+
+    protected array $symptomKeywords = [
+        // English
+        'chest pain', 'heart pain', 'fever', 'cough', 'cold', 'flu',
+        'stomach pain', 'belly pain', 'headache', 'migraine', 'dizzy',
+        'dizziness', 'weak', 'weakness', 'tired', 'fatigue', 'allergy',
+        'skin problem', 'rash', 'itching', 'blood pressure', 'bp', 'high bp',
+        'diabetes', 'sugar', 'back pain', 'neck pain', 'joint pain',
+        'breathing', 'shortness of breath', 'asthma', 'cough', 'vomiting',
+        'nausea', 'diarrhea', 'constipation', 'pregnancy', 'baby', 'child',
+        // Bengali
+        'বুকে ব্যথা', 'হৃদযন্ত্র', 'জ্বর', 'সর্দি', 'কাশি', 'ফ্লু',
+        'পেটে ব্যথা', 'মাথাব্যথা', 'মাইগ্রেইন', 'মাথা ঘুরা', 'দুর্বল',
+        'ক্লান্ত', 'অ্যালার্জি', 'ত্বক', 'র‌্যাশ', 'চুলকানি',
+        'রক্তচাপ', 'উচ্চ রক্তচাপ', 'ডায়াবেটিস', 'চিনি', 'পিঠে ব্যথা',
+        'গলায় ব্যথা', 'শ্বাস নিতে সমস্যা', 'আসমা', 'বমি', 'ডায়রিয়া',
+        'কোষ্ঠকাঠিন্য', 'গর্ভবতী', 'শিশু', 'বাচ্চা',
+    ];
+
+    protected array $appointmentInfoKeywords = [
+        // English
+        'remind', 'reminder', 'document', 'documents', 'bring', 'arrive',
+        'early', 'change doctor', 'switch doctor', 'multiple', 'previous',
+        'past', 'history', 'download', 'prescription', 'prescription download',
+        'confirmation', 'confirm', 'sms', 'message', 'email', 'pay',
+        'payment', 'online payment', 'contact', 'phone', 'call', 'whatsapp',
+        // Bengali
+        'মনে করিয়ে', 'রিমাইন্ডার', 'কাগজপত্র', 'নিতে হবে', 'আসা',
+        'তাড়াতাড়ি', 'ডাক্তার পরিবর্তন', 'একাধিক', 'আগের', 'ইতিহাস',
+        'ডাউনলোড', 'প্রেসক্রিপশন', 'কনফার্মেশন', 'মেসেজ', 'এসএমএস',
+        'ইমেইল', 'পেমেন্ট', 'অনলাইন পেমেন্ট', 'যোগাযোগ', 'ফোন', 'কল',
+    ];
+
     public function __construct()
     {
         // Use Gemini API (configured in .env)
@@ -335,8 +520,19 @@ class AIService
     protected function processLocally(string $message, array $context): array
     {
         $lowerMessage = strtolower($message);
-        $intent = $this->detectIntent($lowerMessage);
+        $intent = $this->detectIntent($lowerMessage, $context);
         $extractedData = $this->extractEntitiesFromMessage($message);
+        
+        // If doctor number is detected, add to extracted data
+        $doctorNumber = $this->extractDoctorNumber($message);
+        if ($doctorNumber !== null) {
+            $extractedData['doctor_number'] = $doctorNumber;
+        }
+        
+        // Merge with existing extracted data from context
+        if (!empty($context['extracted_data'])) {
+            $extractedData = array_merge($context['extracted_data'], $extractedData);
+        }
         
         // Build response based on intent
         $response = $this->buildResponse($intent, $extractedData, $context);
@@ -352,11 +548,47 @@ class AIService
     /**
      * Detect intent from message
      */
-    protected function detectIntent(string $message): string
+    protected function detectIntent(string $message, array $context = []): string
     {
+        $lowerMessage = strtolower($message);
+        $currentIntent = $context['current_intent'] ?? null;
+        $extractedData = $context['extracted_data'] ?? [];
+        
+        // Check if user is selecting a doctor number (for booking flow)
+        if ($this->isDoctorSelection($message)) {
+            return self::INTENT_BOOK_APPOINTMENT;
+        }
+        
+        // Check if user is providing date/time (continue booking flow)
+        if ($this->isDateTimeInput($message)) {
+            // If we already have a doctor or date selected in context, continue booking
+            if (!empty($extractedData['doctor_number']) || 
+                !empty($extractedData['selected_doctor_id']) ||
+                !empty($extractedData['date'])) {
+                return self::INTENT_BOOK_APPOINTMENT;
+            }
+        }
+        
+        // Check if user is providing name/phone (continue booking flow)
+        if ($this->isContactInfoInput($message)) {
+            // If we already have doctor, date, time in context, continue booking
+            $contextData = $context['extracted_data'] ?? [];
+            if ((!empty($extractedData['doctor_number']) || !empty($contextData['doctor_number'])) &&
+                (!empty($extractedData['date']) || !empty($contextData['date'])) &&
+                (!empty($extractedData['time_preference']) || !empty($contextData['time_preference']))) {
+                return self::INTENT_BOOK_APPOINTMENT;
+            }
+        }
+
         // Check for emergency first
         if ($this->detectEmergency($message)) {
             return self::INTENT_EMERGENCY;
+        }
+
+        // Check training data first for exact matches
+        $intent = $this->matchTrainingData($message);
+        if ($intent !== self::INTENT_GENERAL) {
+            return $intent;
         }
 
         // Check for greeting
@@ -389,6 +621,26 @@ class AIService
             return self::INTENT_RESCHEDULE_APPOINTMENT;
         }
 
+        // Check for doctor info
+        if ($this->matchesAny($message, $this->doctorInfoKeywords)) {
+            return self::INTENT_DOCTOR_INFO;
+        }
+
+        // Check for clinic info
+        if ($this->matchesAny($message, $this->clinicInfoKeywords)) {
+            return self::INTENT_CLINIC_INFO;
+        }
+
+        // Check for symptoms
+        if ($this->matchesAny($message, $this->symptomKeywords)) {
+            return self::INTENT_SYMPTOMS;
+        }
+
+        // Check for appointment info
+        if ($this->matchesAny($message, $this->appointmentInfoKeywords)) {
+            return self::INTENT_APPOINTMENT_INFO;
+        }
+
         // Check for list doctors
         if ($this->matchesAny($message, $this->listDoctorsKeywords)) {
             return self::INTENT_LIST_DOCTORS;
@@ -402,6 +654,170 @@ class AIService
         // Check for booking
         if ($this->matchesAny($message, $this->bookingKeywords)) {
             return self::INTENT_BOOK_APPOINTMENT;
+        }
+
+        return self::INTENT_GENERAL;
+    }
+
+    /**
+     * Check if message contains date/time input
+     */
+    protected function isDateTimeInput(string $message): bool
+    {
+        $lowerMessage = strtolower(trim($message));
+        
+        // English date keywords
+        $dateKeywords = ['today', 'tomorrow', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'next week'];
+        
+        // English time keywords
+        $timeKeywords = ['morning', 'afternoon', 'evening', 'noon', 'night', 'am', 'pm', '12 pm', '10 am', '11 am', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '9 am'];
+        
+        // Bengali date keywords
+        $bnDateKeywords = ['আজকে', 'কাল', 'পরের সপ্তাহ', 'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার', 'শুক্রবার', 'শনিবার', 'রবিবার'];
+        
+        // Bengali time keywords
+        $bnTimeKeywords = ['সকাল', 'দুপুর', 'বিকেল', 'সন্ধ্যা', 'রাত', 'সকালে', 'দুপুরে', 'বিকেলে'];
+        
+        // Check for English date patterns
+        foreach ($dateKeywords as $keyword) {
+            if (str_contains($lowerMessage, $keyword)) {
+                return true;
+            }
+        }
+        
+        // Check for English time patterns
+        foreach ($timeKeywords as $keyword) {
+            if (str_contains($lowerMessage, $keyword)) {
+                return true;
+            }
+        }
+        
+        // Check for Bengali date patterns
+        foreach ($bnDateKeywords as $keyword) {
+            if (str_contains($lowerMessage, $keyword)) {
+                return true;
+            }
+        }
+        
+        // Check for Bengali time patterns
+        foreach ($bnTimeKeywords as $keyword) {
+            if (str_contains($lowerMessage, $keyword)) {
+                return true;
+            }
+        }
+        
+        // Check for date format (e.g., 15/03/2026, 03-15-2026)
+        if (preg_match('/\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/', $message)) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * Check if message is a doctor selection (number 1-10)
+     */
+    protected function isDoctorSelection(string $message): bool
+    {
+        // Check for simple number 1-10
+        if (preg_match('/^(1|2|3|4|5|6|7|8|9|10)$/', trim($message))) {
+            return true;
+        }
+        // Check for "number 1", "option 1", "1st", etc.
+        if (preg_match('/^(number|option|no\.)?\s*(1|2|3|4|5|6|7|8|9|10)\s*(st|nd|rd|th)?$/i', trim($message))) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if message contains contact info (name or phone)
+     */
+    protected function isContactInfoInput(string $message): bool
+    {
+        $lowerMessage = strtolower($message);
+        
+        // Check for phone number patterns (various formats)
+        $phonePatterns = [
+            '/\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/',  // International format
+            '/01[3-9]\d{8}/',  // Bangladesh mobile (11 digits starting with 01)
+            '/\d{10,11}/',  // Generic 10-11 digit number
+            '/\d{4}[-.\s]?\d{4}[-.\s]?\d{4}/',  // Grouped 12 digits
+        ];
+        
+        foreach ($phonePatterns as $pattern) {
+            if (preg_match($pattern, $message)) {
+                return true;
+            }
+        }
+        
+        // Check for name patterns in English
+        $enNamePatterns = [
+            'my name is', 'i am', 'name is', 'this is', 'i\'m',
+            'my name\'s', 'call me', 'name:', 'name -'
+        ];
+        
+        foreach ($enNamePatterns as $pattern) {
+            if (str_contains($lowerMessage, $pattern)) {
+                return true;
+            }
+        }
+        
+        // Check for name patterns in Bengali
+        $bnNamePatterns = [
+            'আমার নাম', 'নাম', 'ফোন', 'মোবাইল', 'নম্বর', 
+            'ফোন নম্বর', 'মোবাইল নম্বর', 'যোগাযোগ', 'হ্যাঁ',
+            'আমি', 'নামটা', 'নামের'
+        ];
+        
+        foreach ($bnNamePatterns as $pattern) {
+            if (str_contains($lowerMessage, $pattern)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * Extract doctor number from message
+     */
+    protected function extractDoctorNumber(string $message): ?int
+    {
+        $message = trim($message);
+        
+        // Direct number
+        if (preg_match('/^(1|2|3|4|5|6|7|8|9|10)$/', $message)) {
+            return (int) $message;
+        }
+        // Number with prefix
+        if (preg_match('/(?:number|option|no\.)\s*(1|2|3|4|5|6|7|8|9|10)/i', $message, $matches)) {
+            return (int) $matches[1];
+        }
+        // Ordinal numbers
+        if (preg_match('/(1st|2nd|3rd|4th|5th|6th|7th|8th|9th|10th)/i', $message, $matches)) {
+            return (int) $matches[1];
+        }
+        return null;
+    }
+
+    /**
+     * Match user message against training data
+     */
+    protected function matchTrainingData(string $message): string
+    {
+        $lowerMessage = strtolower($message);
+        
+        // Check exact matches first
+        if (isset($this->trainingData[$lowerMessage])) {
+            return $this->trainingData[$lowerMessage];
+        }
+
+        // Check partial matches
+        foreach ($this->trainingData as $key => $intent) {
+            if (str_contains($lowerMessage, $key)) {
+                return $intent;
+            }
         }
 
         return self::INTENT_GENERAL;
@@ -438,20 +854,61 @@ class AIService
             $entities['date'] = $this->parseDate($matches[1]);
         } elseif (preg_match('/(today|tomorrow|next week|monday|tuesday|wednesday|thursday|friday|saturday|sunday)/i', $message, $matches)) {
             $entities['date'] = $this->parseRelativeDate($matches[1]);
+        } else {
+            // Check for Bengali dates
+            $bnDates = [
+                'আজকে' => 'today',
+                'কাল' => 'tomorrow',
+                'পরের সপ্তাহ' => 'next week',
+                'সোমবার' => 'monday',
+                'মঙ্গলবার' => 'tuesday',
+                'বুধবার' => 'wednesday',
+                'বৃহস্পতিবার' => 'thursday',
+                'শুক্রবার' => 'friday',
+                'শনিবার' => 'saturday',
+                'রবিবার' => 'sunday',
+            ];
+            foreach ($bnDates as $bn => $en) {
+                if (str_contains($lowerMessage, $bn)) {
+                    $entities['date'] = $this->parseRelativeDate($en);
+                    break;
+                }
+            }
         }
 
-        // Extract time preference
+        // Extract time preference - English
         if ($this->matchesAny($lowerMessage, ['morning', 'am', '10 am', '11 am', '9 am'])) {
             $entities['time_preference'] = 'morning';
         } elseif ($this->matchesAny($lowerMessage, ['afternoon', 'pm', '2 pm', '3 pm', '4 pm'])) {
             $entities['time_preference'] = 'afternoon';
         } elseif ($this->matchesAny($lowerMessage, ['evening', '6 pm', '7 pm', '8 pm'])) {
             $entities['time_preference'] = 'evening';
+        } else {
+            // Check for Bengali times
+            if (str_contains($lowerMessage, 'সকাল') || str_contains($lowerMessage, 'সকালে')) {
+                $entities['time_preference'] = 'morning';
+            } elseif (str_contains($lowerMessage, 'দুপুর') || str_contains($lowerMessage, 'দুপুরে')) {
+                $entities['time_preference'] = 'afternoon';
+            } elseif (str_contains($lowerMessage, 'বিকেল') || str_contains($lowerMessage, 'বিকেলে')) {
+                $entities['time_preference'] = 'afternoon';
+            } elseif (str_contains($lowerMessage, 'সন্ধ্যা') || str_contains($lowerMessage, 'সন্ধ্যায়')) {
+                $entities['time_preference'] = 'evening';
+            } elseif (str_contains($lowerMessage, 'রাত') || str_contains($lowerMessage, 'রাতে')) {
+                $entities['time_preference'] = 'evening';
+            }
         }
 
-        // Extract phone number
-        if (preg_match('/(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/', $message, $matches)) {
-            $entities['phone'] = $matches[0];
+        // Extract phone number - enhanced patterns
+        $phonePatterns = [
+            '/\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/',  // International format
+            '/01[3-9]\d{8}/',  // Bangladesh mobile (11 digits starting with 01)
+            '/\d{10,11}/',  // Generic 10-11 digit number
+        ];
+        foreach ($phonePatterns as $pattern) {
+            if (preg_match($pattern, $message, $matches)) {
+                $entities['phone'] = $matches[0];
+                break;
+            }
         }
 
         // Extract email
@@ -464,9 +921,39 @@ class AIService
             $entities['appointment_number'] = strtoupper($matches[0]);
         }
 
-        // Extract patient name (simple pattern)
+        // Extract patient name - English patterns
         if (preg_match('/(?:my name is|i am|i\'m)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/i', $message, $matches)) {
             $entities['patient_name'] = $matches[1];
+        }
+        
+        // Extract patient name - Bengali patterns (Unicode range for Bengali)
+        // Match patterns like "আমার নাম রাহিম", "নাম মোহাম্মদ", etc.
+        if (preg_match('/(?:আমার\s*নাম|নাম\s*[ঃ:]?\s*)([\u0980-\u09FF]+)/u', $message, $matches)) {
+            $entities['patient_name'] = $matches[1];
+        }
+        // Also check for just Bengali text names after common introducing words
+        if (empty($entities['patient_name']) && preg_match('/(?:এটি|এই|আমি|হ্যাঁ)\s+([\u0980-\u09FF]{2,})/u', $message, $matches)) {
+            // Filter out common non-name words
+            $notName = ['নাম', 'ফোন', 'মোবাইল', 'নম্বর', 'হ্যাঁ', 'না'];
+            if (!in_array($matches[1], $notName)) {
+                $entities['patient_name'] = $matches[1];
+            }
+        }
+        // Additional Bengali patterns - handle cases like "আমি রাহিম" or "রাহিম নাম"
+        if (empty($entities['patient_name'])) {
+            $bnNamePatterns = [
+                '/^([\u0980-\u09FF]{2,})$/u',  // Just a name
+                '/\s+([\u0980-\u09FF]{2,})$/u',  // Name at end
+            ];
+            foreach ($bnNamePatterns as $pattern) {
+                if (preg_match($pattern, trim($message), $matches)) {
+                    $notName = ['নাম', 'ফোন', 'মোবাইল', 'নম্বর', 'হ্যাঁ', 'না', 'সত্য', 'ঠিক', 'আমি'];
+                    if (!in_array($matches[1], $notName) && strlen($matches[1]) > 2) {
+                        $entities['patient_name'] = $matches[1];
+                        break;
+                    }
+                }
+            }
         }
 
         return $entities;
@@ -485,13 +972,17 @@ class AIService
             self::INTENT_GREET => $this->getGreeting($language),
             self::INTENT_LIST_DOCTORS => $this->buildListDoctorsResponse($extractedData, $language),
             self::INTENT_EMERGENCY => $this->getEmergencyResponse($language),
-            self::INTENT_BOOK_APPOINTMENT => $this->buildBookingResponse($extractedData, $language),
+            self::INTENT_BOOK_APPOINTMENT => $this->buildBookingResponse($extractedData, $language, $context),
             self::INTENT_CANCEL_APPOINTMENT => $this->buildCancelResponse($extractedData, $language),
             self::INTENT_RESCHEDULE_APPOINTMENT => $this->buildRescheduleResponse($extractedData, $language),
             self::INTENT_CHECK_AVAILABILITY => $this->buildAvailabilityResponse($extractedData, $language),
             self::INTENT_THANKS => $this->buildThanksResponse($language),
             self::INTENT_GOODBYE => $this->buildGoodbyeResponse($language),
             self::INTENT_HELP => $this->buildHelpResponse($language),
+            self::INTENT_DOCTOR_INFO => $this->buildDoctorInfoResponse($extractedData, $language),
+            self::INTENT_CLINIC_INFO => $this->buildClinicInfoResponse($extractedData, $language),
+            self::INTENT_SYMPTOMS => $this->buildSymptomsResponse($extractedData, $language),
+            self::INTENT_APPOINTMENT_INFO => $this->buildAppointmentInfoResponse($extractedData, $language),
             default => $this->buildGeneralResponse($extractedData, $language),
         };
     }
@@ -499,27 +990,154 @@ class AIService
     /**
      * Build booking response
      */
-    protected function buildBookingResponse(array $data, string $language): string
+    protected function buildBookingResponse(array $data, string $language, array $context = []): string
     {
+        // Get data from both extracted data and context
         $specialization = $data['specialization'] ?? null;
         $date = $data['date'] ?? null;
         $time = $data['time_preference'] ?? null;
+        $doctorNumber = $data['doctor_number'] ?? null;
+        $selectedDoctorId = $data['selected_doctor_id'] ?? null;
+        $doctorName = $data['doctor_name'] ?? null;
+        
+        // Also check context for doctor info (in case it's not in extracted data)
+        $contextData = $context['extracted_data'] ?? [];
+        if (!$doctorNumber && !empty($contextData['doctor_number'])) {
+            $doctorNumber = $contextData['doctor_number'];
+        }
+        if (!$date && !empty($contextData['date'])) {
+            $date = $contextData['date'];
+        }
+        if (!$time && !empty($contextData['time_preference'])) {
+            $time = $contextData['time_preference'];
+        }
 
-        if ($specialization && $date && $time) {
+        // Case 1: Doctor is selected, need date/time
+        if (($doctorNumber || $selectedDoctorId) && (!$date || !$time)) {
+            // Get doctor name if we have doctor number
+            if ($doctorNumber && !$doctorName) {
+                $doctor = Doctor::query()
+                    ->with(['specialization'])
+                    ->skip($doctorNumber - 1)
+                    ->first();
+                if ($doctor) {
+                    $doctorName = $doctor->user->name;
+                    $specialization = $doctor->specialization ? $doctor->specialization->name : $specialization;
+                }
+            }
+            
+            // Check if the message contains a date/time
+            $hasDate = !empty($date);
+            $hasTime = !empty($time);
+            
+            if ($hasDate && !$hasTime) {
+                // User provided date, ask for time
+                return match($language) {
+                    'bn' => "তারিখ {$date} নেওয়া হয়েছে। এখন কোন সময় আপনার জন্য সুবিধাজনক? (সকাল, দুপুর, বিকেল বা নির্দিষ্ট সময়)",
+                    'hi' => "तारीख {$date} ली गई। अब कौन सा समय आपके लिए सुविधाजनक है? (सुबह, दोपहर, शाम)",
+                    default => "Date {$date} received. What time works best for you? (morning, afternoon, evening or specific time)",
+                };
+            }
+            
             return match($language) {
-                'bn' => "চমৎকার! আমি আপনার জন্য একটি {$specialization} ডাক্তারের সাথে {$date} {$time} সময়ে অ্যাপয়েন্টমেন্ট বুক করছি। আপনার নাম এবং ফোন নম্বর কী?",
-                'hi' => "बढ़िया! मैं आपके लिए {$date} को {$time} {$specialization} डॉक्टर के साथ अपॉइंटमेंट बुक कर रहा हूं। आपका नाम और फोन नंबर क्या है?",
-                default => "Great! I'm booking an appointment with a {$specialization} for you on {$date} during the {$time}. What is your name and phone number?",
-            };
-        } elseif ($specialization) {
-            return match($language) {
-                'bn' => "{$specialization} ডাক্তারের অ্যাপয়েন্টমেন্ট নিতে চাইছেন। কোন তারিখ এবং সময় আপনার জন্য সুবিধাজনক?",
-                'hi' => "आप {$specialization} डॉक्टर से मिलना चाहते हैं। कौन सी तारीख और समय आपके लिए सुविधाजनक है?",
-                default => "I see you'd like to see a {$specialization}. What date and time works best for you?",
+                'bn' => "আপনি " . ($doctorName ?? "এই ডাক্তার") . "-কে বেছে নিয়েছেন। কোন তারিখ এবং সময় আপনার জন্য সুবিধাজনক? (যেমন: আজকে, কাল, সোমবার)",
+                'hi' => "आपने " . ($doctorName ?? "इस डॉक्टर") . " को चुना है। कौन सी तारीख और समय आपके लिए सुविधाजनक है? (जैसे: आज, कल, सोमवार)",
+                default => "You've selected Dr. " . ($doctorName ?? "") . ". What date and time works best for you? (e.g., today, tomorrow, Monday)",
             };
         }
 
-        // Show all doctors for booking
+        // Case 2: Have doctor and date/time, need patient info
+        if (($doctorNumber || $selectedDoctorId || $doctorName) && $date && $time) {
+            // Get doctor name if we have doctor number
+            if ($doctorNumber && !$doctorName) {
+                $doctor = Doctor::query()
+                    ->with(['specialization'])
+                    ->skip($doctorNumber - 1)
+                    ->first();
+                if ($doctor) {
+                    $doctorName = $doctor->user->name;
+                }
+            }
+            
+            // Check if we also have patient name and phone (from context or data)
+            $patientName = $data['patient_name'] ?? null;
+            $phone = $data['phone'] ?? null;
+            
+            // Also check context for patient info
+            if (!$patientName && !empty($contextData['patient_name'])) {
+                $patientName = $contextData['patient_name'];
+            }
+            if (!$phone && !empty($contextData['phone'])) {
+                $phone = $contextData['phone'];
+            }
+            
+            // If we have all info, confirm the booking
+            if ($patientName && $phone) {
+                return match($language) {
+                    'bn' => "✅ *অ্যাপয়েন্টমেন্ট নিশ্চিত করা হয়েছে!*\n\n" .
+                        "👨‍⚕️ ডাক্তার: {$doctorName}\n" .
+                        "📅 তারিখ: {$date}\n" .
+                        "⏰ সময়: {$time}\n" .
+                        "👤 রোগী: {$patientName}\n" .
+                        "📱 ফোন: {$phone}\n\n" .
+                        "ধন্যবাদ! আমরা আপনার সাথে যোগাযোগ করব।",
+                    'hi' => "✅ *अपॉइंटमेंट पुष्टि की गई!*\n\n" .
+                        "👨‍⚕️ डॉक्टर: {$doctorName}\n" .
+                        "📅 तारीख: {$date}\n" .
+                        "⏰ समय: {$time}\n" .
+                        "👤 रोगी: {$patientName}\n" .
+                        "📱 फोन: {$phone}\n\n" .
+                        "धन्यवाद! हम आपसे संपर्क करेंगे।",
+                    default => "✅ *Appointment Confirmed!*\n\n" .
+                        "👨‍⚕️ Doctor: {$doctorName}\n" .
+                        "📅 Date: {$date}\n" .
+                        "⏰ Time: {$time}\n" .
+                        "👤 Patient: {$patientName}\n" .
+                        "📱 Phone: {$phone}\n\n" .
+                        "Thank you! We will contact you shortly.",
+                };
+            }
+            
+            // Otherwise ask for patient info
+            return match($language) {
+                'bn' => "চমৎকার! আমি আপনার জন্য " . ($doctorName ?? "ডাক্তার") . "-এর সাথে {$date} তারিখে {$time} সময়ে অ্যাপয়েন্টমেন্ট বুক করছি।\n\nআপনার নাম এবং ফোন নম্বর কী?",
+                'hi' => "बढ़िया! मैं आपके लिए " . ($doctorName ?? "डॉक्टर") . " के साथ {$date} को {$time} अपॉइंटमेंट बुक कर रहा हूं।\n\nआपका नाम और फोन नंबर क्या है?",
+                default => "Great! I'm booking an appointment with Dr. " . ($doctorName ?? "") . " on {$date} at {$time}.\n\nWhat is your name and phone number?",
+            };
+        }
+
+        // Case 3: Have specialization, need doctor selection
+        if ($specialization && !$doctorNumber) {
+            $doctors = Doctor::query()
+                ->with(['specialization'])
+                ->whereHas('specialization', function ($q) use ($specialization) {
+                    $q->where('name', 'LIKE', '%' . $specialization . '%');
+                })
+                ->limit(5)
+                ->get();
+            
+            if ($doctors->isNotEmpty()) {
+                $doctorList = "";
+                foreach ($doctors as $index => $doctor) {
+                    $spec = $doctor->specialization ? $doctor->specialization->name : 'General';
+                    $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctor->user->name . " - {$spec}";
+                    if ($doctor->consultation_fee > 0) {
+                        $doctorList .= " (Taka " . number_format($doctor->consultation_fee) . ")";
+                    }
+                    if ($doctor->experience_years) {
+                        $doctorList .= " [" . $doctor->experience_years . " years experience]";
+                    }
+                }
+                
+                return match($language) {
+                    'bn' => "নিচের {$specialization} ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nডাক্তারের নম্বর বলুন (১-৫)।",
+                    'hi' => "नीचे {$specialization} डॉक्टरों में से अपना डॉक्टर चुनें:{$doctorList}\n\nडॉक्टर का नंबर बताएं (1-5)।",
+                    default => "Choose a {$specialization} doctor from the list below:{$doctorList}\n\nPlease specify the doctor's number (1-5).",
+                };
+            }
+        }
+
+        // Case 4: No specialization, show all doctors
         $doctors = Doctor::query()
             ->with(['specialization'])
             ->limit(5)
@@ -531,14 +1149,17 @@ class AIService
                 $spec = $doctor->specialization ? $doctor->specialization->name : 'General';
                 $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctor->user->name . " - {$spec}";
                 if ($doctor->consultation_fee > 0) {
-                    $doctorList .= " (Tk. " . number_format($doctor->consultation_fee) . ")";
+                    $doctorList .= " (Taka " . number_format($doctor->consultation_fee) . ")";
+                }
+                if ($doctor->experience_years) {
+                    $doctorList .= " [" . $doctor->experience_years . " years experience]";
                 }
             }
             
             return match($language) {
-                'bn' => "নিচের ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nডাক্তারের নম্বর বলুন।",
-                'hi' => "नीचे दिए गए डॉक्टरों में से अपना डॉक्टर चुनें:{$doctorList}\n\nडॉक्टर का नंबर बताएं।",
-                default => "Choose a doctor from the list below:{$doctorList}\n\nPlease specify the doctor's number.",
+                'bn' => "নিচের ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nডাক্তারের নম্বর বলুন (১-৫)।",
+                'hi' => "नीचे दिए गए डॉक्टरों में से अपना डॉक्टर चुनें:{$doctorList}\n\nडॉक्टर का नंबर बताएं (1-5)।",
+                default => "Choose a doctor from the list below:{$doctorList}\n\nPlease specify the doctor's number (1-5).",
             };
         }
 
@@ -577,22 +1198,32 @@ class AIService
         
         $doctorList = "";
         foreach ($doctors as $index => $doctor) {
-            $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctor->user->name;
+            $doctorList .= "\n👨‍⚕️ " . ($index + 1) . ". Dr. " . $doctor->user->name;
             if ($doctor->specialization) {
-                $doctorList .= " - " . $doctor->specialization->name;
+                $doctorList .= "\n   📋 " . $doctor->specialization->name;
+            }
+            if ($doctor->qualification) {
+                $doctorList .= "\n   🎓 " . $doctor->qualification;
+            }
+            if ($doctor->experience_years) {
+                $doctorList .= "\n   ⏱️ " . $doctor->experience_years . " years experience";
             }
             if ($doctor->hospital_clinic) {
-                $doctorList .= " at " . $doctor->hospital_clinic;
+                $doctorList .= "\n   🏥 " . $doctor->hospital_clinic;
+            }
+            if ($doctor->consultation_fee > 0) {
+                $doctorList .= "\n   💰 Taka " . number_format($doctor->consultation_fee);
             }
             if ($doctor->rating > 0) {
-                $doctorList .= " (" . number_format($doctor->rating, 1) . " ⭐)";
+                $doctorList .= "\n   ⭐ " . number_format($doctor->rating, 1) . "/5";
             }
+            $doctorList .= "\n";
         }
         
         return match($language) {
-            'bn' => "নিচে আমাদের উপলব্ধ ডাক্তারদের তালিকা:{$doctorList}\n\nকোনো ডাক্তারের সাথে অ্যাপয়েন্টমেন্ট বুক করতে, ডাক্তারের নম্বর বলুন।",
-            'hi' => "यहां हमारे उपलब्ध डॉक्टरों की सूची है:{$doctorList}\n\nकिसी डॉक्टर के साथ अपॉइंटमेंट बुक करने के लिए, डॉक्टर का नंबर बताएं।",
-            default => "Here are our available doctors:{$doctorList}\n\nTo book an appointment with any doctor, please specify the doctor's number.",
+            'bn' => "নিচে আমাদের ডাক্তারদের তালিকা:{$doctorList}\n\nঅ্যাপয়েন্টমেন্ট বুক করতে ডাক্তারের নম্বর বলুন (১-৫)। উদাহরণ: ১ লিখুন।",
+            'hi' => "यहां हमारे उपलब्ध डॉक्टरों की सूची है:{$doctorList}\n\nअपॉइंटमेंट बुक करने के लिए डॉक्टर का नंबर बताएं (1-5)। उदाहरण: 1 लिखें।",
+            default => "Here are our available doctors:{$doctorList}\n\nTo book an appointment, please specify the doctor's number (1-5). Example: Type 1",
         };
     }
 
@@ -702,8 +1333,309 @@ class AIService
         
         return match($language) {
             'bn' => "আমি আপনার মেডিকেল অ্যাপয়েন্টমেন্ট অ্যাসিস্ট্যান্ট।{$doctorList}\n\nআমি আপনাকে অ্যাপয়েন্টমেন্ট বুক করতে, বাতিল করতে বা পুনর্নির্ধারণ করতে সাহায্য করতে পারি।\n\nআপনি কী চান?",
-            'hi' => "मैं आपका मेडिकल अपॉइंटमेंट असिस्टेंट हूं।{$doctorList}\n\nमैं आपकी अपॉइंटमेंट बुक, रद्द या पुनर्निर्धारित करने में मदद कर सकता हूं।\n\nआप क्या चाहते हैं?",
+            'hi' => "মैं आपका मेडिकल अपॉइंटमेंट असिस्टेंट हूं।{$doctorList}\n\nमैं आपकी अपॉइंटमेंट बुक, रद्द या पुनर्निर्धारित करने में मदद कर सकता हूं।\n\nआप क्या चाहते हैं?",
             default => "I'm your Medical Appointment Assistant.{$doctorList}\n\nI can help you book, cancel, or reschedule appointments.\n\nWhat would you like to do?",
+        };
+    }
+
+    /**
+     * Build doctor info response
+     */
+    protected function buildDoctorInfoResponse(array $data, string $language): string
+    {
+        $specialization = $data['specialization'] ?? null;
+        
+        $doctors = Doctor::query()
+            ->with(['specialization'])
+            ->when($specialization, function ($query) use ($specialization) {
+                $query->whereHas('specialization', function ($q) use ($specialization) {
+                    $q->where('name', 'LIKE', '%' . $specialization . '%');
+                });
+            })
+            ->limit(5)
+            ->get();
+
+        if ($doctors->isEmpty()) {
+            // If no specific doctor found, show all doctors
+            $doctors = Doctor::query()
+                ->with(['specialization'])
+                ->limit(5)
+                ->get();
+        }
+        
+        if ($doctors->isNotEmpty()) {
+            $doctorList = "";
+            foreach ($doctors as $index => $doctor) {
+                $doctorList .= "\n👨‍⚕️ **" . ($index + 1) . ". Dr. " . $doctor->user->name . "**";
+                if ($doctor->specialization) {
+                    $doctorList .= "\n   📋 Specialization: " . $doctor->specialization->name;
+                }
+                if ($doctor->qualification) {
+                    $doctorList .= "\n   🎓 Qualification: " . $doctor->qualification;
+                }
+                if ($doctor->experience_years) {
+                    $doctorList .= "\n   ⏱️ Experience: " . $doctor->experience_years . " years";
+                }
+                if ($doctor->hospital_clinic) {
+                    $doctorList .= "\n   🏥 Hospital: " . $doctor->hospital_clinic;
+                }
+                if ($doctor->consultation_fee > 0) {
+                    $doctorList .= "\n   💰 Fee: Taka " . number_format($doctor->consultation_fee);
+                }
+                if (!empty($doctor->languages)) {
+                    $langs = is_array($doctor->languages) ? implode(', ', $doctor->languages) : $doctor->languages;
+                    $doctorList .= "\n   🗣️ Languages: " . $langs;
+                }
+                if ($doctor->available_days) {
+                    $days = is_array($doctor->available_days) ? implode(', ', $doctor->available_days) : $doctor->available_days;
+                    $doctorList .= "\n   📅 Available: " . ucwords($days);
+                }
+                if ($doctor->start_time && $doctor->end_time) {
+                    $doctorList .= " (" . date('h:i A', strtotime($doctor->start_time)) . " - " . date('h:i A', strtotime($doctor->end_time)) . ")";
+                }
+                $doctorList .= "\n";
+            }
+            
+            return match($language) {
+                'bn' => "ডাক্তার সম্পর্কে তথ্য:{$doctorList}\n\nঅ্যাপয়েন্টমেন্ট বুক করতে ডাক্তারের নম্বর বলুন (১-৫)।\nউদাহরণ: ১ লিখুন।",
+                'hi' => "डॉक्टर की जानकारी:{$doctorList}\n\nअपॉइंटमेंट बुक करने के लिए डॉक्टर का नंबर बताएं (1-5)।\nउदाहरण: 1 लिखें।",
+                default => "Doctor Information:{$doctorList}\n\nTo book an appointment, please specify the doctor's number (1-5).\nExample: Type 1",
+            };
+        }
+
+        return match($language) {
+            'bn' => "ডাক্তার সম্পর্কে আরও তথ্যের জন্য, অনুগ্রহ করে নির্দিষ্ট ডাক্তার বা বিভাগ জানান। উদাহরণ: হৃদরোগ বিশেষজ্ঞ বা কার্ডিওলজিস্ট লিখুন।",
+            'hi' => "डॉक्टर के बारे में अधिक जानकारी के लिए, कृपया विशिष्ट डॉक्टर या विभाग बताएं। उदाहरण: हृदय विशेषज्ञ लिखें।",
+            default => "For more doctor information, please specify the specific doctor or department. Example: Type cardiologist or heart specialist",
+        };
+    }
+
+    /**
+     * Build clinic info response
+     */
+    protected function buildClinicInfoResponse(array $data, string $language): string
+    {
+        return match($language) {
+            'bn' => "🏥 **ক্লিনিক তথ্য:**\n\n" .
+                "• **খোলার সময়:** সোম-শুক্র: সকাল ৯টা - সন্ধ্যা ৬টা\n" .
+                "• **অবস্থান:** প্রধান সড়ক, শহরের কেন্দ্রে\n" .
+                "• **পার্কিং:** বিনামূল্যে পার্কিং সুবিধা\n" .
+                "• **জরুরি সেবা:** ২৪/৭ জরুরি বিভাগ\n" .
+                "• **অনলাইন পরামর্শ:** হ্যাঁ, উপলব্ধ\n" .
+                "• **স্বাস্থ্য বীমা:** প্রধান বীমা কোম্পানি গ্রহণযোগ্য\n" .
+                "• **পরামর্শ ফি:** ৫০০-২০০০ টাকা (ডাক্তারের উপর নির্ভরশীল)\n" .
+                "• **ল্যাবরেটরি:** সম্পূর্ণ ল্যাব সুবিধা\n" .
+                "• **বাড়িতে সেবা:** হ্যাঁ, নির্দিষ্ট এলাকায় উপলব্ধ\n\n" .
+                "আপনার কি কোনো প্রশ্ন আছে?",
+            'hi' => "🏥 **क्लिनिक जानकारी:**\n\n" .
+                "• **खुलने का समय:** सोम-शुक्र: सुबह 9 बजे - शाम 6 बजे\n" .
+                "• **स्थान:** मुख्य सड़क, शहर के केंद्र में\n" .
+                "• **पार्किंग:** मुफ्त पार्किंग सुविधा\n" .
+                "• **आपातकालीन सेवा:** 24/7 आपातकालीन विभाग\n" .
+                "• **ऑनलाइन परामर्श:** हां, उपलब्ध\n" .
+                "• **स्वास्थ्य बीमा:** प्रमुख बीमा कंपनियां स्वीकार\n" .
+                "• **परामर्श शुल्क:** 500-2000 रुपये (डॉक्टर पर निर्भर)\n" .
+                "• **लैबोरेटरी:** पूर्ण लैब सुविधा\n" .
+                "• **घर सेवा:** हां, विशिष्ट क्षेत्रों में उपलब्ध\n\n" .
+                "आपके कोई सवाल हैं?",
+            default => "🏥 **Clinic Information:**\n\n" .
+                "• **Opening Hours:** Mon-Fri: 9 AM - 6 PM\n" .
+                "• **Location:** Main Road, City Center\n" .
+                "• **Parking:** Free parking available\n" .
+                "• **Emergency Service:** 24/7 Emergency Department\n" .
+                "• **Online Consultation:** Yes, available\n" .
+                "• **Health Insurance:** Major insurance companies accepted\n" .
+                "• **Consultation Fee:** Taka 500-2000 (depends on doctor)\n" .
+                "• **Laboratory:** Full lab facility\n" .
+                "• **Home Visit:** Yes, available in specific areas\n\n" .
+                "Do you have any questions?",
+        };
+    }
+
+    /**
+     * Build symptoms response - recommend doctor based on symptoms
+     */
+    protected function buildSymptomsResponse(array $data, string $language): string
+    {
+        $symptoms = $data['symptoms'] ?? [];
+        $specialization = $data['specialization'] ?? null;
+
+        // Map symptoms to specialization
+        $symptomToSpec = [
+            'chest pain' => 'Cardiology',
+            'heart' => 'Cardiology',
+            'blood pressure' => 'Cardiology',
+            'bp' => 'Cardiology',
+            'fever' => 'General Medicine',
+            'cough' => 'General Medicine',
+            'cold' => 'General Medicine',
+            'headache' => 'Neurology',
+            'migraine' => 'Neurology',
+            'skin' => 'Dermatology',
+            'allergy' => 'Dermatology',
+            'rash' => 'Dermatology',
+            'stomach' => 'Gastroenterology',
+            'digestive' => 'Gastroenterology',
+            'child' => 'Pediatrics',
+            'baby' => 'Pediatrics',
+            'breathing' => 'Pulmonology',
+            'asthma' => 'Pulmonology',
+            'diabetes' => 'Endocrinology',
+            'sugar' => 'Endocrinology',
+            'back pain' => 'Orthopedics',
+            'joint' => 'Orthopedics',
+            'bone' => 'Orthopedics',
+            'pregnancy' => 'Gynecology',
+            'women' => 'Gynecology',
+            'dizzy' => 'General Medicine',
+            'weak' => 'General Medicine',
+            // Bengali
+            'বুকে ব্যথা' => 'Cardiology',
+            'হৃদ' => 'Cardiology',
+            'রক্তচাপ' => 'Cardiology',
+            'জ্বর' => 'General Medicine',
+            'কাশি' => 'General Medicine',
+            'সর্দি' => 'General Medicine',
+            'মাথাব্যথা' => 'Neurology',
+            'মাইগ্রেইন' => 'Neurology',
+            'ত্বক' => 'Dermatology',
+            'অ্যালার্জি' => 'Dermatology',
+            'পেট' => 'Gastroenterology',
+            'শিশু' => 'Pediatrics',
+            'বাচ্চা' => 'Pediatrics',
+            'শ্বাস' => 'Pulmonology',
+            'ডায়াবেটিস' => 'Endocrinology',
+            'চিনি' => 'Endocrinology',
+            'পিঠে ব্যথা' => 'Orthopedics',
+            'গর্ভবতী' => 'Gynecology',
+            'মাথা ঘুরা' => 'General Medicine',
+            'দুর্বল' => 'General Medicine',
+        ];
+
+        $matchedSpec = $specialization;
+        
+        // Try to find matching specialization from symptoms
+        if (!$matchedSpec && !empty($symptoms)) {
+            foreach ($symptoms as $symptom) {
+                $lowerSymptom = strtolower($symptom);
+                foreach ($symptomToSpec as $key => $spec) {
+                    if (str_contains($lowerSymptom, $key)) {
+                        $matchedSpec = $spec;
+                        break 2;
+                    }
+                }
+            }
+        }
+
+        // If still no match, look in extracted data
+        if (!$matchedSpec && isset($data['extracted_symptom'])) {
+            foreach ($symptomToSpec as $key => $spec) {
+                if (str_contains(strtolower($data['extracted_symptom']), $key)) {
+                    $matchedSpec = $spec;
+                    break;
+                }
+            }
+        }
+
+        if ($matchedSpec) {
+            $doctors = Doctor::query()
+                ->with(['specialization'])
+                ->whereHas('specialization', function ($q) use ($matchedSpec) {
+                    $q->where('name', 'LIKE', '%' . $matchedSpec . '%');
+                })
+                ->limit(3)
+                ->get();
+
+            if ($doctors->isNotEmpty()) {
+                $doctorList = "";
+                foreach ($doctors as $index => $doctor) {
+                    $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctor->user->name;
+                    if ($doctor->specialization) {
+                        $doctorList .= " - " . $doctor->specialization->name;
+                    }
+                }
+                
+                return match($language) {
+                    'bn' => "আপনার লক্ষণগুলির জন্য আমি {$matchedSpec} বিশেষজ্ঞ ডাক্তার দেখাচ্ছি:{$doctorList}\n\nঅ্যাপয়েন্টমেন্ট বুক করতে ডাক্তারের নম্বর বলুন।",
+                    'hi' => "आपके लक्षणों के लिए मैं {$matchedSpec} विशेषज्ञ डॉक्टर दिखा रहा हूं:{$doctorList}\n\nअपॉइंटमेंट बुक करने के लिए डॉक्टर का नंबर बताएं।",
+                    default => "Based on your symptoms, I found {$matchedSpec} specialists:{$doctorList}\n\nTo book an appointment, please specify the doctor's number.",
+                };
+            }
+        }
+
+        // Default response with general doctors
+        return match($language) {
+            'bn' => "আপনার লক্ষণগুলির জন্য, আমি একজন সাধারণ চিকিৎসক বা বিশেষজ্ঞের সাথে পরামর্শ করার পরামর্শ দিচ্ছি।\n\nনিচের ডাক্তারদের মধ্যে একজনকে বেছে নিন:\n" .
+                $this->getDefaultDoctorList($language) . "\n\nঅ্যাপয়েন্টমেন্ট বুক করতে ডাক্তারের নম্বর বলুন।",
+            'hi' => "आपके लक्षणों के लिए, मैं सामान्य चिकित्सक या विशेषज्ञ से परामर्श की सलाह दे रहा हूं।\n\nनीचे दिए गए डॉक्टरों में से एक चुनें:\n" .
+                $this->getDefaultDoctorList($language) . "\n\nअपॉइंटमेंट बुक करने के लिए डॉक्टर का नंबर बताएं।",
+            default => "For your symptoms, I recommend consulting a general physician or specialist.\n\nPlease choose from our doctors:\n" .
+                $this->getDefaultDoctorList($language) . "\n\nTo book an appointment, please specify the doctor's number.",
+        };
+    }
+
+    /**
+     * Get default doctor list for symptoms
+     */
+    protected function getDefaultDoctorList(string $language): string
+    {
+        $doctors = Doctor::query()
+            ->with(['specialization'])
+            ->limit(3)
+            ->get();
+
+        $doctorList = "";
+        foreach ($doctors as $index => $doctor) {
+            $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctor->user->name;
+            if ($doctor->specialization) {
+                $doctorList .= " - " . $doctor->specialization->name;
+            }
+        }
+        return $doctorList;
+    }
+
+    /**
+     * Build appointment info response
+     */
+    protected function buildAppointmentInfoResponse(array $data, string $language): string
+    {
+        return match($language) {
+            'bn' => "📋 **অ্যাপয়েন্টমেন্ট সংক্রান্ত তথ্য:**\n\n" .
+                "• **অ্যাপয়েন্টমেন্ট রিমাইন্ডার:** হ্যাঁ, আমরা SMS এবং ইমেইল করি\n" .
+                "• **প্রয়োজনীয় কাগজপত্র:** ভোটার আইডি/পাসপোর্ট, পুরনো রিপোর্ট (যদি থাকে)\n" .
+                "• **আগমনের সময়:** অ্যাপয়েন্টমেন্টের ১৫-৩০ মিনিট আগে\n" .
+                "• **ডাক্তার পরিবর্তন:** হ্যাঁ, অ্যাপয়েন্টমেন্ট বাতিল করে নতুন বুক করতে হবে\n" .
+                "• **একাধিক অ্যাপয়েন্টমেন্ট:** হ্যাঁ, একাধিক বুক করতে পারেন\n" .
+                "• **আগের অ্যাপয়েন্টমেন্ট:** আপনার প্রোফাইল থেকে দেখতে পারেন\n" .
+                "• **প্রেসক্রিপশন ডাউনলোড:** হ্যাঁ, অ্যাপয়েন্টমেন্টের পরে\n" .
+                "• **কনফার্মেশন মেসেজ:** হ্যাঁ, SMS এবং ইমেইলে পাবেন\n" .
+                "• **অনলাইন পেমেন্ট:** হ্যাঁ, বিকাশ/নগদ/কার্ড দিয়ে\n" .
+                "• **যোগাযোগ:** ফোন: ০১৭১২৩৪৫৬৭৮, ইমেইল: info@clinic.com\n\n" .
+                "আরো কোনো প্রশ্ন?",
+            'hi' => "📋 **अपॉइंटमेंट जानकारी:**\n\n" .
+                "• **अपॉइंटमेंट रिमाइंडर:** हां, हम SMS और ईमेल करते हैं\n" .
+                "• **आवश्यक दस्तावेज:** वोटर आईडी/पासपोर्ट, पुरानी रिपोर्ट (यदि कोई हो)\n" .
+                "• **आने का समय:** अपॉइंटमेंट से 15-30 मिनट पहले\n" .
+                "• **डॉक्टर बदलना:** हां, अपॉइंटमेंट रद्द करके नई बुक करनी होगी\n" .
+                "• **एकाधिक अपॉइंटमेंट:** हां, कई बुक कर सकते हैं\n" .
+                "• **पिछली अपॉइंटमेंट:** अपनी प्रोफाइल से देख सकते हैं\n" .
+                "• **प्रिसक्रिप्शन डाउनलोड:** हां, अपॉइंटमेंट के बाद\n" .
+                "• **कन्फर्मेशन मैसेज:** हां, SMS और ईमेल में मिलेगा\n" .
+                "• **ऑनलाइन भुगतान:** हां, बिकास/নগদ/कार्ड से\n" .
+                "• **संपर्क:** फोन: 01712345678, ईमेल: info@clinic.com\n\n" .
+                "और कोई सवाल?",
+            default => "📋 **Appointment Information:**\n\n" .
+                "• **Appointment Reminder:** Yes, we send SMS and email reminders\n" .
+                "• **Documents Required:** Voter ID/Passport, previous reports (if any)\n" .
+                "• **Arrival Time:** 15-30 minutes before appointment\n" .
+                "• **Change Doctor:** Yes, cancel existing and book new\n" .
+                "• **Multiple Appointments:** Yes, you can book multiple\n" .
+                "• **Previous Appointments:** View from your profile\n" .
+                "• **Prescription Download:** Yes, available after appointment\n" .
+                "• **Confirmation Message:** Yes, via SMS and email\n" .
+                "• **Online Payment:** Yes, via bKash/Nagad/Card\n" .
+                "• **Contact:** Phone: 01712345678, Email: info@clinic.com\n\n" .
+                "Any other questions?",
         };
     }
 
@@ -908,7 +1840,7 @@ class AIService
         }
         
         return match($language) {
-            'bn' => "{$timeGreeting}! 🏥\n\nআমি আপনার মেডিকেল অ্যাপয়েন্টমেন্ট অ্যাসিস্ট্যান্ট।\n\nআমাদের উপলব্ধ ডাক্তার:{$doctorList}\n\nআমি আপনাকে অ্যাপয়েন্টমেন্ট বুক করতে, বাতিল করতে বা পুনর্নির্ধারণ করতে সাহায্য করতে পারি।\n\nআপনাকে কীভাবে সাহায্য করতে পারি?",
+            'bn' => "{$timeGreeting}! 🏥\n\nআমি আপনার মেডিকেল অ্যাপয়েন্টমেন্ট অ্যাসিস্ট্যান্ট।\n\nআমাদের  ডাক্তার:{$doctorList}\n\nআমি আপনাকে অ্যাপয়েন্টমেন্ট বুক করতে, বাতিল করতে বা পুনর্নির্ধারণ করতে সাহায্য করতে পারি।\n\nআপনাকে কীভাবে সাহায্য করতে পারি?",
             'hi' => "{$timeGreeting}! 🏥\n\nमैं आपका मेडिकल अपॉइंटमेंट असिस्टेंट हूं।\n\nहमारे उपलब्ध डॉक्टर:{$doctorList}\n\nमैं आपकी अपॉइंटमेंट बुक, रद्द या पुनर्निर्धारित करने में मदद कर सकता हूं।\n\nमैं आपकी कैसे मदद कर सकता हूं?",
             default => "{$timeGreeting}! 🏥\n\nI'm your Medical Appointment Assistant.\n\nOur available doctors:{$doctorList}\n\nI can help you book, cancel, or reschedule appointments.\n\nHow can I help you today?",
         };
@@ -950,6 +1882,52 @@ You are a professional Medical Appointment Assistant. You help patients book, re
 5. Extract structured information from user messages
 6. Be empathetic and professional
 
+**SUPPORTED LANGUAGES:**
+- English (en)
+- Bengali/Bangla (bn) - Common phrases: অ্যাপয়েন্টমেন্ট, ডাক্তার, বুক, জ্বর, ব্যথা
+- Hindi (hi)
+
+**TRAINING DATA - Patient Query Patterns:**
+
+1️⃣ APPOINTMENT BOOKING:
+- "How can I book an appointment with a doctor?"
+- "Is Dr. Ahmed available today?"
+- "I want to see a cardiologist tomorrow."
+- "Can I book an appointment for my mother?"
+- "What time is the earliest appointment available?"
+- "Can I book an appointment online?"
+- Bengali: "আমি কিভাবে ডাক্তারের অ্যাপয়েন্টমেন্ট বুক করব"
+
+2️⃣ DOCTOR INFORMATION:
+- "Which doctor is best for heart problems?"
+- "Do you have a female gynecologist?"
+- "What are Dr. Rahman's visiting hours?"
+- "How many years of experience does this doctor have?"
+- "Which doctor treats diabetes?"
+- Bengali: "হৃদরোগের জন্য কোন ডাক্তার ভালো"
+
+3️⃣ CLINIC/HOSPITAL INFO:
+- "What are your clinic opening hours?"
+- "Are you open on weekends?"
+- "Where is your clinic located?"
+- "Do you have parking facilities?"
+- "Is emergency service available?"
+- Bengali: "আপনাদের ক্লিনিক কখন খোলে"
+
+4️⃣ SYMPTOM BASED:
+- "I have chest pain, which doctor should I see?"
+- "I have fever and cough, what should I do?"
+- "My child has a high fever, what should I do?"
+- "I feel dizzy and weak, which doctor should I consult?"
+- Bengali: "আমার বুকে ব্যথা কোন ডাক্তার দেখাব"
+
+5️⃣ APPOINTMENT MANAGEMENT:
+- "Can you remind me about my appointment?"
+- "What documents should I bring to the appointment?"
+- "Can I see my previous appointments?"
+- "Will I get an appointment confirmation message?"
+- Bengali: "আমাকে কি অ্যাপয়েন্টমেন্টের কথা মনে করিয়ে দেবেন"
+
 **WORKFLOW FOR BOOKING:**
 1. Ask for specialization type
 2. Ask for preferred date and time
@@ -966,7 +1944,7 @@ If user mentions: chest pain, breathing problems, unconsciousness, heavy bleedin
 **RESPONSE FORMAT:**
 Return JSON:
 {
-  "intent": "greet|book_appointment|cancel_appointment|reschedule_appointment|check_availability|emergency|help|general",
+  "intent": "greet|book_appointment|cancel_appointment|reschedule_appointment|check_availability|emergency|help|general|doctor_info|clinic_info|symptoms|appointment_info",
   "response": "Your reply to user",
   "extracted_data": {
     "specialization": "doctor type or null",
