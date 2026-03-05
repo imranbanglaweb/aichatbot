@@ -767,13 +767,19 @@ class AIService
         $bnNamePatterns = [
             'আমার নাম', 'নাম', 'ফোন', 'মোবাইল', 'নম্বর', 
             'ফোন নম্বর', 'মোবাইল নম্বর', 'যোগাযোগ', 'হ্যাঁ',
-            'আমি', 'নামটা', 'নামের'
+            'আমি', 'নামটা', 'নামের', 'নামটি'
         ];
         
         foreach ($bnNamePatterns as $pattern) {
             if (str_contains($lowerMessage, $pattern)) {
                 return true;
             }
+        }
+        
+        // Also check if message contains Bengali text (might be a name)
+        if (preg_match('/[\u0980-\u09FF]/u', $message)) {
+            // If it contains Bengali characters and is short, likely a name or response
+            return true;
         }
         
         return false;
