@@ -5135,3 +5135,325 @@ Did you mean one of these?
 #58 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
 #59 {main}
 "} 
+[2026-03-08 05:34:19] local.ERROR: SQLSTATE[HY000] [1049] Unknown database 'laravel' (Connection: mysql, SQL: select * from `users` where `email` = patient@demo.com limit 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'laravel' (Connection: mysql, SQL: select * from `users` where `email` = patient@demo.com limit 1) at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php:825)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate/Database/Connection->run('select * from `...', Array, Object(Closure))
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3106): Illuminate/Database/Connection->select('select * from `...', Array, true)
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3091): Illuminate/Database/Query/Builder->runSelect()
+#4 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3676): Illuminate/Database/Query/Builder->Illuminate/Database/Query/{closure}()
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3090): Illuminate/Database/Query/Builder->onceWithColumns(Array, Object(Closure))
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(811): Illuminate/Database/Query/Builder->get(Array)
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(793): Illuminate/Database/Eloquent/Builder->getModels(Array)
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(343): Illuminate/Database/Eloquent/Builder->get(Array)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/app/Http/Controllers/AuthController.php(24): Illuminate/Database/Eloquent/Builder->first()
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App/Http/Controllers/AuthController->login(Object(Illuminate/Http/Request))
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(44): Illuminate/Routing/Controller->callAction('login', Array)
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(266): Illuminate/Routing/ControllerDispatcher->dispatch(Object(Illuminate/Routing/Route), Object(App/Http/Controllers/AuthController), 'login')
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(212): Illuminate/Routing/Route->runController()
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(808): Illuminate/Routing/Route->run()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Routing/Router->Illuminate/Routing/{closure}(Object(Illuminate/Http/Request))
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(51): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#45 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#46 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#47 D:/TMSPROJECT/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#48 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
+#49 {main}
+
+[previous exception] [object] (PDOException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'laravel' at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:66)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(66): PDO->__construct('mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(44): Illuminate/Database/Connectors/Connector->createPdoConnection('mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate/Database/Connectors/Connector->createConnection('mysql:host=127....', Array, Array)
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php(185): Illuminate/Database/Connectors/MySqlConnector->connect(Array)
+#4 [internal function]: Illuminate/Database/Connectors/ConnectionFactory->Illuminate/Database/Connectors/{closure}()
+#5 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1231): call_user_func(Object(Closure))
+#6 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1267): Illuminate/Database/Connection->getPdo()
+#7 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(512): Illuminate/Database/Connection->getReadPdo()
+#8 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(407): Illuminate/Database/Connection->getPdoForSelect(true)
+#9 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate/Database/Connection->Illuminate/Database/{closure}('select * from `...', Array)
+#10 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#11 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate/Database/Connection->run('select * from `...', Array, Object(Closure))
+#12 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3106): Illuminate/Database/Connection->select('select * from `...', Array, true)
+#13 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3091): Illuminate/Database/Query/Builder->runSelect()
+#14 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3676): Illuminate/Database/Query/Builder->Illuminate/Database/Query/{closure}()
+#15 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3090): Illuminate/Database/Query/Builder->onceWithColumns(Array, Object(Closure))
+#16 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(811): Illuminate/Database/Query/Builder->get(Array)
+#17 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(793): Illuminate/Database/Eloquent/Builder->getModels(Array)
+#18 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(343): Illuminate/Database/Eloquent/Builder->get(Array)
+#19 D:/TMSPROJECT/htdocs/aichatbot/backend/app/Http/Controllers/AuthController.php(24): Illuminate/Database/Eloquent/Builder->first()
+#20 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App/Http/Controllers/AuthController->login(Object(Illuminate/Http/Request))
+#21 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(44): Illuminate/Routing/Controller->callAction('login', Array)
+#22 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(266): Illuminate/Routing/ControllerDispatcher->dispatch(Object(Illuminate/Routing/Route), Object(App/Http/Controllers/AuthController), 'login')
+#23 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php(212): Illuminate/Routing/Route->runController()
+#24 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(808): Illuminate/Routing/Route->run()
+#25 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Routing/Router->Illuminate/Routing/{closure}(Object(Illuminate/Http/Request))
+#26 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(51): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#27 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#28 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#29 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#31 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#32 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#33 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#34 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#35 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#36 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#37 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#41 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#43 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#44 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#45 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#46 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#47 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#48 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#49 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#50 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#51 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#52 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#53 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#54 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#55 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#56 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#57 D:/TMSPROJECT/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#58 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://TMSPROJECT//h...')
+#59 {main}
+"} 
+[2026-03-08 05:35:19] local.ERROR: Command "cache:config" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"cache:config\" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php:759)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('cache:config')
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 {main}
+"} 
+[2026-03-08 05:37:05] local.ERROR: AI Service Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 05:37:47] local.ERROR: AI Service Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 05:38:04] local.ERROR: AI Service Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 05:38:42] local.ERROR: AI Service Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 05:45:06] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 05:47:02] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 05:47:34] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 05:48:13] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 05:48:39] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 05:58:05] local.DEBUG: detectIntent called with message: hello how are you (lower: hello how are you)  
+[2026-03-08 05:58:05] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 05:58:41] local.DEBUG: detectIntent called with message: i want book a doctor (lower: i want book a doctor)  
+[2026-03-08 05:58:41] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from booking keywords  
+[2026-03-08 05:58:41] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 05:59:13] local.DEBUG: detectIntent called with message: book (lower: book)  
+[2026-03-08 05:59:13] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from booking keywords  
+[2026-03-08 05:59:13] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 06:10:28] local.DEBUG: detectIntent called with message: hello (lower: hello)  
+[2026-03-08 06:10:28] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 06:10:58] local.DEBUG: detectIntent called with message: book (lower: book)  
+[2026-03-08 06:10:58] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from booking keywords  
+[2026-03-08 06:10:58] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 06:26:44] local.DEBUG: detectIntent called with message: book (lower: book)  
+[2026-03-08 06:26:45] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from quick check: book  
+[2026-03-08 06:26:45] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 06:27:18] local.DEBUG: detectIntent called with message: appointments (lower: appointments)  
+[2026-03-08 06:27:18] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from quick check: appointments  
+[2026-03-08 06:27:18] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 06:27:46] local.DEBUG: detectIntent called with message: hello (lower: hello)  
+[2026-03-08 06:27:46] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 06:28:30] local.DEBUG: detectIntent called with message: book a doctor (lower: book a doctor)  
+[2026-03-08 06:28:30] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from quick check: book a doctor  
+[2026-03-08 06:28:30] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 06:29:02] local.ERROR: Command "cache:config" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"cache:config\" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table at D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php:759)
+[stacktrace]
+#0 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('cache:config')
+#1 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#2 D:/TMSPROJECT/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 D:/TMSPROJECT/htdocs/aichatbot/backend/artisan(14): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 {main}
+"} 
+[2026-03-08 06:29:41] local.DEBUG: detectIntent called with message: hello (lower: hello)  
+[2026-03-08 06:29:41] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 06:30:36] local.DEBUG: detectIntent called with message: book a doctor (lower: book a doctor)  
+[2026-03-08 06:30:36] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from quick check: book a doctor  
+[2026-03-08 06:30:36] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 06:47:34] local.DEBUG: detectIntent called with message: hello (lower: hello)  
+[2026-03-08 06:47:34] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 06:47:51] local.DEBUG: detectIntent called with message: cardiologist (lower: cardiologist)  
+[2026-03-08 06:47:51] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 06:48:07] local.DEBUG: detectIntent called with message: cardiologist (lower: cardiologist)  
+[2026-03-08 06:48:07] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 06:53:53] local.DEBUG: detectIntent called with message: hello (lower: hello), currentIntent: null  
+[2026-03-08 06:53:53] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 06:54:08] local.DEBUG: detectIntent called with message: cardiologist (lower: cardiologist), currentIntent: general  
+[2026-03-08 06:54:08] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 06:54:32] local.DEBUG: detectIntent called with message: hi (lower: hi), currentIntent: general  
+[2026-03-08 06:54:32] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 06:55:10] local.DEBUG: detectIntent called with message: assalamu walaikum (lower: assalamu walaikum), currentIntent: general  
+[2026-03-08 06:55:10] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 06:57:07] local.DEBUG: detectIntent called with message: how are you? (lower: how are you?), currentIntent: general  
+[2026-03-08 06:57:07] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 07:28:56] local.DEBUG: detectIntent called with message: hi (lower: hi), currentIntent: null  
+[2026-03-08 07:28:56] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 07:29:11] local.DEBUG: detectIntent called with message: cardiologist (lower: cardiologist), currentIntent: general  
+[2026-03-08 07:29:11] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 07:30:33] local.DEBUG: detectIntent called with message: book (lower: book), currentIntent: general  
+[2026-03-08 07:30:33] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from quick check: book  
+[2026-03-08 07:30:33] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 07:30:47] local.DEBUG: detectIntent called with message: dermatologist (lower: dermatologist), currentIntent: general  
+[2026-03-08 07:30:47] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 07:32:16] local.DEBUG: detectIntent called with message: cardiology (lower: cardiology), currentIntent: null  
+[2026-03-08 07:32:16] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 07:32:29] local.DEBUG: detectIntent called with message: cardiology (lower: cardiology), currentIntent: general  
+[2026-03-08 07:32:29] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 07:35:58] local.DEBUG: detectIntent called with message: appointment (lower: appointment), currentIntent: general  
+[2026-03-08 07:35:58] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from quick check: appointment  
+[2026-03-08 07:35:58] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 07:36:13] local.DEBUG: detectIntent called with message: cardiology (lower: cardiology), currentIntent: book_appointment  
+[2026-03-08 07:36:13] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-08 07:36:13] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 07:36:50] local.DEBUG: detectIntent called with message: cardiology (lower: cardiology), currentIntent: general  
+[2026-03-08 07:36:50] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 07:37:36] local.DEBUG: detectIntent called with message: cardiology (lower: cardiology), currentIntent: general  
+[2026-03-08 07:37:36] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 09:23:49] local.DEBUG: detectIntent called with message: hello (lower: hello), currentIntent: null  
+[2026-03-08 09:23:49] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 09:24:06] local.DEBUG: detectIntent called with message: cardiology (lower: cardiology), currentIntent: general  
+[2026-03-08 09:24:06] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 09:28:10] local.DEBUG: detectIntent called with message: cardiology (lower: cardiology), currentIntent: general  
+[2026-03-08 09:28:10] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 09:28:24] local.DEBUG: detectIntent called with message: cardiology (lower: cardiology), currentIntent: general  
+[2026-03-08 09:28:24] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 09:29:13] local.DEBUG: detectIntent called with message: hello (lower: hello), currentIntent: null  
+[2026-03-08 09:29:13] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 09:29:26] local.DEBUG: detectIntent called with message: cardiologist (lower: cardiologist), currentIntent: general  
+[2026-03-08 09:29:26] local.DEBUG: Detected specialization: cardiologist => Cardiology  
+[2026-03-08 09:29:26] local.DEBUG: Detected specialization in message: cardiologist => Cardiology  
+[2026-03-08 09:29:26] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:29:26] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:30:21] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-08 09:30:21] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-08 09:30:21] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:30:21] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:30:43] local.DEBUG: detectIntent called with message: tomorrow (lower: tomorrow), currentIntent: book_appointment  
+[2026-03-08 09:30:43] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-08 09:30:43] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:30:43] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:31:00] local.DEBUG: detectIntent called with message: tomorrow (lower: tomorrow), currentIntent: book_appointment  
+[2026-03-08 09:31:00] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-08 09:31:00] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:31:00] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:36:33] local.DEBUG: detectIntent called with message: tomorrow (lower: tomorrow), currentIntent: book_appointment  
+[2026-03-08 09:36:33] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-08 09:36:33] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:36:33] local.DEBUG: Merged extracted_data: context={"specialization":"Cardiology","doctor_number":5}, new={"specialization":"Cardiology","doctor_number":5}  
+[2026-03-08 09:36:33] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:36:33] local.DEBUG: buildBookingResponse called with data: {"specialization":"Cardiology","doctor_number":5}, context extracted_data: {"specialization":"Cardiology","doctor_number":5}  
+[2026-03-08 09:36:48] local.DEBUG: detectIntent called with message: monday (lower: monday), currentIntent: book_appointment  
+[2026-03-08 09:36:48] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-08 09:36:48] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:36:48] local.DEBUG: Merged extracted_data: context={"specialization":"Cardiology","doctor_number":5}, new={"specialization":"Cardiology","doctor_number":5}  
+[2026-03-08 09:36:48] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:36:48] local.DEBUG: buildBookingResponse called with data: {"specialization":"Cardiology","doctor_number":5}, context extracted_data: {"specialization":"Cardiology","doctor_number":5}  
+[2026-03-08 09:37:28] local.DEBUG: detectIntent called with message: hi (lower: hi), currentIntent: null  
+[2026-03-08 09:37:28] local.ERROR: processLocally Error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 3  
+[2026-03-08 09:37:41] local.DEBUG: detectIntent called with message: cardiologist (lower: cardiologist), currentIntent: general  
+[2026-03-08 09:37:41] local.DEBUG: Detected specialization: cardiologist => Cardiology  
+[2026-03-08 09:37:41] local.DEBUG: Detected specialization in message: cardiologist => Cardiology  
+[2026-03-08 09:37:41] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:37:41] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:37:41] local.DEBUG: buildBookingResponse called with data: {"specialization":"Cardiology"}, context extracted_data: []  
+[2026-03-08 09:38:48] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: null  
+[2026-03-08 09:38:48] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-08 09:38:48] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:38:48] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:38:48] local.DEBUG: buildBookingResponse called with data: {"doctor_number":5}, context extracted_data: []  
+[2026-03-08 09:39:01] local.DEBUG: detectIntent called with message: monday (lower: monday), currentIntent: book_appointment  
+[2026-03-08 09:39:01] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-08 09:39:01] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:39:01] local.DEBUG: Merged extracted_data: context={"doctor_number":5}, new={"doctor_number":5}  
+[2026-03-08 09:39:01] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:39:01] local.DEBUG: buildBookingResponse called with data: {"doctor_number":5}, context extracted_data: {"doctor_number":5}  
+[2026-03-08 09:39:25] local.DEBUG: detectIntent called with message: friday (lower: friday), currentIntent: book_appointment  
+[2026-03-08 09:39:25] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-08 09:39:25] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:39:25] local.DEBUG: Merged extracted_data: context={"doctor_number":5}, new={"doctor_number":5}  
+[2026-03-08 09:39:25] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:39:25] local.DEBUG: buildBookingResponse called with data: {"doctor_number":5}, context extracted_data: {"doctor_number":5}  
+[2026-03-08 09:44:11] local.DEBUG: detectIntent called with message: appointments (lower: appointments), currentIntent: null  
+[2026-03-08 09:44:11] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from quick check: appointments  
+[2026-03-08 09:44:11] local.DEBUG: Detected specialization in message: ent => ENT  
+[2026-03-08 09:44:11] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:44:11] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:44:11] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT"}, context extracted_data: []  
+[2026-03-08 09:45:01] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-08 09:45:01] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-08 09:45:01] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:45:01] local.DEBUG: Merged extracted_data: context={"specialization":"ENT"}, new={"specialization":"ENT","doctor_number":5}  
+[2026-03-08 09:45:01] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:45:01] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","doctor_number":5}, context extracted_data: {"specialization":"ENT"}  
+[2026-03-08 09:49:47] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-08 09:49:47] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-08 09:49:47] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:49:47] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","doctor_number":5}, new={"specialization":"ENT","doctor_number":5}  
+[2026-03-08 09:49:47] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:49:47] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","doctor_number":5}, context extracted_data: {"specialization":"ENT","doctor_number":5}  
+[2026-03-08 09:50:02] local.DEBUG: detectIntent called with message: monday (lower: monday), currentIntent: book_appointment  
+[2026-03-08 09:50:02] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-08 09:50:02] local.WARNING: extractEntitiesFromMessage error in date check: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:50:02] local.WARNING: extractEntitiesFromMessage error: preg_match(): Compilation failed: PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u at offset 55  
+[2026-03-08 09:50:02] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","doctor_number":5}, new={"specialization":"ENT","doctor_number":5}  
+[2026-03-08 09:50:02] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-08 09:50:02] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","doctor_number":5}, context extracted_data: {"specialization":"ENT","doctor_number":5}  

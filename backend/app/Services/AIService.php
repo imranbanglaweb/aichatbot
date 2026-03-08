@@ -48,6 +48,8 @@ class AIService
     protected array $bookingKeywords = [
         'book', 'appointment', 'schedule', 'visit', 'see a doctor',
         'consult', 'make an appointment', 'schedule an appointment',
+        'want to see a doctor', 'need a doctor', 'see doctor',
+        'get appointment', 'fix appointment', 'take appointment',
         // Bangla
         'অ্যাপয়েন্টমেন্ট', 'বুক', 'সাক্ষাৎ', 'ডাক্তার দেখাতে', 'সময় নিতে',
         'আমাকে একটি অ্যাপয়েন্টমেন্ট দিন', 'আমি অ্যাপয়েন্টমেন্ট নিতে চাই',
@@ -503,14 +505,27 @@ class AIService
             // Use local fallback
             return $this->processLocally($message, $context);
         } catch (Exception $e) {
-            Log::error('AI Service Error: ' . $e->getMessage());
+            Log::error('AI Service Error: ' . $e->getMessage() . ' - ' . $e->getTraceAsString());
             
-            return [
-                'intent' => self::INTENT_GENERAL,
-                'response' => 'I apologize, I encountered an issue. Please try again.',
-                'extracted_data' => [],
-                'emergency_detected' => false,
-            ];
+            // Try to return a greeting response as fallback
+            $language = $context['language'] ?? 'en';
+            try {
+                $greetingResponse = $this->getGreeting($language);
+                return [
+                    'intent' => self::INTENT_GREET,
+                    'response' => $greetingResponse,
+                    'extracted_data' => [],
+                    'emergency_detected' => false,
+                ];
+            } catch (Exception $e2) {
+                // If even greeting fails, return a simple hardcoded response
+                return [
+                    'intent' => self::INTENT_GENERAL,
+                    'response' => 'Hello! I can help you book, cancel, or reschedule medical appointments. How can I assist you today?',
+                    'extracted_data' => [],
+                    'emergency_detected' => false,
+                ];
+            }
         }
     }
 
@@ -519,30 +534,72 @@ class AIService
      */
     protected function processLocally(string $message, array $context): array
     {
-        $lowerMessage = strtolower($message);
-        $intent = $this->detectIntent($lowerMessage, $context);
-        $extractedData = $this->extractEntitiesFromMessage($message);
-        
-        // If doctor number is detected, add to extracted data
-        $doctorNumber = $this->extractDoctorNumber($message);
-        if ($doctorNumber !== null) {
-            $extractedData['doctor_number'] = $doctorNumber;
-        }
-        
-        // Merge with existing extracted data from context
-        if (!empty($context['extracted_data'])) {
-            $extractedData = array_merge($context['extracted_data'], $extractedData);
-        }
-        
-        // Build response based on intent
-        $response = $this->buildResponse($intent, $extractedData, $context);
+        $detectedIntent = self::INTENT_GENERAL;
+        $detectedSpecialization = null;
+        try {
+            $lowerMessage = strtolower($message);
+            $detectedIntent = $this->detectIntent($lowerMessage, $context);
+            
+            // Try to extract specialization from the message
+            foreach ($this->specializations as $keyword => $specialization) {
+                if (str_contains($lowerMessage, $keyword)) {
+                    $detectedSpecialization = $specialization;
+                    Log::debug('Detected specialization in message: ' . $keyword . ' => ' . $specialization);
+                    break;
+                }
+            }
+            
+            // Try-catch just for entity extraction to prevent crashes
+            $extractedData = [];
+            try {
+                $extractedData = $this->extractEntitiesFromMessage($message);
+                Log::debug('Extracted entities from message: ' . json_encode($extractedData));
+            } catch (Exception $e) {
+                Log::warning('extractEntitiesFromMessage error: ' . $e->getMessage());
+            }
+            
+            // If we detected a specialization, add it to extracted data
+            if ($detectedSpecialization !== null) {
+                $extractedData['specialization'] = $detectedSpecialization;
+            }
+            
+            // If doctor number is detected, add to extracted data
+            $doctorNumber = null;
+            try {
+                $doctorNumber = $this->extractDoctorNumber($message);
+                if ($doctorNumber !== null) {
+                    $extractedData['doctor_number'] = $doctorNumber;
+                }
+            } catch (Exception $e) {
+                Log::warning('extractDoctorNumber error: ' . $e->getMessage());
+            }
+            
+            // Merge with existing extracted data from context
+            if (!empty($context['extracted_data'])) {
+                $extractedData = array_merge($context['extracted_data'], $extractedData);
+                Log::debug('Merged extracted_data: context=' . json_encode($context['extracted_data']) . ', new=' . json_encode($extractedData));
+            }
+            
+            // Build response based on intent
+            $response = $this->buildResponse($detectedIntent, $extractedData, $context);
 
-        return [
-            'intent' => $intent,
-            'response' => $response,
-            'extracted_data' => $extractedData,
-            'emergency_detected' => false,
-        ];
+            return [
+                'intent' => $detectedIntent,
+                'response' => $response,
+                'extracted_data' => $extractedData,
+                'emergency_detected' => false,
+            ];
+        } catch (Exception $e) {
+            Log::error('processLocally Error: ' . $e->getMessage());
+            
+            // Return a simple fallback response but keep the detected intent
+            return [
+                'intent' => $detectedIntent,
+                'response' => "I can help you book a doctor appointment. What type of doctor would you like to see? (e.g., cardiologist, dermatologist, eye doctor)",
+                'extracted_data' => [],
+                'emergency_detected' => false,
+            ];
+        }
     }
 
     /**
@@ -554,28 +611,106 @@ class AIService
         $currentIntent = $context['current_intent'] ?? null;
         $extractedData = $context['extracted_data'] ?? [];
         
+        // Debug log
+        Log::debug('detectIntent called with message: ' . $message . ' (lower: ' . $lowerMessage . '), currentIntent: ' . ($currentIntent ?? 'null'));
+        
+        // ULTRA QUICK CHECK for book/appointment - check exact word match first
+        $trimmedMessage = trim($lowerMessage);
+        if ($trimmedMessage === 'book' || $trimmedMessage === 'appointment' || 
+            $trimmedMessage === 'book appointment' || $trimmedMessage === 'i want to book' ||
+            str_starts_with($trimmedMessage, 'book ') || str_starts_with($trimmedMessage, 'appointment')) {
+            Log::debug('Detected INTENT_BOOK_APPOINTMENT from quick check: ' . $trimmedMessage);
+            return self::INTENT_BOOK_APPOINTMENT;
+        }
+        
+        // Check if message contains a specialization keyword (even without previous booking context)
+        $detectedSpecialization = null;
+        foreach ($this->specializations as $keyword => $specialization) {
+            if (str_contains($lowerMessage, $keyword)) {
+                Log::debug('Detected specialization: ' . $keyword . ' => ' . $specialization);
+                $detectedSpecialization = $specialization;
+                break;
+            }
+        }
+        if ($detectedSpecialization !== null) {
+            return self::INTENT_BOOK_APPOINTMENT;
+        }
+        
+        // Check if message is a number 1-10 (doctor selection)
+        if (is_numeric($trimmedMessage) && intval($trimmedMessage) >= 1 && intval($trimmedMessage) <= 10) {
+            Log::debug('Detected doctor number, assuming booking intent: ' . $trimmedMessage);
+            return self::INTENT_BOOK_APPOINTMENT;
+        }
+        
+        // Check if previous intent was booking and user is providing specialization/doctor
+        if (!empty($currentIntent) && $currentIntent === 'book_appointment') {
+            Log::debug('Previous intent was booking, checking for specialization or doctor number');
+            // Check if message contains a specialization
+            foreach ($this->specializations as $keyword => $specialization) {
+                if (str_contains($lowerMessage, $keyword)) {
+                    Log::debug('Detected specialization: ' . $keyword . ' => ' . $specialization);
+                    return self::INTENT_BOOK_APPOINTMENT;
+                }
+            }
+            // Check if message is a number (doctor selection)
+            if (is_numeric($trimmedMessage) && intval($trimmedMessage) >= 1 && intval($trimmedMessage) <= 10) {
+                Log::debug('Detected doctor number in context: ' . $trimmedMessage);
+                return self::INTENT_BOOK_APPOINTMENT;
+            }
+        }
+        
+        // FIRST check for booking keywords (before training data)
+        if ($this->matchesAny($message, $this->bookingKeywords)) {
+            Log::debug('Detected INTENT_BOOK_APPOINTMENT from booking keywords');
+            return self::INTENT_BOOK_APPOINTMENT;
+        }
+        
         // Check if user is selecting a doctor number (for booking flow)
         if ($this->isDoctorSelection($message)) {
+            Log::debug('Detected INTENT_BOOK_APPOINTMENT from doctor selection');
             return self::INTENT_BOOK_APPOINTMENT;
         }
         
         // Check if user is providing date/time (continue booking flow)
         if ($this->isDateTimeInput($message)) {
+            // Extract date from the current message first
+            $tempExtracted = [];
+            try {
+                $tempExtracted = $this->extractEntitiesFromMessage($message);
+            } catch (Exception $e) {
+                Log::warning('extractEntitiesFromMessage error in date check: ' . $e->getMessage());
+            }
+            
+            // Merge with context data to check for doctor/date
+            $checkData = array_merge($extractedData, $tempExtracted);
+            
             // If we already have a doctor or date selected in context, continue booking
-            if (!empty($extractedData['doctor_number']) || 
-                !empty($extractedData['selected_doctor_id']) ||
-                !empty($extractedData['date'])) {
+            if (!empty($checkData['doctor_number']) || 
+                !empty($checkData['selected_doctor_id']) ||
+                !empty($checkData['date'])) {
                 return self::INTENT_BOOK_APPOINTMENT;
             }
         }
         
         // Check if user is providing name/phone (continue booking flow)
         if ($this->isContactInfoInput($message)) {
-            // If we already have doctor, date, time in context, continue booking
+            // Extract contact info from the current message first
+            $tempExtracted = [];
+            try {
+                $tempExtracted = $this->extractEntitiesFromMessage($message);
+            } catch (Exception $e) {
+                Log::warning('extractEntitiesFromMessage error in contact check: ' . $e->getMessage());
+            }
+            
+            // Merge with context data to check for doctor/date/time
+            $checkData = array_merge($extractedData, $tempExtracted);
             $contextData = $context['extracted_data'] ?? [];
-            if ((!empty($extractedData['doctor_number']) || !empty($contextData['doctor_number'])) &&
-                (!empty($extractedData['date']) || !empty($contextData['date'])) &&
-                (!empty($extractedData['time_preference']) || !empty($contextData['time_preference']))) {
+            $mergedCheckData = array_merge($contextData, $checkData);
+            
+            // If we already have doctor, date, time in context, continue booking
+            if ((!empty($mergedCheckData['doctor_number']) || !empty($mergedCheckData['selected_doctor_id'])) &&
+                (!empty($mergedCheckData['date'])) &&
+                (!empty($mergedCheckData['time_preference']))) {
                 return self::INTENT_BOOK_APPOINTMENT;
             }
         }
@@ -587,12 +722,14 @@ class AIService
 
         // Check training data first for exact matches
         $intent = $this->matchTrainingData($message);
+        Log::debug('matchTrainingData returned: ' . $intent);
         if ($intent !== self::INTENT_GENERAL) {
             return $intent;
         }
 
         // Check for greeting
-        if ($this->matchesAny($message, ['hello', 'hi ', 'hey', 'good morning', 'good afternoon', 'good evening'])) {
+        if ($this->matchesAny($message, ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'])) {
+            Log::debug('Detected INTENT_GREET');
             return self::INTENT_GREET;
         }
 
@@ -653,9 +790,11 @@ class AIService
 
         // Check for booking
         if ($this->matchesAny($message, $this->bookingKeywords)) {
+            Log::debug('Detected INTENT_BOOK_APPOINTMENT from keywords: ' . implode(', ', $this->bookingKeywords));
             return self::INTENT_BOOK_APPOINTMENT;
         }
 
+        Log::debug('No intent detected, returning INTENT_GENERAL');
         return self::INTENT_GENERAL;
     }
 
@@ -973,7 +1112,9 @@ class AIService
         $language = $context['language'] ?? 'en';
         $hour = now()->hour;
         $timeGreeting = $hour < 12 ? 'Good morning' : ($hour < 17 ? 'Good afternoon' : 'Good evening');
-
+        
+        Log::debug('buildResponse called with intent: ' . $intent . ', language: ' . $language);
+        
         return match ($intent) {
             self::INTENT_GREET => $this->getGreeting($language),
             self::INTENT_LIST_DOCTORS => $this->buildListDoctorsResponse($extractedData, $language),
@@ -998,7 +1139,10 @@ class AIService
      */
     protected function buildBookingResponse(array $data, string $language, array $context = []): string
     {
+        try {
         // Get data from both extracted data and context
+        Log::debug('buildBookingResponse called with data: ' . json_encode($data) . ', context extracted_data: ' . json_encode($context['extracted_data'] ?? []));
+        
         $specialization = $data['specialization'] ?? null;
         $date = $data['date'] ?? null;
         $time = $data['time_preference'] ?? null;
@@ -1022,13 +1166,33 @@ class AIService
         if (($doctorNumber || $selectedDoctorId) && (!$date || !$time)) {
             // Get doctor name if we have doctor number
             if ($doctorNumber && !$doctorName) {
-                $doctor = Doctor::query()
-                    ->with(['specialization'])
+                // Build query with same filters as when showing doctor list
+                $doctorQuery = Doctor::query()
+                    ->with(['specialization', 'user']);
+                
+                // If we have specialization, filter by it (same as when showing list)
+                if ($specialization) {
+                    $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
+                        $q->where('name', 'LIKE', '%' . $specialization . '%');
+                    });
+                }
+                
+                $doctor = $doctorQuery
                     ->skip($doctorNumber - 1)
                     ->first();
+                
                 if ($doctor) {
                     $doctorName = $doctor->user->name;
                     $specialization = $doctor->specialization ? $doctor->specialization->name : $specialization;
+                } else {
+                    // Fallback: get any doctor
+                    $doctor = Doctor::query()
+                        ->with(['specialization', 'user'])
+                        ->skip($doctorNumber - 1)
+                        ->first();
+                    if ($doctor) {
+                        $doctorName = $doctor->user->name;
+                    }
                 }
             }
             
@@ -1056,12 +1220,36 @@ class AIService
         if (($doctorNumber || $selectedDoctorId || $doctorName) && $date && $time) {
             // Get doctor name if we have doctor number
             if ($doctorNumber && !$doctorName) {
-                $doctor = Doctor::query()
-                    ->with(['specialization'])
+                // Build query with same filters as when showing doctor list
+                $doctorQuery = Doctor::query()
+                    ->with(['specialization', 'user']);
+                
+                // If we have specialization, filter by it
+                if ($specialization) {
+                    $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
+                        $q->where('name', 'LIKE', '%' . $specialization . '%');
+                    });
+                }
+                
+                $doctor = $doctorQuery
+                    ->orderBy('rating', 'desc')
+                    ->orderBy('experience_years', 'desc')
                     ->skip($doctorNumber - 1)
                     ->first();
+                
                 if ($doctor) {
                     $doctorName = $doctor->user->name;
+                } else {
+                    // Fallback: get any doctor
+                    $doctor = Doctor::query()
+                        ->with(['specialization', 'user'])
+                        ->orderBy('rating', 'desc')
+                        ->orderBy('experience_years', 'desc')
+                        ->skip($doctorNumber - 1)
+                        ->first();
+                    if ($doctor) {
+                        $doctorName = $doctor->user->name;
+                    }
                 }
             }
             
@@ -1115,10 +1303,12 @@ class AIService
         // Case 3: Have specialization, need doctor selection
         if ($specialization && !$doctorNumber) {
             $doctors = Doctor::query()
-                ->with(['specialization'])
+                ->with(['specialization', 'user'])
                 ->whereHas('specialization', function ($q) use ($specialization) {
                     $q->where('name', 'LIKE', '%' . $specialization . '%');
                 })
+                ->orderBy('rating', 'desc')
+                ->orderBy('experience_years', 'desc')
                 ->limit(5)
                 ->get();
             
@@ -1145,7 +1335,9 @@ class AIService
 
         // Case 4: No specialization, show all doctors
         $doctors = Doctor::query()
-            ->with(['specialization'])
+            ->with(['specialization', 'user'])
+            ->orderBy('rating', 'desc')
+            ->orderBy('experience_years', 'desc')
             ->limit(5)
             ->get();
         
@@ -1174,6 +1366,14 @@ class AIService
             'hi' => "मैं आपकी डॉक्टर अपॉइंटमेंट बुक करने में मदद कर सकता हूं। आप किस तरह के डॉक्टर से मिलना चाहते हैं? (जैसे: हृदय विशेषज्ञ, त्वचा विशेषज्ञ, आंखों के डॉक्टर)",
             default => "I can help you book a doctor appointment. What type of doctor would you like to see? (e.g., cardiologist, dermatologist, eye doctor)",
         };
+        } catch (Exception $e) {
+            Log::error('buildBookingResponse error: ' . $e->getMessage());
+            return match($language) {
+                'bn' => "আমি আপনাকে ডাক্তারের অ্যাপয়েন্টমেন্ট বুক করতে সাহায্য করতে পারি। আপনি কোন ধরনের ডাক্তার দেখাতে চান? (যেমন: হৃদরোগ বিশেষজ্ঞ, ত্বকের ডাক্তার, চোখের ডাক্তার)",
+                'hi' => "मैं आपकी डॉक्टर अपॉइंटमेंट बुक करने में मदद कर सकता हूं। आप किस तरह के डॉक्टर से मिलना चाहते हैं? (जैसे: हृदय विशेषज्ञ, त्वचा विशेषज्ञ, आंखों के डॉक्टर)",
+                default => "I can help you book a doctor appointment. What type of doctor would you like to see? (e.g., cardiologist, dermatologist, eye doctor)",
+            };
+        }
     }
 
     /**
@@ -1181,17 +1381,18 @@ class AIService
      */
     protected function buildListDoctorsResponse(array $data, string $language): string
     {
-        $specialization = $data['specialization'] ?? null;
-        
-        // Fetch all doctors from database (not just available ones)
-        $doctors = Doctor::query()
-            ->with(['specialization'])
-            ->when($specialization, function ($query) use ($specialization) {
-                $query->whereHas('specialization', function ($q) use ($specialization) {
-                    $q->where('name', 'LIKE', '%' . $specialization . '%');
-                });
-            })
-            ->limit(10)
+        try {
+            $specialization = $data['specialization'] ?? null;
+            
+            // Fetch all doctors from database (not just available ones)
+            $doctors = Doctor::query()
+                ->with(['specialization'])
+                ->when($specialization, function ($query) use ($specialization) {
+                    $query->whereHas('specialization', function ($q) use ($specialization) {
+                        $q->where('name', 'LIKE', '%' . $specialization . '%');
+                    });
+                })
+                ->limit(10)
             ->get();
         
         if ($doctors->isEmpty()) {
@@ -1231,6 +1432,14 @@ class AIService
             'hi' => "यहां हमारे उपलब्ध डॉक्टरों की सूची है:{$doctorList}\n\nअपॉइंटमेंट बुक करने के लिए डॉक्टर का नंबर बताएं (1-5)। उदाहरण: 1 लिखें।",
             default => "Here are our available doctors:{$doctorList}\n\nTo book an appointment, please specify the doctor's number (1-5). Example: Type 1",
         };
+        } catch (Exception $e) {
+            Log::error('buildListDoctorsResponse error: ' . $e->getMessage());
+            return match($language) {
+                'bn' => "ডাক্তারদের তালিকা দেখতে পারছি না। অনুগ্রহ করে পরে চেষ্টা করুন।",
+                'hi' => "डॉक्टरों की सूची नहीं देख पा रहे हैं। कृपया बाद में पुनः प्रयास करें।",
+                default => "Sorry, I couldn't retrieve the doctor list. Please try again later.",
+            };
+        }
     }
 
     /**
@@ -1829,24 +2038,29 @@ class AIService
         $hour = now()->hour;
         $timeGreeting = $hour < 12 ? 'Good morning' : ($hour < 17 ? 'Good afternoon' : 'Good evening');
         
-        // Get all doctors for greeting
-        $doctors = Doctor::query()
-            ->with(['specialization'])
-            ->limit(3)
-            ->get();
-        
+        // Try to get doctors for greeting, but handle errors gracefully
         $doctorList = "";
-        if ($doctors->isNotEmpty()) {
-            foreach ($doctors as $doctor) {
-                $doctorList .= "\n• Dr. " . $doctor->user->name;
-                if ($doctor->specialization) {
-                    $doctorList .= " (" . $doctor->specialization->name . ")";
+        try {
+            $doctors = Doctor::query()
+                ->with(['specialization'])
+                ->limit(3)
+                ->get();
+            
+            if ($doctors->isNotEmpty()) {
+                foreach ($doctors as $doctor) {
+                    $doctorList .= "\n• Dr. " . $doctor->user->name;
+                    if ($doctor->specialization) {
+                        $doctorList .= " (" . $doctor->specialization->name . ")";
+                    }
                 }
             }
+        } catch (Exception $e) {
+            // If database query fails, just continue with empty doctor list
+            Log::warning('Failed to fetch doctors for greeting: ' . $e->getMessage());
         }
         
         return match($language) {
-            'bn' => "{$timeGreeting}! 🏥\n\nআমি আপনার মেডিকেল অ্যাপয়েন্টমেন্ট অ্যাসিস্ট্যান্ট।\n\nআমাদের  ডাক্তার:{$doctorList}\n\nআমি আপনাকে অ্যাপয়েন্টমেন্ট বুক করতে, বাতিল করতে বা পুনর্নির্ধারণ করতে সাহায্য করতে পারি।\n\nআপনাকে কীভাবে সাহায্য করতে পারি?",
+            'bn' => "{$timeGreeting}! 🏥\n\nআমি আপনার মেডিকেল অ্যাপয়েন্টমেন্ট অ্যাসিস্ট্যান্ট।\n\nআমাদের ডাক্তার:{$doctorList}\n\nআমি আপনাকে অ্যাপয়েন্টমেন্ট বুক করতে, বাতিল করতে বা পুনর্নির্ধারণ করতে সাহায্য করতে পারি।\n\nআপনাকে কীভাবে সাহায্য করতে পারি?",
             'hi' => "{$timeGreeting}! 🏥\n\nमैं आपका मेडिकल अपॉइंटमेंट असिस्टेंट हूं।\n\nहमारे उपलब्ध डॉक्टर:{$doctorList}\n\nमैं आपकी अपॉइंटमेंट बुक, रद्द या पुनर्निर्धारित करने में मदद कर सकता हूं।\n\nमैं आपकी कैसे मदद कर सकता हूं?",
             default => "{$timeGreeting}! 🏥\n\nI'm your Medical Appointment Assistant.\n\nOur available doctors:{$doctorList}\n\nI can help you book, cancel, or reschedule appointments.\n\nHow can I help you today?",
         };
