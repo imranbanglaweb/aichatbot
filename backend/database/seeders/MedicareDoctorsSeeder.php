@@ -1330,7 +1330,7 @@ class MedicareDoctorsSeeder extends Seeder
                 }
                 
                 $skippedCount++;
-                echo "⏭️  Skipped (exists): " . $doctorData['name'] . "\n";
+                echo "⏭️  Skipped (exists): " . $doctorData['name'] . " (schedules updated)\n";
                 continue;
             }
 

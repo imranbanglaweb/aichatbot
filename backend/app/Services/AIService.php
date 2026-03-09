@@ -34,6 +34,7 @@ class AIService
     // Emergency keywords
     protected array $emergencyKeywords = [
         'chest pain', 'severe chest pain', 'heart attack',
+        'chest hurts', 'pain in chest', 'hurt in chest',
         'breathing problem', 'shortness of breath', 'cant breathe',
         'unconscious', 'passed out', 'fainted',
         'heavy bleeding', 'bleeding heavily', 'hemorrhage',
@@ -50,9 +51,12 @@ class AIService
         'consult', 'make an appointment', 'schedule an appointment',
         'want to see a doctor', 'need a doctor', 'see doctor',
         'get appointment', 'fix appointment', 'take appointment',
+        'need dentist', 'want dentist', 'see dentist', 'dentist appointment',
+        'dental appointment', 'tooth doctor', 'see a dentist',
         // Bangla
         'অ্যাপয়েন্টমেন্ট', 'বুক', 'সাক্ষাৎ', 'ডাক্তার দেখাতে', 'সময় নিতে',
         'আমাকে একটি অ্যাপয়েন্টমেন্ট দিন', 'আমি অ্যাপয়েন্টমেন্ট নিতে চাই',
+        'দাঁতের ডাক্তার', 'ডেন্টিস্ট',
     ];
 
     // List doctors keywords
@@ -65,12 +69,14 @@ class AIService
         'emergency', '24 hours', '24/7',
         'fever', 'cold', 'cough', 'flu', 'headache', 'stomach pain',
         'diabetes', 'blood pressure', 'bp', 'sugar',
+        'dentist', 'dental', 'dentistry', 'tooth doctor', 'need dentist',
         // Bangla
         'ডাক্তার', 'ডাক্তার তালিকা', 'কোন ডাক্তার', 'ডাক্তার দেখাতে চাই',
         'ডাক্তারের তালিকা', 'ডাক্তার কোথায়', 'সব ডাক্তার',
         'ওপিডি', 'আউটডোর', 'ইনডোর', 'আইপিডি', 'জরুরি',
         'জ্বর', 'সর্দি', 'কাশি', 'মাথাব্যথা', 'পেটে ব্যথা',
         'ডায়াবেটিস', 'উচ্চ রক্তচাপ', 'চিনি',
+        'দাঁত', 'দাঁতের ডাক্তার', 'মাড়ি', 'ডেন্টিস্ট',
     ];
 
     // Cancel keywords
@@ -141,6 +147,13 @@ class AIService
         'eyes' => 'Ophthalmology',
         'vision' => 'Ophthalmology',
         'eye disease' => 'Ophthalmology',
+        // Dentist must come before ENT to avoid "dentist" matching "ent"
+        'dentist' => 'Dentist',
+        'dental' => 'Dentist',
+        'dentistry' => 'Dentist',
+        'tooth' => 'Dentist',
+        'teeth' => 'Dentist',
+        'oral' => 'Dentist',
         'ent' => 'ENT',
         'ear' => 'ENT',
         'nose' => 'ENT',
@@ -173,6 +186,12 @@ class AIService
         'oncology' => 'Oncology',
         'cancer' => 'Oncology',
         'tumor' => 'Oncology',
+        'dentist' => 'Dentist',
+        'dental' => 'Dentist',
+        'dentistry' => 'Dentist',
+        'tooth' => 'Dentist',
+        'teeth' => 'Dentist',
+        'oral' => 'Dentist',
         'nephrologist' => 'Nephrology',
         'nephrology' => 'Nephrology',
         'kidney disease' => 'Nephrology',
@@ -233,6 +252,9 @@ class AIService
         'ডায়াবেটিস' => 'Endocrinology',
         'চিনি' => 'Endocrinology',
         'থাইরয়েড' => 'Endocrinology',
+        'দাঁত' => 'Dentist',
+        'দাঁতে ব্যথা' => 'Dentist',
+        'মাড়ি' => 'Dentist',
     ];
 
     /**
@@ -366,12 +388,14 @@ class AIService
         'diabetes', 'sugar', 'back pain', 'neck pain', 'joint pain',
         'breathing', 'shortness of breath', 'asthma', 'cough', 'vomiting',
         'nausea', 'diarrhea', 'constipation', 'pregnancy', 'baby', 'child',
+        'tooth pain', 'teeth pain', 'toothache', 'gum pain', 'gum bleeding',
         'বুকে ব্যথা', 'হৃদযন্ত্র', 'জ্বর', 'সর্দি', 'কাশি', 'ফ্লু',
         'পেটে ব্যথা', 'মাথাব্যথা', 'মাইগ্রেইন', 'মাথা ঘুরা', 'দুর্বল',
         'ক্লান্ত', 'অ্যালার্জি', 'ত্বক', 'র‌্যাশ', 'চুলকানি',
         'রক্তচাপ', 'উচ্চ রক্তচাপ', 'ডায়াবেটিস', 'চিনি', 'পিঠে ব্যথা',
         'গলায় ব্যথা', 'শ্বাস নিতে সমস্যা', 'আসমা', 'বমি', 'ডায়রিয়া',
         'কোষ্ঠকাঠিন্য', 'গর্ভবতী', 'শিশু', 'বাচ্চা',
+        'দাঁতে ব্যথা', 'দাঁতের ব্যথা', 'মাড়িতে ব্যথা',
     ];
 
     protected array $appointmentInfoKeywords = [
@@ -463,7 +487,7 @@ class AIService
             
             $extractedData = [];
             try {
-                $extractedData = $this->extractEntitiesFromMessage($message);
+                $extractedData = $this->extractEntitiesFromMessage($message, $context);
                 Log::debug('Extracted entities from message: ' . json_encode($extractedData));
             } catch (Exception $e) {
                 Log::warning('extractEntitiesFromMessage error: ' . $e->getMessage());
@@ -527,7 +551,11 @@ class AIService
         $trimmedMessage = trim($lowerMessage);
         if ($trimmedMessage === 'book' || $trimmedMessage === 'appointment' || 
             $trimmedMessage === 'book appointment' || $trimmedMessage === 'i want to book' ||
-            str_starts_with($trimmedMessage, 'book ') || str_starts_with($trimmedMessage, 'appointment')) {
+            str_starts_with($trimmedMessage, 'book ') || str_starts_with($trimmedMessage, 'appointment') ||
+            str_contains($trimmedMessage, 'need dentist') || str_contains($trimmedMessage, 'want dentist') ||
+            str_contains($trimmedMessage, 'see dentist') || str_contains($trimmedMessage, 'dental') ||
+            str_contains($trimmedMessage, 'দাঁত') || str_contains($trimmedMessage, 'ডেন্টিস্ট') ||
+            str_contains($trimmedMessage, 'দাঁতের ডাক্তার')) {
             Log::debug('Detected INTENT_BOOK_APPOINTMENT from quick check: ' . $trimmedMessage);
             return self::INTENT_BOOK_APPOINTMENT;
         }
@@ -705,7 +733,7 @@ class AIService
             return self::INTENT_LIST_DOCTORS;
         }
 
-        if ($this->matchesAny($message, ['available', 'availability', 'schedule', 'when are you open', 'timings'])) {
+        if ($this->matchesAny($message, ['available', 'availability', 'schedule', 'when are you open', 'timings', 'doctor available', 'doctors available', 'is doctor available'])) {
             return self::INTENT_CHECK_AVAILABILITY;
         }
 
@@ -912,7 +940,7 @@ class AIService
     /**
      * Extract entities from message
      */
-    protected function extractEntitiesFromMessage(string $message): array
+    protected function extractEntitiesFromMessage(string $message, array $context = []): array
     {
         $lowerMessage = strtolower($message);
         $entities = [
@@ -929,6 +957,11 @@ class AIService
         ];
 
         Log::debug('extractEntitiesFromMessage called with: ' . $message);
+
+        // Check if doctor is already selected in context
+        $hasDoctorInContext = !empty($context['extracted_data']['doctor_number']) ||
+                              !empty($context['extracted_data']['selected_doctor_id']) ||
+                              !empty($context['extracted_data']['doctor_name']);
         
         foreach ($this->specializations as $keyword => $specialization) {
             if (str_contains($lowerMessage, $keyword)) {
@@ -981,8 +1014,20 @@ class AIService
             }
         }
 
-        if (is_numeric($message) && intval($message) >= 1 && intval($message) <= 20) {
-            $entities['time_slot_number'] = intval($message);
+        // Extract time_slot_number based on context
+        // If doctor is already selected, treat numbers as time slots
+        // Otherwise, let extractDoctorNumber handle it
+        $numValue = intval($message);
+        if (is_numeric($message) && $numValue >= 1 && $numValue <= 20) {
+            if ($hasDoctorInContext) {
+                // Doctor is selected, this is likely a time slot number
+                $entities['time_slot_number'] = $numValue;
+                Log::debug('Doctor in context, setting time_slot_number: ' . $numValue);
+            } else {
+                // No doctor in context yet, don't set time_slot_number
+                // extractDoctorNumber will handle this as potential doctor number
+                Log::debug('No doctor in context, not setting time_slot_number for: ' . $message);
+            }
         } elseif ($this->matchesAny($lowerMessage, ['morning', 'am', '10 am', '11 am', '9 am'])) {
             $entities['time_preference'] = 'morning';
         } elseif ($this->matchesAny($lowerMessage, ['afternoon', 'pm', '2 pm', '3 pm', '4 pm'])) {
@@ -1596,11 +1641,99 @@ class AIService
      */
     protected function buildAvailabilityResponse(array $data, string $language): string
     {
-        return match($language) {
-            'bn' => "আমাদের ডাক্তাররা সাধারণত সকাল ৯টা থেকে সন্ধ্যা ৬টা পর্যন্ত কাজ করেন। আপনি কোন ডাক্তারের সময়সূচি দেখতে চান?",
-            'hi' => "हमारे डॉक्टर आमतौर पर सुबह 9 बजे से शाम 6 बजे तक काम करते हैं। आप किस डॉक्टर की उपलब्धता देखना चाहेंगे?",
-            default => "Our doctors typically work from 9 AM to 6 PM. Which doctor's availability would you like to check?",
+        // Check if a specific doctor is requested
+        $specificDoctorId = $data['selected_doctor_id'] ?? null;
+        $specificDoctorName = $data['doctor_name'] ?? null;
+        
+        // Get all doctors with their specializations
+        $doctorsQuery = Doctor::query()->with(['specialization', 'user']);
+        
+        // If specific doctor is requested, filter to that doctor
+        if ($specificDoctorId) {
+            $doctorsQuery->where('id', $specificDoctorId);
+        } elseif ($specificDoctorName) {
+            $doctorsQuery->whereHas('user', function ($q) use ($specificDoctorName) {
+                $q->where('name', 'LIKE', '%' . $specificDoctorName . '%');
+            });
+        }
+        
+        $doctors = $doctorsQuery->get();
+        
+        if ($doctors->isEmpty()) {
+            return match($language) {
+                'bn' => 'দুঃখিত, কোনো ডাক্তার পাওয়া যায়নি।',
+                'hi' => 'माफ करें, कोई डॉक्टर नहीं मिला।',
+                default => 'Sorry, no doctors found.',
+            };
+        }
+        
+        // Determine which date to show availability for
+        $targetDate = $data['date'] ?? $data['appointment_date'] ?? date('Y-m-d');
+        $formattedDate = date('F j, Y', strtotime($targetDate));
+        $dayOfWeek = date('l', strtotime($targetDate));
+        
+        $response = match($language) {
+            'bn' => "{$formattedDate} ({$dayOfWeek})-উপলব্ধ ডাক্তার এবং সময়:\n\n",
+            'hi' => "{$formattedDate} ({$dayOfWeek}) को उपलब्ध डॉक्टर और समय:\n\n",
+            default => "Available doctors and times for {$formattedDate} ({$dayOfWeek}):\n\n",
         };
+        
+        $hasAnySlots = false;
+        $doctorNumber = 1;
+        
+        foreach ($doctors as $doctor) {
+            $doctorName = $doctor->user->name ?? 'Unknown';
+            $specialization = $doctor->specialization->name ?? 'General';
+            $slots = $doctor->getAvailableTimeSlotsForDate($targetDate);
+            
+            if (!empty($slots)) {
+                $hasAnySlots = true;
+                $slotList = "";
+                foreach ($slots as $index => $slot) {
+                    $slotNumber = $index + 1;
+                    $slotList .= "  {$slotNumber}. {$slot['start']} - {$slot['end']}\n";
+                }
+                
+                $response .= match($language) {
+                    'bn' => "{$doctorNumber}. Dr. {$doctorName} ({$specialization})\n   উপলব্ধ সময়:\n{$slotList}\n",
+                    'hi' => "{$doctorNumber}. Dr. {$doctorName} ({$specialization})\n   उपलब्ध समय:\n{$slotList}\n",
+                    default => "{$doctorNumber}. Dr. {$doctorName} ({$specialization})\n   Available times:\n{$slotList}\n",
+                };
+                $doctorNumber++;
+            }
+        }
+        
+        if (!$hasAnySlots) {
+            $doctorInfo = $specificDoctorName ? " Dr. {$specificDoctorName}" : '';
+            return match($language) {
+                'bn' => "{$formattedDate} তারিখে{$doctorInfo}-এর কোনো সময় উপলব্ধ নেই। অন্য তারিখ চেষ্টা করুন।",
+                'hi' => "{$formattedDate} को{$doctorInfo} के लिए कोई समय उपलब्ध नहीं है। कृपया कोई और तारीख चुनें।",
+                default => "No slots available for{$doctorInfo} on {$formattedDate}. Please try a different date.",
+            };
+        }
+        
+        // Show appropriate next step based on whether specific doctor was requested
+        if ($specificDoctorId || $specificDoctorName) {
+            // Count total slots for the response
+            $totalSlots = 0;
+            foreach ($doctors as $doctor) {
+                $slots = $doctor->getAvailableTimeSlotsForDate($targetDate);
+                $totalSlots += count($slots);
+            }
+            $response .= match($language) {
+                'bn' => "\nঅ্যাপয়েন্টমেন্ট বুক করতে, সময়ের নম্বর বলুন (1-{$totalSlots})।",
+                'hi' => "\nअपॉइंटमेंट बुक करने के लिए, समय का नंबर बताएं (1-{$totalSlots})।",
+                default => "\nTo book an appointment, please specify the time number (1-{$totalSlots}).",
+            };
+        } else {
+            $response .= match($language) {
+                'bn' => "\nঅ্যাপয়েন্টমেন্ট বুক করতে, ডাক্তারের নম্বর বলুন।",
+                'hi' => "\nअपॉइंटमेंट बुक करने के लिए, डॉक्टर का नंबर बताएं।",
+                default => "\nTo book an appointment, please specify the doctor number.",
+            };
+        }
+        
+        return $response;
     }
 
     /**
@@ -1816,6 +1949,12 @@ class AIService
             'women' => 'Gynecology',
             'dizzy' => 'General Medicine',
             'weak' => 'General Medicine',
+            'tooth' => 'Dentist',
+            'teeth' => 'Dentist',
+            'toothache' => 'Dentist',
+            'gum' => 'Dentist',
+            'দাঁত' => 'Dentist',
+            'মাড়ি' => 'Dentist',
             'বুকে ব্যথা' => 'Cardiology',
             'হৃদ' => 'Cardiology',
             'রক্তচাপ' => 'Cardiology',
