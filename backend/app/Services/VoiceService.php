@@ -189,7 +189,7 @@ class VoiceService
                 ],
                 'audioConfig' => [
                     'audioEncoding' => 'MP3',
-                    'speakingRate' => 0.9,
+                    'speakingRate' => 1.0,
                     'pitch' => 0,
                     'volumeGainDb' => 0,
                 ],
@@ -238,47 +238,47 @@ class VoiceService
         
         $voices = [
             'en-US' => [
-                'name' => 'en-US-Neural2-F',
+                'name' => 'en-US-WaveNet-F',
                 'language_code' => 'en-US',
                 'gender' => $gender,
             ],
             'en-GB' => [
-                'name' => 'en-GB-Neural2-F',
+                'name' => 'en-GB-WaveNet-F',
                 'language_code' => 'en-GB',
                 'gender' => $gender,
             ],
             'bn-IN' => [
-                'name' => 'bn-IN-Standard-A',
+                'name' => 'bn-IN-WaveNet-A',
                 'language_code' => 'bn-IN',
-                'gender' => $gender,
+                'gender' => 'FEMALE',
             ],
             'hi-IN' => [
-                'name' => 'hi-IN-Standard-A',
+                'name' => 'hi-IN-WaveNet-A',
                 'language_code' => 'hi-IN',
-                'gender' => $gender,
+                'gender' => 'FEMALE',
             ],
             'es-ES' => [
-                'name' => 'es-ES-Standard-A',
+                'name' => 'es-ES-WaveNet-A',
                 'language_code' => 'es-ES',
                 'gender' => $gender,
             ],
             'fr-FR' => [
-                'name' => 'fr-FR-Standard-A',
+                'name' => 'fr-FR-WaveNet-A',
                 'language_code' => 'fr-FR',
                 'gender' => $gender,
             ],
             'de-DE' => [
-                'name' => 'de-DE-Standard-A',
+                'name' => 'de-DE-WaveNet-A',
                 'language_code' => 'de-DE',
                 'gender' => $gender,
             ],
             'zh-CN' => [
-                'name' => 'zh-CN-Standard-A',
+                'name' => 'zh-CN-WaveNet-A',
                 'language_code' => 'zh-CN',
                 'gender' => $gender,
             ],
             'ar-SA' => [
-                'name' => 'ar-SA-Standard-A',
+                'name' => 'ar-SA-WaveNet-A',
                 'language_code' => 'ar-SA',
                 'gender' => $gender,
             ],

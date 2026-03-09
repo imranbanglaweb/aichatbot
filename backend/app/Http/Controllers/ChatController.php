@@ -65,9 +65,13 @@ class ChatController extends Controller
                 'current_intent' => $session->current_intent,
             ]);
 
-            // Update session
+            // Update session - merge extracted data with existing data
+            $existingExtractedData = is_array($session->extracted_data) ? $session->extracted_data : (is_string($session->extracted_data) ? json_decode($session->extracted_data, true) : []);
+            $newExtractedData = $result['extracted_data'] ?? [];
+            $mergedExtractedData = array_merge($existingExtractedData, $newExtractedData);
+            
             $session->update([
-                'extracted_data' => $result['extracted_data'] ?? [],
+                'extracted_data' => $mergedExtractedData,
                 'current_intent' => $result['intent'],
                 'message_count' => $session->message_count + 1,
                 'last_activity_at' => now(),
@@ -159,9 +163,13 @@ class ChatController extends Controller
                 'current_intent' => $session->current_intent,
             ]);
 
-            // Update session
+            // Update session - merge extracted data with existing data
+            $existingExtractedData = is_array($session->extracted_data) ? $session->extracted_data : (is_string($session->extracted_data) ? json_decode($session->extracted_data, true) : []);
+            $newExtractedData = $result['extracted_data'] ?? [];
+            $mergedExtractedData = array_merge($existingExtractedData, $newExtractedData);
+            
             $session->update([
-                'extracted_data' => $result['extracted_data'] ?? [],
+                'extracted_data' => $mergedExtractedData,
                 'current_intent' => $result['intent'],
                 'message_count' => $session->message_count + 1,
                 'last_activity_at' => now(),
