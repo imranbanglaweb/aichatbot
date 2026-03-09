@@ -916,3 +916,33 @@ I want to cancel appointment
 [2026-03-09 18:56:11] local.DEBUG: Fully merged data: {"specialization":null,"symptoms":[],"date":"2026-03-13","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_name":"Emily Williams"}  
 [2026-03-09 18:56:11] local.DEBUG: Using merged values - doctorNumber: null, date: 2026-03-13, time: null  
 [2026-03-09 18:56:11] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-13  
+[2026-03-09 19:11:22] local.DEBUG: detectIntent called with message: i want a doctorbook for dr. emily williams (lower: i want a doctorbook for dr. emily williams), currentIntent: null  
+[2026-03-09 19:11:22] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from booking keywords  
+[2026-03-09 19:11:22] local.DEBUG: extractEntitiesFromMessage called with: i want a doctorbook for Dr. Emily Williams  
+[2026-03-09 19:11:22] local.DEBUG: Checking for date patterns in message: i want a doctorbook for Dr. Emily Williams  
+[2026-03-09 19:11:22] local.DEBUG: No date pattern matched for message: i want a doctorbook for Dr. Emily Williams  
+[2026-03-09 19:11:22] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":"morning","time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-09 19:11:22] local.DEBUG: Found doctor by name: Emily Williams  
+[2026-03-09 19:11:22] local.DEBUG: Doctor name extracted from message: Emily Williams  
+[2026-03-09 19:11:22] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-09 19:11:22] local.DEBUG: buildBookingResponse called with data: {"specialization":null,"symptoms":[],"date":null,"time_preference":"morning","time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_name":"Emily Williams"}, context extracted_data: []  
+[2026-03-09 19:11:22] local.DEBUG: Fully merged data: {"specialization":null,"symptoms":[],"date":null,"time_preference":"morning","time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_name":"Emily Williams"}  
+[2026-03-09 19:11:22] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: morning  
+[2026-03-09 19:11:22] local.DEBUG: Case 2: Doctor selected, need date  
+[2026-03-09 19:11:36] local.DEBUG: detectIntent called with message: friday (lower: friday), currentIntent: book_appointment  
+[2026-03-09 19:11:36] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-09 19:11:36] local.DEBUG: extractEntitiesFromMessage called with: friday  
+[2026-03-09 19:11:36] local.DEBUG: Checking for date patterns in message: friday  
+[2026-03-09 19:11:36] local.DEBUG: Relative date pattern matched: friday  
+[2026-03-09 19:11:36] local.DEBUG: Parsed date: 2026-03-13  
+[2026-03-09 19:11:36] local.DEBUG: extractEntitiesFromMessage called with: Friday  
+[2026-03-09 19:11:36] local.DEBUG: Checking for date patterns in message: Friday  
+[2026-03-09 19:11:36] local.DEBUG: Relative date pattern matched: Friday  
+[2026-03-09 19:11:36] local.DEBUG: Parsed date: 2026-03-13  
+[2026-03-09 19:11:36] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-13","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-09 19:11:36] local.DEBUG: Merged extracted_data: context={"specialization":null,"symptoms":[],"date":null,"time_preference":"morning","time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_name":"Emily Williams"}, new={"specialization":null,"symptoms":[],"date":"2026-03-13","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_name":"Emily Williams"}  
+[2026-03-09 19:11:36] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
+[2026-03-09 19:11:36] local.DEBUG: buildBookingResponse called with data: {"specialization":null,"symptoms":[],"date":"2026-03-13","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_name":"Emily Williams"}, context extracted_data: {"specialization":null,"symptoms":[],"date":null,"time_preference":"morning","time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_name":"Emily Williams"}  
+[2026-03-09 19:11:36] local.DEBUG: Fully merged data: {"specialization":null,"symptoms":[],"date":"2026-03-13","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_name":"Emily Williams"}  
+[2026-03-09 19:11:36] local.DEBUG: Using merged values - doctorNumber: null, date: 2026-03-13, time: null  
+[2026-03-09 19:11:36] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-13  
