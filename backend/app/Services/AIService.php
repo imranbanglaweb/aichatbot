@@ -1227,7 +1227,9 @@ class AIService
             '/01[3-9]\d{8}/',
             // Generic international formats
             '/\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/',
-            // Any 10-11 digit number
+            // Short Bangladeshi mobile (8 digits with leading 0)
+            '/0\d{7,8}/',
+            // Any 8-11 digit number
             '/\d{10,11}/',
         ];
         foreach ($phonePatterns as $pattern) {
@@ -1240,7 +1242,10 @@ class AIService
 
         // If phone found, extract name from remaining text
         if ($entities['phone']) {
-            $remaining = trim(str_replace($entities['phone'], '', $message));
+            // Remove common separators and the phone number
+            $tempMessage = str_replace($entities['phone'], '', $message);
+            $tempMessage = str_replace(',', ' ', $tempMessage);
+            $remaining = trim($tempMessage);
             $remaining = preg_replace('/[:,\-]/', ' ', $remaining);
             $remaining = trim(preg_replace('/\b(my name is|i am|i\'m|name is|name|phone|mobile|number)\b/i','',$remaining));
             $remaining = trim(preg_replace('/\s+/', ' ', $remaining)); // normalize whitespace
