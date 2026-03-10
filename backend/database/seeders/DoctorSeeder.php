@@ -203,6 +203,27 @@ class DoctorSeeder extends Seeder
                     'end_time' => '16:00:00',
                 ]
             ],
+            // added ophthalmologist so that "eye doctor" queries return a match
+            [
+                'user' => ['name' => 'Maya Patel', 'email' => 'maya.patel@hospital.com', 'phone' => '+1234567801'],
+                'specialization' => 'Ophthalmologist',
+                'license_number' => 'MD-EYE-001',
+                'qualification' => 'MD Ophthalmology - Columbia University',
+                'experience_years' => 13,
+                'bio' => 'Experienced eye doctor specializing in vision care and surgery.',
+                'consultation_fee' => 140.00,
+                'hospital_clinic' => 'Vision Care Center',
+                'address' => '101 Eye Street',
+                'city' => 'New York',
+                'rating' => 4.8,
+                'total_reviews' => 200,
+                'languages' => ['en'],
+                'schedule' => [
+                    'days' => ['monday', 'tuesday', 'wednesday', 'friday'],
+                    'start_time' => '09:00:00',
+                    'end_time' => '17:00:00',
+                ]
+            ],
             [
                 'user' => ['name' => 'Jennifer Lee', 'email' => 'jennifer.lee@hospital.com', 'phone' => '+1234567897'],
                 'specialization' => 'Gynecologist',
@@ -320,6 +341,7 @@ class DoctorSeeder extends Seeder
         // Delete existing schedules
         DoctorSchedule::where('doctor_id', $doctor->id)->delete();
 
+        // Create daytime schedule
         foreach ($schedule['days'] as $day) {
             DoctorSchedule::create([
                 'doctor_id' => $doctor->id,
@@ -332,5 +354,38 @@ class DoctorSeeder extends Seeder
                 'is_active' => true,
             ]);
         }
+
+        // Add evening slots (6 PM - 11 PM) for 2-3 days
+        $eveningDays = $this->getEveningDaysForDoctor($doctor->id);
+        foreach ($eveningDays as $day) {
+            DoctorSchedule::create([
+                'doctor_id' => $doctor->id,
+                'day_of_week' => $day,
+                'start_time' => '18:00:00',
+                'end_time' => '23:00:00',
+                'break_start' => null,
+                'break_end' => null,
+                'max_appointments' => 10,
+                'is_active' => true,
+            ]);
+        }
+    }
+
+    /**
+     * Get evening days for each doctor (2-3 days per week)
+     */
+    protected function getEveningDaysForDoctor(int $doctorId): array
+    {
+        // Assign 2-3 evening days based on doctor ID for variety
+        $eveningSchedules = [
+            ['friday', 'saturday'],
+            ['thursday', 'friday', 'saturday'],
+            ['friday', 'saturday', 'sunday'],
+            ['saturday', 'sunday'],
+            ['thursday', 'friday'],
+        ];
+
+        $index = $doctorId % count($eveningSchedules);
+        return $eveningSchedules[$index];
     }
 }

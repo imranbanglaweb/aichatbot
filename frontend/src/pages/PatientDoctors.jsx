@@ -15,6 +15,8 @@ const PatientDoctors = () => {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [slotsLoading, setSlotsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalDoctors, setTotalDoctors] = useState(0);
@@ -72,8 +74,43 @@ const PatientDoctors = () => {
     }
   };
 
-  const handleViewProfile = (doctor) => {
+  const handleViewProfile = async (doctor) => {
     setSelectedDoctor({ ...doctor, isViewMode: true });
+    // Set default date to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const defaultDate = tomorrow.toISOString().split('T')[0];
+    setSelectedDate(defaultDate);
+    setSelectedTime('');
+    setAvailableSlots([]);
+    // Fetch slots for default date
+    fetchDoctorSlots(doctor.id, defaultDate);
+  };
+
+  const fetchDoctorSlots = async (doctorId, date) => {
+    if (!date) return;
+    setSlotsLoading(true);
+    try {
+      const response = await api.getDoctorSlots(doctorId, date);
+      if (response.success && response.slots) {
+        setAvailableSlots(response.slots);
+      } else {
+        setAvailableSlots([]);
+      }
+    } catch (err) {
+      console.error('Error fetching slots:', err);
+      setAvailableSlots([]);
+    } finally {
+      setSlotsLoading(false);
+    }
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setSelectedTime('');
+    if (selectedDoctor && date) {
+      fetchDoctorSlots(selectedDoctor.id, date);
+    }
   };
 
   const handleBookClick = (doctor) => {
@@ -81,13 +118,19 @@ const PatientDoctors = () => {
     // Set minimum date to tomorrow
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    setSelectedDate(tomorrow.toISOString().split('T')[0]);
+    const defaultDate = tomorrow.toISOString().split('T')[0];
+    setSelectedDate(defaultDate);
+    setSelectedTime('');
+    setAvailableSlots([]);
+    // Fetch slots for default date
+    fetchDoctorSlots(doctor.id, defaultDate);
   };
 
   const closeModal = () => {
     setSelectedDoctor(null);
     setSelectedDate('');
     setSelectedTime('');
+    setAvailableSlots([]);
   };
 
   if (loading) {
@@ -389,27 +432,58 @@ const PatientDoctors = () => {
                 <div className="booking-form">
                   <div className="form-group">
                     <label>Select Date</label>
+                    {/* Quick date selection for next 7 days */}
+                    <div className="quick-dates">
+                      {[...Array(7)].map((_, i) => {
+                        const date = new Date();
+                        date.setDate(date.getDate() + i + 1);
+                        const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
+                        const dateStr = date.toISOString().split('T')[0];
+                        const isAvailable = selectedDoctor.available_days?.includes(dayOfWeek);
+                        return (
+                          <button
+                            key={i}
+                            type="button"
+                            className={`quick-date-btn ${selectedDate === dateStr ? 'selected' : ''} ${!isAvailable ? 'unavailable' : ''}`}
+                            onClick={() => isAvailable && handleDateChange(dateStr)}
+                            disabled={!isAvailable}
+                          >
+                            <span className="day-name">{date.toLocaleDateString('en-US', { weekday: 'short' })}</span>
+                            <span className="day-date">{date.getDate()}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
                     <input 
                       type="date" 
                       value={selectedDate}
-                      onChange={(e) => setSelectedDate(e.target.value)}
+                      onChange={(e) => handleDateChange(e.target.value)}
                       min={new Date(Date.now() + 86400000).toISOString().split('T')[0]}
                     />
                   </div>
                   <div className="form-group">
                     <label>Select Time</label>
-                    <select 
-                      value={selectedTime}
-                      onChange={(e) => setSelectedTime(e.target.value)}
-                    >
-                      <option value="">Choose time</option>
-                      <option value="09:00:00">09:00 AM</option>
-                      <option value="10:00:00">10:00 AM</option>
-                      <option value="11:00:00">11:00 AM</option>
-                      <option value="14:00:00">02:00 PM</option>
-                      <option value="15:00:00">03:00 PM</option>
-                      <option value="16:00:00">04:00 PM</option>
-                    </select>
+                    {slotsLoading ? (
+                      <div className="slots-loading">Loading available slots...</div>
+                    ) : availableSlots.length > 0 ? (
+                      <div className="slots-grid">
+                        {availableSlots.map((slot, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            className={`slot-btn ${selectedTime === slot.time ? 'selected' : ''} ${!slot.available ? 'unavailable' : ''}`}
+                            onClick={() => slot.available && setSelectedTime(slot.time)}
+                            disabled={!slot.available}
+                          >
+                            {slot.formatted}
+                          </button>
+                        ))}
+                      </div>
+                    ) : selectedDate ? (
+                      <div className="no-slots">No available slots for this date</div>
+                    ) : (
+                      <div className="no-slots">Please select a date to see available time slots</div>
+                    )}
                   </div>
                   <button 
                     className="btn btn-primary btn-full"

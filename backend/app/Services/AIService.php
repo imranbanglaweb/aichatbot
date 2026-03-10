@@ -91,6 +91,9 @@ class AIService
         'move appointment', 'different time', 'different date',
     ];
 
+    // last doctor list returned to user (used for mapping numbers back to IDs)
+    protected array $lastDoctorIds = [];
+
     // Specializations mapping
     protected array $specializations = [
         'opd' => 'General Medicine',
@@ -141,12 +144,16 @@ class AIService
         'depression' => 'Psychiatry',
         'stress' => 'Psychiatry',
         'mental health' => 'Psychiatry',
-        'ophthalmologist' => 'Ophthalmology',
-        'ophthalmology' => 'Ophthalmology',
-        'eye' => 'Ophthalmology',
-        'eyes' => 'Ophthalmology',
-        'vision' => 'Ophthalmology',
-        'eye disease' => 'Ophthalmology',
+        // use the actual specialization name stored in the database so the later
+        // query ("where('name','LIKE',...)" ) will match correctly.  the
+        // seeder creates "Ophthalmologist" not "Ophthalmology", so return that
+        // term here.
+        'ophthalmologist' => 'Ophthalmologist',
+        'ophthalmology' => 'Ophthalmologist',
+        'eye' => 'Ophthalmologist',
+        'eyes' => 'Ophthalmologist',
+        'vision' => 'Ophthalmologist',
+        'eye disease' => 'Ophthalmologist',
         // Dentist must come before ENT to avoid "dentist" matching "ent"
         'dentist' => 'Dentist',
         'dental' => 'Dentist',
@@ -476,6 +483,12 @@ class AIService
         try {
             $lowerMessage = strtolower($message);
             $detectedIntent = $this->detectIntent($lowerMessage, $context);
+            // if the user isn't actively asking for a list of doctors, the last
+            // cached ID array is no longer valid.  Clearing it prevents an
+            // unrelated number later from picking the wrong doctor.
+            if ($detectedIntent !== self::INTENT_LIST_DOCTORS) {
+                $this->lastDoctorIds = [];
+            }
             
             foreach ($this->specializations as $keyword => $specialization) {
                 if (str_contains($lowerMessage, $keyword)) {
@@ -500,7 +513,25 @@ class AIService
             try {
                 $doctorNumber = $this->extractDoctorNumber($message);
                 if ($doctorNumber !== null) {
-                    $extractedData['doctor_number'] = $doctorNumber;
+                    // if the message also contained a date (e.g. user replied "6"
+                    // to a list of days) then we should not treat the number as a
+                    // doctor selection.  extractEntities already fills
+                    // "date" in that case.
+                    if (empty($extractedData['date'])) {
+                        $extractedData['doctor_number'] = $doctorNumber;
+
+                        // Map against the most recently shown doctor list if available
+                        if (!empty($this->lastDoctorIds) && isset($this->lastDoctorIds[$doctorNumber - 1])) {
+                            $extractedData['selected_doctor_id'] = $this->lastDoctorIds[$doctorNumber - 1];
+                            Log::debug('Mapped extracted doctor_number ' . $doctorNumber . ' to selected_doctor_id ' . $extractedData['selected_doctor_id']);
+                            // we've consumed the cached list; remove it from context
+                            unset($extractedData['last_doctor_ids']);
+                            // also clear the service property so it doesn't linger
+                            $this->lastDoctorIds = [];
+                        }
+                    } else {
+                        Log::debug('Ignored doctor_number ' . $doctorNumber . ' because date was extracted from same message');
+                    }
                 }
             } catch (Exception $e) {
                 Log::warning('extractDoctorNumber error: ' . $e->getMessage());
@@ -513,11 +544,21 @@ class AIService
             }
             
             if (!empty($context['extracted_data'])) {
-                $extractedData = array_merge($context['extracted_data'], $extractedData);
+                // Filter out null values from new extracted data to preserve context values
+                $newDataFiltered = array_filter($extractedData, function($value) {
+                    return $value !== null;
+                });
+                $extractedData = array_merge($context['extracted_data'], $newDataFiltered);
                 Log::debug('Merged extracted_data: context=' . json_encode($context['extracted_data']) . ', new=' . json_encode($extractedData));
             }
             
             $response = $this->buildResponse($detectedIntent, $extractedData, $context);
+
+            // If we just showed a doctor list, stash the IDs in the extracted data
+            // so subsequent messages can map a numeric reply to the correct record.
+            if ($detectedIntent === self::INTENT_LIST_DOCTORS && !empty($this->lastDoctorIds)) {
+                $extractedData['last_doctor_ids'] = $this->lastDoctorIds;
+            }
 
             return [
                 'intent' => $detectedIntent,
@@ -530,7 +571,7 @@ class AIService
             
             return [
                 'intent' => $detectedIntent,
-                'response' => "I can help you book a doctor appointment. What type of doctor would you like to see? (e.g., cardiologist, dermatologist, eye doctor)",
+                'response' => "I can help you book a doctor appointment. What type of doctor would you like to see? (e.g., cardiologist, dermatologist, eye doctor/ophthalmologist)",
                 'extracted_data' => [],
                 'emergency_detected' => false,
             ];
@@ -573,21 +614,70 @@ class AIService
         }
         
         if (is_numeric($trimmedMessage) && intval($trimmedMessage) >= 1 && intval($trimmedMessage) <= 10) {
-            // If we already have doctor AND date in context, this is likely a time slot selection
+            // if we haven't shown a list or already chosen a doctor, an isolated
+            // number should not start the booking flow.  'last_doctor_ids' is
+            // stored in context when we list doctors.
             $hasDoctorInContext = !empty($extractedData['doctor_number']) || 
                                   !empty($extractedData['selected_doctor_id']) ||
                                   !empty($extractedData['doctor_name']);
-            $hasDateInContext = !empty($extractedData['date']);
+            $hasListContext = !empty($context['extracted_data']['last_doctor_ids']);
+            $hasSpecializationContext = !empty($extractedData['specialization']);
             
-            if ($hasDoctorInContext && $hasDateInContext) {
-                // Extract time slot number and merge with context
-                $tempExtracted = $this->extractEntitiesFromMessage($trimmedMessage);
-                if (!empty($tempExtracted['time_slot_number'])) {
-                    Log::debug('Detected time slot selection: ' . $tempExtracted['time_slot_number']);
+            // Also check context for specialization (from previous messages)
+            $hasSpecializationContext = $hasSpecializationContext || !empty($context['extracted_data']['specialization']);
+            
+            if (!$hasDoctorInContext && !$hasListContext && !$hasSpecializationContext) {
+                Log::debug('Numeric message without booking context, returning GENERAL');
+                return self::INTENT_GENERAL;
+            }
+
+            // If we already have doctor AND date in context OR doctor AND time preference,
+            // this could be a time slot selection.
+            $hasDateInContext = !empty($extractedData['date']);
+            $hasTimePreference = !empty($extractedData['time_preference']);
+            $newDoctorNumber = intval($trimmedMessage);
+
+            if ($hasDoctorInContext && ($hasDateInContext || $hasTimePreference)) {
+                // determine slot count for the currently selected doctor/date
+                $slotCount = 0;
+                try {
+                    $doctor = null;
+                    if (!empty($extractedData['selected_doctor_id'])) {
+                        $doctor = Doctor::with('schedules')->find($extractedData['selected_doctor_id']);
+                    } elseif (!empty($extractedData['doctor_number'])) {
+                        // if we have doctor_number but not id, we may have a recent
+                        // list from lastDoctorIds; otherwise fall back to query by
+                        // ranking similar to buildBookingResponse
+                        if (!empty($this->lastDoctorIds) && isset($this->lastDoctorIds[$extractedData['doctor_number'] - 1])) {
+                            $doctor = Doctor::with('schedules')->find($this->lastDoctorIds[$extractedData['doctor_number'] - 1]);
+                        } else {
+                            $doctorQuery = Doctor::query()->with('schedules')
+                                ->orderBy('rating','desc')->orderBy('experience_years','desc');
+                            $doctor = $doctorQuery->skip($extractedData['doctor_number'] - 1)->first();
+                        }
+                    } elseif (!empty($extractedData['doctor_name'])) {
+                        $doctor = Doctor::query()->with('schedules')
+                            ->whereHas('user', function($q) use ($extractedData) {
+                                $q->where('name','LIKE','%'.$extractedData['doctor_name'].'%');
+                            })->first();
+                    }
+
+                    if ($doctor) {
+                        $slots = $doctor->getAvailableTimeSlotsForDate($extractedData['date']);
+                        $slotCount = count($slots);
+                    }
+                } catch (
+                    Exception $e) {
+                    Log::warning('slot count lookup failed: '.$e->getMessage());
+                }
+
+                if ($slotCount > 0 && $newDoctorNumber <= $slotCount) {
+                    Log::debug('Number within slot count ('.$newDoctorNumber.' <= '.$slotCount.'), treating as time slot');
                     return self::INTENT_BOOK_APPOINTMENT;
                 }
+                // otherwise fall through and allow later logic to treat it as doctor
             }
-            
+
             Log::debug('Detected doctor number, assuming booking intent: ' . $trimmedMessage);
             return self::INTENT_BOOK_APPOINTMENT;
         }
@@ -600,9 +690,23 @@ class AIService
                     return self::INTENT_BOOK_APPOINTMENT;
                 }
             }
-            if (is_numeric($trimmedMessage) && intval($trimmedMessage) >= 1 && intval($trimmedMessage) <= 10) {
-                Log::debug('Detected doctor number in context: ' . $trimmedMessage);
-                return self::INTENT_BOOK_APPOINTMENT;
+            
+            // Check if we already have doctor and date in context - if so, any number is time slot
+            $hasDoctorInContext = !empty($extractedData['doctor_number']) || 
+                                  !empty($extractedData['selected_doctor_id']) ||
+                                  !empty($extractedData['doctor_name']);
+            $hasDateInContext = !empty($extractedData['date']);
+            
+            if (is_numeric($trimmedMessage) && intval($trimmedMessage) >= 1) {
+                if ($hasDoctorInContext && $hasDateInContext) {
+                    // Already have doctor and date - this must be time slot selection
+                    Log::debug('Doctor + date in context, treating ' . $trimmedMessage . ' as time slot selection');
+                    return self::INTENT_BOOK_APPOINTMENT;
+                } elseif (!$hasDoctorInContext && intval($trimmedMessage) >= 1 && intval($trimmedMessage) <= 10) {
+                    // No doctor yet, number 1-10 could be doctor selection
+                    Log::debug('Detected doctor number in context: ' . $trimmedMessage);
+                    return self::INTENT_BOOK_APPOINTMENT;
+                }
             }
         }
         
@@ -625,18 +729,44 @@ class AIService
         $hasDateInContext = !empty($extractedData['date']);
         
         if ($this->isDoctorSelection($message)) {
-            // If we already have doctor and date, this might be a time slot selection
-            // Extract entities to check for time_slot_number
             if ($hasDoctorInContext && $hasDateInContext) {
-                $tempExtracted = $this->extractEntitiesFromMessage($message);
-                if (!empty($tempExtracted['time_slot_number'])) {
-                    // It's a time slot selection, merge with context and return booking
-                    $mergedData = array_merge($extractedData, $tempExtracted);
-                    Log::debug('Detected time slot number: ' . $tempExtracted['time_slot_number']);
+                // compute available slot count for context doctor/date
+                $newDoctorNumber = intval(trim($message));
+                $slotCount = 0;
+                try {
+                    $doctor = null;
+                    if (!empty($extractedData['selected_doctor_id'])) {
+                        $doctor = Doctor::with('schedules')->find($extractedData['selected_doctor_id']);
+                    } elseif (!empty($extractedData['doctor_number'])) {
+                        if (!empty($this->lastDoctorIds) && isset($this->lastDoctorIds[$extractedData['doctor_number'] - 1])) {
+                            $doctor = Doctor::with('schedules')->find($this->lastDoctorIds[$extractedData['doctor_number'] - 1]);
+                        } else {
+                            $doctorQuery = Doctor::query()->with('schedules')
+                                ->orderBy('rating','desc')->orderBy('experience_years','desc');
+                            $doctor = $doctorQuery->skip($extractedData['doctor_number'] - 1)->first();
+                        }
+                    } elseif (!empty($extractedData['doctor_name'])) {
+                        $doctor = Doctor::query()->with('schedules')
+                            ->whereHas('user', function($q) use ($extractedData) {
+                                $q->where('name','LIKE','%'.$extractedData['doctor_name'].'%');
+                            })->first();
+                    }
+
+                    if ($doctor) {
+                        $slots = $doctor->getAvailableTimeSlotsForDate($extractedData['date']);
+                        $slotCount = count($slots);
+                    }
+                } catch (Exception $e) {
+                    Log::warning('slot count lookup failed: '.$e->getMessage());
+                }
+
+                if ($slotCount > 0 && $newDoctorNumber <= $slotCount) {
+                    Log::debug('Number within slot count ('.$newDoctorNumber.' <= '.$slotCount.'), treating as time slot');
                     return self::INTENT_BOOK_APPOINTMENT;
                 }
+                // fall through to treat as new doctor
             }
-            
+
             // Otherwise, treat as doctor selection
             Log::debug('Detected INTENT_BOOK_APPOINTMENT from doctor selection');
             return self::INTENT_BOOK_APPOINTMENT;
@@ -671,9 +801,15 @@ class AIService
             $contextData = $context['extracted_data'] ?? [];
             $mergedCheckData = array_merge($contextData, $checkData);
             
+            // if we already know a doctor and date, contact info should keep
+            // the intent in the booking flow. previously we only checked for
+            // time_preference; after the user picks a specific slot we instead
+            // have time_slot_number, so the condition would fail and the
+            // message would fall back to a general intent. include both fields
+            // here so supplying name/phone keeps the conversation in booking.
             if ((!empty($mergedCheckData['doctor_number']) || !empty($mergedCheckData['selected_doctor_id'])) &&
                 (!empty($mergedCheckData['date'])) &&
-                (!empty($mergedCheckData['time_preference']))) {
+                (!empty($mergedCheckData['time_preference']) || !empty($mergedCheckData['time_slot_number']))) {
                 return self::INTENT_BOOK_APPOINTMENT;
             }
         }
@@ -979,10 +1115,19 @@ class AIService
             '8' => 'tomorrow', '9' => 'today'
         ];
         
-        // Check for numeric day selection first (e.g., "1" for Monday)
+        // Check for numeric day selection first (e.g., "1" for Monday).
+        // Only treat bare numbers as dates when a doctor is already selected in
+        // the context.  Otherwise a single digit could easily be a doctor
+        // number, and we don't want to turn "2" into Tuesday during the
+        // initial doctor selection step.  The caller (processLocally) will
+        // still later run extractDoctorNumber so the doctor choice isn't lost.
         if (is_numeric(trim($message)) && isset($dayNumberMap[trim($message)])) {
-            Log::debug('Numeric day selected: ' . $message . ' => ' . $dayNumberMap[trim($message)]);
-            $entities['date'] = $this->parseRelativeDate($dayNumberMap[trim($message)]);
+            if ($hasDoctorInContext) {
+                Log::debug('Numeric day selected (doctor in context): ' . $message . ' => ' . $dayNumberMap[trim($message)]);
+                $entities['date'] = $this->parseRelativeDate($dayNumberMap[trim($message)]);
+            } else {
+                Log::debug('Numeric message "' . $message . '" detected but no doctor in context, skipping numeric day mapping');
+            }
         } elseif (preg_match('/(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/', $message, $matches)) {
             Log::debug('Date pattern matched: ' . $matches[1]);
             $entities['date'] = $this->parseDate($matches[1]);
@@ -1007,7 +1152,8 @@ class AIService
                 'রবিবার' => 'sunday',
             ];
             foreach ($bnDates as $bn => $en) {
-                if (str_contains($lowerMessage, $bn)) {
+                // only map to a date if the user has already selected a doctor
+                if ($hasDoctorInContext && str_contains($lowerMessage, $bn)) {
                     $entities['date'] = $this->parseRelativeDate($en);
                     break;
                 }
@@ -1016,19 +1162,43 @@ class AIService
 
         // Extract time_slot_number based on context
         // If doctor is already selected, treat numbers as time slots
-        // Otherwise, let extractDoctorNumber handle it
-        $numValue = intval($message);
-        if (is_numeric($message) && $numValue >= 1 && $numValue <= 20) {
-            if ($hasDoctorInContext) {
-                // Doctor is selected, this is likely a time slot number
-                $entities['time_slot_number'] = $numValue;
-                Log::debug('Doctor in context, setting time_slot_number: ' . $numValue);
-            } else {
-                // No doctor in context yet, don't set time_slot_number
-                // extractDoctorNumber will handle this as potential doctor number
-                Log::debug('No doctor in context, not setting time_slot_number for: ' . $message);
+        // However, if there's also a date in context, check if this could be a NEW doctor selection
+        // This handles the case where user picks a new doctor after "no slots available"
+        // Check if we just extracted a day number in the date extraction section above
+        $extractedDayNumber = null;
+        if (!empty($entities['date'])) {
+            // A date was extracted - find which day number was used
+            foreach ($dayNumberMap as $num => $day) {
+                if ($entities['date'] === $this->parseRelativeDate($day)) {
+                    $extractedDayNumber = $num;
+                    break;
+                }
             }
-        } elseif ($this->matchesAny($lowerMessage, ['morning', 'am', '10 am', '11 am', '9 am'])) {
+        }
+        
+        // Now check for time_slot_number - but NOT if we just extracted a day number
+        // because in that case, the number is for date selection, not time slot
+        $numValue = intval($message);
+        if ($extractedDayNumber === null && is_numeric($message) && $numValue >= 1 && $numValue <= 20) {
+            $hasDateInContext = !empty($context['extracted_data']['date']);
+            
+            // Also check for time_preference - if user selected morning/afternoon/evening,
+            // then a number response should be treated as time slot selection
+            $hasTimePreference = !empty($context['extracted_data']['time_preference']);
+            
+            // Only set time_slot_number if we have date OR time_preference in context
+            // If we just extracted a day number, don't override with time_slot_number
+            if ($hasDoctorInContext && ($hasDateInContext || $hasTimePreference)) {
+                // Both doctor and date exist in context OR doctor and time preference exist
+                // - assume the user is selecting a time slot.
+                $entities['time_slot_number'] = $numValue;
+                Log::debug('Doctor in context, setting time_slot_number: ' . $numValue . ', hasDate=' . ($hasDateInContext ? 'yes' : 'no') . ', hasTimePref=' . ($hasTimePreference ? 'yes' : 'no'));
+            } else {
+                // No date or time_preference in context yet - don't set time_slot_number
+                // This could be a date selection or doctor number
+                Log::debug('No date/time preference in context, not setting time_slot_number for: ' . $message);
+            }
+        } elseif ($extractedDayNumber === null && $this->matchesAny($lowerMessage, ['morning', 'am', '10 am', '11 am', '9 am'])) {
             $entities['time_preference'] = 'morning';
         } elseif ($this->matchesAny($lowerMessage, ['afternoon', 'pm', '2 pm', '3 pm', '4 pm'])) {
             $entities['time_preference'] = 'afternoon';
@@ -1049,14 +1219,69 @@ class AIService
         }
 
         $phonePatterns = [
-            '/\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/',
+            // International format with +88 (Bangladesh)
+            '/\+88\d{10}/',
+            // Bangladeshi mobile: 01XXXXXXXXX (11 digits starting with 01)
+            '/01[3-9]\d{9}/',
+            // Alternative Bangladeshi format (10 digits)
             '/01[3-9]\d{8}/',
+            // Generic international formats
+            '/\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/',
+            // Any 10-11 digit number
             '/\d{10,11}/',
         ];
         foreach ($phonePatterns as $pattern) {
             if (preg_match($pattern, $message, $matches)) {
                 $entities['phone'] = $matches[0];
+                Log::debug('Phone extracted: ' . $entities['phone']);
                 break;
+            }
+        }
+
+        // If phone found, extract name from remaining text
+        if ($entities['phone']) {
+            $remaining = trim(str_replace($entities['phone'], '', $message));
+            $remaining = preg_replace('/[:,\-]/', ' ', $remaining);
+            $remaining = trim(preg_replace('/\b(my name is|i am|i\'m|name is|name|phone|mobile|number)\b/i','',$remaining));
+            $remaining = trim(preg_replace('/\s+/', ' ', $remaining)); // normalize whitespace
+            if ($remaining !== '' && preg_match('/[A-Za-z\x{0980}-\x{09FF}]/u', $remaining)) {
+                if (empty($entities['patient_name'])) {
+                    // Clean up the name - take first word if multiple words
+                    $nameParts = preg_split('/\s+/', $remaining);
+                    $potentialName = trim($nameParts[0]);
+                    // Clean up the name - only keep letters
+                    $potentialName = preg_replace('/[^A-Za-z]/', '', $potentialName);
+                    if (strlen($potentialName) >= 2) {
+                        $entities['patient_name'] = ucfirst(strtolower($potentialName));
+                        Log::debug('Name extracted from remaining: ' . $entities['patient_name']);
+                    }
+                }
+            }
+        } else {
+            // No phone found - try to extract just the name
+            // Check for common name patterns
+            if (preg_match('/(?:my name is|i am|i\'m)\s+([A-Za-z]+(?:\s+[A-Za-z]+)*)/i', $message, $matches)) {
+                $entities['patient_name'] = ucfirst(strtolower($matches[1]));
+                Log::debug('Name extracted (no phone): ' . $entities['patient_name']);
+            } elseif (empty($entities['patient_name']) && preg_match('/^([A-Za-z]+)\s+\d{5,}/', $message, $matches)) {
+                // Name followed by number (like "John 01918329829")
+                $entities['patient_name'] = ucfirst(strtolower($matches[1]));
+                Log::debug('Name extracted (name before number): ' . $entities['patient_name']);
+            } elseif (empty($entities['patient_name'])) {
+                // Try to find a name at the start of message (first word with letters only)
+                $words = preg_split('/\s+/', $message);
+                foreach ($words as $word) {
+                    $cleanWord = preg_replace('/[^A-Za-z]/', '', $word);
+                    if (strlen($cleanWord) >= 2 && !is_numeric($cleanWord)) {
+                        // Filter out common medical/specialization terms and other non-name words
+                        $notNameTerms = ['heart', 'cardio', 'cardiac', 'neuro', 'brain', 'ortho', 'bone', 'derma', 'skin', 'eye', 'optic', 'ear', 'ent', 'child', 'pediatric', 'baby', 'women', 'female', 'pregnant', 'cancer', 'tumor', 'diabetes', 'sugar', 'kidney', 'liver', 'lung', 'breath', 'stomach', 'gas', 'thyroid', 'doctor', 'need', 'want', 'help', 'please', 'book', 'appointment', 'make', 'get', 'have', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'today', 'tomorrow', 'yesterday', 'morning', 'afternoon', 'evening', 'night'];
+                        if (!in_array(strtolower($cleanWord), $notNameTerms)) {
+                            $entities['patient_name'] = ucfirst(strtolower($cleanWord));
+                            Log::debug('Name extracted (first word): ' . $entities['patient_name']);
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -1068,8 +1293,8 @@ class AIService
             $entities['appointment_number'] = strtoupper($matches[0]);
         }
 
-        if (preg_match('/(?:my name is|i am|i\'m)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/i', $message, $matches)) {
-            $entities['patient_name'] = $matches[1];
+        if (preg_match('/(?:my name is|i am|i\'m)\s+([A-Za-z]+(?:\s+[A-Za-z]+)*)/i', $message, $matches)) {
+            $entities['patient_name'] = ucfirst(strtolower($matches[1]));
         }
         
         if (preg_match('/(?:আমার\s*নাম|নাম\s*:?\s*)([\x{0980}-\x{09FF}]+)/u', $message, $matches)) {
@@ -1139,7 +1364,27 @@ class AIService
             Log::debug('buildBookingResponse called with data: ' . json_encode($data) . ', context extracted_data: ' . json_encode($context['extracted_data'] ?? []));
             
             $contextData = $context['extracted_data'] ?? [];
-            $mergedData = array_merge($contextData, $data);
+            
+            // Fix: Don't let null values from new data overwrite existing context values
+            // This preserves specialization, doctor_number, etc. from context
+            $dataWithNonNulls = array_filter($data, function($value) {
+                return $value !== null;
+            });
+            $mergedData = array_merge($contextData, $dataWithNonNulls);
+            
+            // Check if user selected a NEW doctor number (different from context)
+            // If so, clear the stale date so they can pick a new date for the new doctor
+            $previousDoctorNumber = $contextData['doctor_number'] ?? null;
+            $newDoctorNumber = $data['doctor_number'] ?? null;
+            
+            if ($newDoctorNumber && $previousDoctorNumber && intval($newDoctorNumber) !== intval($previousDoctorNumber)) {
+                // User selected a different doctor - clear the stale date
+                Log::debug('New doctor selected (' . $newDoctorNumber . ' vs ' . $previousDoctorNumber . '), clearing stale date');
+                $mergedData['date'] = null;
+                unset($mergedData['date']);
+                $date = null; // Also clear local variable
+            }
+            
             Log::debug('Fully merged data: ' . json_encode($mergedData));
             
             $specialization = $mergedData['specialization'] ?? null;
@@ -1182,8 +1427,8 @@ class AIService
                         
                         return match($language) {
                             'bn' => "নিচের {$specialization} ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nডাক্তারের নম্বর বলুন (১-৫)।",
-                            'hi' => "नीचे {$specialization} डॉक्टरों में से अपना डॉक्टर चुनें:{$doctorList}\n\nडॉक्टर का नंबर बताएं (1-5)।",
-                            default => "Choose a {$specialization} doctor from the list below:{$doctorList}\n\nPlease specify the doctor's number (1-5).",
+                        'hi' => "नीचे दिए गए डॉक्टरों में से अपना डॉक्टर चुनें:{$doctorList}\n\nडॉक्टर का नंबर बताएं (1-" . count($doctors) . ")।",
+                        default => "Choose a doctor from the list below:{$doctorList}\n\nPlease specify the doctor's number (1-" . count($doctors) . ").",
                         };
                     }
                 }
@@ -1209,9 +1454,9 @@ class AIService
                     }
                     
                     return match($language) {
-                        'bn' => "নিচের ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nডাক্তারের নম্বর বলুন (১-৫)।",
-                        'hi' => "नीचे दिए गए डॉक्टरों में से अपना डॉक्टर चुनें:{$doctorList}\n\nडॉक्टर का नंबर बताएं (1-5)।",
-                        default => "Choose a doctor from the list below:{$doctorList}\n\nPlease specify the doctor's number (1-5).",
+                        'bn' => "নিচের ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nডাক্তারের নম্বর বলুন (1-" . count($doctors) . ")।",
+                        'hi' => "नीचे दिए गए डॉक्टरों में से अपना डॉक्टर चुनें:{$doctorList}\n\nडॉक्टर का नंबर बताएं (1-" . count($doctors) . ")।",
+                        default => "Choose a doctor from the list below:{$doctorList}\n\nPlease specify the doctor's number (1-" . count($doctors) . ").",
                     };
                 }
                 
@@ -1224,7 +1469,7 @@ class AIService
             
             // Case 2: Doctor selected (by number, name, or ID), need date
             if (($doctorNumber || $selectedDoctorId || $doctorName) && !$date) {
-                Log::debug('Case 2: Doctor selected, need date');
+                Log::debug('Case 2: Doctor selected, need date. doctorNumber=' . $doctorNumber . ', specialization=' . ($specialization ?? 'null'));
                 
                 $doctor = null;
                 
@@ -1235,11 +1480,15 @@ class AIService
                         ->orderBy('experience_years', 'desc');
                     
                     if ($specialization) {
+                        Log::debug('Case 2: Filtering by specialization: ' . $specialization);
                         $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
                             $q->where('name', 'LIKE', '%' . $specialization . '%');
                         });
+                    } else {
+                        Log::debug('Case 2: NO specialization filter applied!');
                     }
                     $doctor = $doctorQuery->skip($doctorNumber - 1)->first();
+                    Log::debug('Case 2: Doctor query result: ' . ($doctor ? $doctor->user->name : 'null'));
                 } elseif ($doctorName) {
                     $doctor = Doctor::query()
                         ->with(['specialization', 'user', 'schedules'])
@@ -1270,6 +1519,20 @@ class AIService
                             $availableDays[] = strtolower($schedule->day_of_week);
                         }
                     }
+                }
+
+                // de-duplicate day list to avoid showing the same day twice
+                if (!empty($availableDays)) {
+                    // de-duplicate day list to avoid showing the same day twice
+                    $availableDays = array_values(array_unique($availableDays));
+
+                    // sort by weekday order for a more natural sequence
+                    $weekOrder = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+                    usort($availableDays, function($a, $b) use ($weekOrder) {
+                        $posA = array_search($a, $weekOrder);
+                        $posB = array_search($b, $weekOrder);
+                        return $posA <=> $posB;
+                    });
                 }
                 
                 $availableDaysInfo = "";
@@ -1346,7 +1609,10 @@ class AIService
                 if (!empty($slots)) {
                     $slotList = "";
                     foreach ($slots as $index => $slot) {
-                        $slotList .= "\n" . ($index + 1) . ". " . $slot['formatted_time'];
+                        // Use formatted_time and extract just the start time (before ' - ')
+                        $formatted = $slot['formatted_time'] ?? '';
+                        $startTime = explode(' - ', $formatted)[0] ?? '';
+                        $slotList .= "\n" . ($index + 1) . ". " . $startTime;
                     }
                     
                     return match($language) {
@@ -1364,8 +1630,10 @@ class AIService
             }
             
             // Case 4: Doctor, date, and time slot number selected
-            if (($doctorNumber || $selectedDoctorId || $doctorName) && $date && $timeSlotNumber) {
-                Log::debug('Case 4: Doctor, date, and time slot selected');
+            // OR Doctor, date OR time preference with time slot number selected
+            if (($doctorNumber || $selectedDoctorId || $doctorName) && 
+                ($date || $time) && $timeSlotNumber) {
+                Log::debug('Case 4: Doctor, date/time, and time slot selected');
                 
                 $doctor = null;
                 
@@ -1412,7 +1680,18 @@ class AIService
                     $patientName = $mergedData['patient_name'] ?? null;
                     $phone = $mergedData['phone'] ?? null;
                     
+                    Log::debug('Case 4 - patient_name from mergedData: ' . ($patientName ?? 'NULL'));
+                    Log::debug('Case 4 - phone from mergedData: ' . ($phone ?? 'NULL'));
+                    
+                    // Ensure we have actual values, not empty strings
+                    $patientName = !empty(trim($patientName)) ? trim($patientName) : null;
+                    $phone = !empty(trim($phone)) ? trim($phone) : null;
+                    
+                    Log::debug('Case 4 - after trim, patient_name: ' . ($patientName ?? 'NULL') . ', phone: ' . ($phone ?? 'NULL'));
+                    
                     if ($patientName && $phone) {
+                        // Create the appointment
+                        Log::debug('Case 4: Both name and phone available, confirming appointment');
                         return match($language) {
                             'bn' => "✅ *অ্যাপয়েন্টমেন্ট নিশ্চিত করা হয়েছে!*\n\n" .
                                 "👨‍⚕️ ডাক্তার: {$doctorName}\n" .
@@ -1488,6 +1767,10 @@ class AIService
                 $patientName = $mergedData['patient_name'] ?? null;
                 $phone = $mergedData['phone'] ?? null;
                 
+                // Ensure we have actual values, not empty strings
+                $patientName = !empty(trim($patientName)) ? trim($patientName) : null;
+                $phone = !empty(trim($phone)) ? trim($phone) : null;
+                
                 if ($patientName && $phone) {
                     return match($language) {
                         'bn' => "✅ *অ্যাপয়েন্টমেন্ট নিশ্চিত করা হয়েছে!*\n\n" .
@@ -1522,17 +1805,17 @@ class AIService
             }
             
             return match($language) {
-                'bn' => "আমি আপনাকে ডাক্তারের অ্যাপয়েন্টমেন্ট বুক করতে সাহায্য করতে পারি। আপনি কোন ধরনের ডাক্তার দেখাতে চান? (যেমন: হৃদরোগ বিশেষজ্ঞ, ত্বকের ডাক্তার, চোখের ডাক্তার)",
-                'hi' => "मैं आपकी डॉक्टर अपॉइंटमेंट बुक करने में मदद कर सकता हूं। आप किस तरह के डॉक्टर से मिलना चाहते हैं? (जैसे: हृदय विशेषज्ञ, त्वचा विशेषज्ञ, आंखों के डॉक्टर)",
-                default => "I can help you book a doctor appointment. What type of doctor would you like to see? (e.g., cardiologist, dermatologist, eye doctor)",
+                'bn' => "আমি আপনাকে ডাক্তারের অ্যাপয়েন্টমেন্ট বুক করতে সাহায্য করতে পারি। আপনি কোন ধরনের ডাক্তার দেখাতে চান? (যেমন: হৃদরোগ বিশেষজ্ঞ, ত্বকের ডাক্তার, চোখের ডাক্তার/চক্ষু বিশেষজ্ঞ)",
+                'hi' => "मैं आपकी डॉक्टर अपॉइंटमेंट बुक करने में मदद कर सकता हूं। आप किस तरह के डॉक्टर से मिलना चाहते हैं? (जैसे: हृदय विशेषज्ञ, त्वचा विशेषज्ञ, आंखों के डॉक्टर/ऑफ्थैल्मोलॉजिस्ट)",
+                default => "I can help you book a doctor appointment. What type of doctor would you like to see? (e.g., cardiologist, dermatologist, eye doctor/ophthalmologist)",
             };
             
         } catch (Exception $e) {
             Log::error('buildBookingResponse error: ' . $e->getMessage());
             return match($language) {
-                'bn' => "আমি আপনাকে ডাক্তারের অ্যাপয়েন্টমেন্ট বুক করতে সাহায্য করতে পারি। আপনি কোন ধরনের ডাক্তার দেখাতে চান? (যেমন: হৃদরোগ বিশেষজ্ঞ, ত্বকের ডাক্তার, চোখের ডাক্তার)",
-                'hi' => "मैं आपकी डॉक्टर अपॉइंटमेंट बुक करने में मदद कर सकता हूं। आप किस तरह के डॉक्टर से मिलना चाहते हैं? (जैसे: हृदय विशेषज्ञ, त्वचा विशेषज्ञ, आंखों के डॉक्टर)",
-                default => "I can help you book a doctor appointment. What type of doctor would you like to see? (e.g., cardiologist, dermatologist, eye doctor)",
+                'bn' => "আমি আপনাকে ডাক্তারের অ্যাপয়েন্টমেন্ট বুক করতে সাহায্য করতে পারি। আপনি কোন ধরনের ডাক্তার দেখাতে চান? (যেমন: হৃদরোগ বিশেষজ্ঞ, ত্বকের ডাক্তার, চোখের ডাক্তার/চক্ষু বিশেষজ্ঞ)",
+                'hi' => "मैं आपकी डॉक्टर अपॉइंटमेंट बुक करने में मदद कर सकता हूं। आप किस तरह के डॉक्टर से मिलना चाहते हैं? (जैसे: हृदय विशेषज्ञ, त्वचा विशेषज्ञ, आंखों के डॉक्टर/ऑफ्थैल्मोलॉजिस्ट)",
+                default => "I can help you book a doctor appointment. What type of doctor would you like to see? (e.g., cardiologist, dermatologist, eye doctor/ophthalmologist)",
             };
         }
     }
@@ -1547,6 +1830,10 @@ class AIService
             
             $doctors = Doctor::query()
                 ->with(['specialization'])
+                // ensure stable ordering that matches the doctor-number logic used
+                // in booking flows (rating desc, experience desc)
+                ->orderBy('rating', 'desc')
+                ->orderBy('experience_years', 'desc')
                 ->when($specialization, function ($query) use ($specialization) {
                     $query->whereHas('specialization', function ($q) use ($specialization) {
                         $q->where('name', 'LIKE', '%' . $specialization . '%');
@@ -1554,6 +1841,9 @@ class AIService
                 })
                 ->limit(10)
                 ->get();
+            // remember the order of IDs so the user’s numeric reply can be mapped
+            // back to an actual doctor record later in processLocally
+            $this->lastDoctorIds = $doctors->pluck('id')->toArray();
         
             if ($doctors->isEmpty()) {
                 return match($language) {
@@ -1691,7 +1981,10 @@ class AIService
                 $slotList = "";
                 foreach ($slots as $index => $slot) {
                     $slotNumber = $index + 1;
-                    $slotList .= "  {$slotNumber}. {$slot['start']} - {$slot['end']}\n";
+                    // Use formatted_time and extract just the start time (before ' - ')
+                    $formatted = $slot['formatted_time'] ?? '';
+                    $startTime = explode(' - ', $formatted)[0] ?? '';
+                    $slotList .= "  {$slotNumber}. {$startTime}\n";
                 }
                 
                 $response .= match($language) {
@@ -2235,29 +2528,13 @@ class AIService
         $hour = now()->hour;
         $timeGreeting = $hour < 12 ? 'Good morning' : ($hour < 17 ? 'Good afternoon' : 'Good evening');
         
-        $doctorList = "";
-        try {
-            $doctors = Doctor::query()
-                ->with(['specialization'])
-                ->limit(3)
-                ->get();
-            
-            if ($doctors->isNotEmpty()) {
-                foreach ($doctors as $doctor) {
-                    $doctorList .= "\n• Dr. " . $doctor->user->name;
-                    if ($doctor->specialization) {
-                        $doctorList .= " (" . $doctor->specialization->name . ")";
-                    }
-                }
-            }
-        } catch (Exception $e) {
-            Log::warning('Failed to fetch doctors for greeting: ' . $e->getMessage());
-        }
+        // Note: Doctor list is no longer shown in initial greeting
+        // Users can ask to see doctors or book an appointment to see the list
         
         return match($language) {
-            'bn' => "{$timeGreeting}! 🏥\n\nআমি আপনার মেডিকেল অ্যাপয়েন্টমেন্ট অ্যাসিস্ট্যান্ট।\n\nআমাদের ডাক্তার:{$doctorList}\n\nআমি আপনাকে অ্যাপয়েন্টমেন্ট বুক করতে, বাতিল করতে বা পুনর্নির্ধারণ করতে সাহায্য করতে পারি।\n\nআপনাকে কীভাবে সাহায্য করতে পারি?",
-            'hi' => "{$timeGreeting}! 🏥\n\nमैं आपका मेडिकल अपॉइंटमेंट असिस्टेंट हूं।\n\nहमारे उपलब्ध डॉक्टर:{$doctorList}\n\nमैं आपकी अपॉइंटमेंट बुक, रद्द या पुनर्निर्धारित करने में मदद कर सकता हूं।\n\nमैं आपकी कैसे मदद कर सकता हूं?",
-            default => "{$timeGreeting}! 🏥\n\nI'm your Medical Appointment Assistant.\n\nOur available doctors:{$doctorList}\n\nI can help you book, cancel, or reschedule appointments.\n\nHow can I help you today?",
+            'bn' => "{$timeGreeting}! 🏥\n\nআমি আপনার মেডিকেল অ্যাপয়েন্টমেন্ট অ্যাসিস্ট্যান্ট।\n\nআমি আপনাকে অ্যাপয়েন্টমেন্ট বুক করতে, বাতিল করতে বা পুনর্নির্ধারণ করতে সাহায্য করতে পারি।\n\nআপনাকে কীভাবে সাহায্য করতে পারি?",
+            'hi' => "{$timeGreeting}! 🏥\n\nमैं आपका मेडिकल अपॉइंटमेंट असिस्टेंट हूं।\n\nमैं आपकी अपॉइंटमेंट बुक, रद्द या पुनर्निर्धारित करने में मदद कर सकता हूं।\n\nमैं आपकी कैसे मदद कर सकता हूं?",
+            default => "{$timeGreeting}! 🏥\n\nI'm your Medical Appointment Assistant.\n\nI can help you book, cancel, or reschedule appointments.\n\nHow can I help you today?",
         };
     }
 

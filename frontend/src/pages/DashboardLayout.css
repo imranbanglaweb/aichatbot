@@ -1680,6 +1680,106 @@
   margin-top: 8px;
 }
 
+/* Time Slots Grid */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.slot-btn {
+  padding: 10px 12px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.slot-btn:hover:not(:disabled) {
+  border-color: #3b82f6;
+  background: #1e3a5f;
+}
+
+.slot-btn.selected {
+  border-color: #3b82f6;
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.slot-btn.unavailable {
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.slots-loading,
+.no-slots {
+  padding: 16px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+  background: #1e293b;
+  border-radius: 8px;
+}
+
+/* Quick Date Selection */
+.quick-dates {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.quick-date-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  padding: 8px 12px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quick-date-btn .day-name {
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.quick-date-btn .day-date {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.quick-date-btn:hover:not(:disabled) {
+  border-color: #3b82f6;
+  background: #1e3a5f;
+}
+
+.quick-date-btn.selected {
+  border-color: #3b82f6;
+  background: #3b82f6;
+}
+
+.quick-date-btn.selected .day-name,
+.quick-date-btn.selected .day-date {
+  color: #ffffff;
+}
+
+.quick-date-btn.unavailable {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 /* Doctor Actions in Card */
 .doctor-card .doctor-actions {
   display: flex;

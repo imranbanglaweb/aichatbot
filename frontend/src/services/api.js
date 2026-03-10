@@ -106,8 +106,9 @@ class ApiService {
     return this.request(`/doctors/${id}`);
   }
 
-  async getDoctorSlots(id) {
-    return this.request(`/doctors/${id}/slots`);
+  async getDoctorSlots(id, date) {
+    const queryString = date ? `?date=${date}` : '';
+    return this.request(`/doctors/${id}/slots${queryString}`);
   }
 
   async getSpecializations() {

@@ -93,8 +93,11 @@ class Doctor extends Model
     {
         $dayOfWeek = strtolower(date('l', strtotime($date)));
         
-        // Check if doctor is available on this day
-        if (!in_array($dayOfWeek, $this->available_days ?? [])) {
+        // If the doctor has explicit available_days set, honour them.  The
+        // seeder creates schedules but doesn’t populate this field, so it
+        // would otherwise always return empty.  Only enforce the check when
+        // available_days is non‑empty.
+        if (!empty($this->available_days) && !in_array($dayOfWeek, $this->available_days)) {
             return [];
         }
 

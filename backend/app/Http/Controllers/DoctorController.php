@@ -127,6 +127,16 @@ class DoctorController extends Controller
             $doctor = Doctor::available()->findOrFail($id);
             $slots = $doctor->getAvailableTimeSlotsForDate($validated['date']);
 
+            // Transform slots to frontend expected format
+            $formattedSlots = array_map(function ($slot) {
+                return [
+                    'time' => $slot['start_time'],
+                    'end_time' => $slot['end_time'],
+                    'formatted' => $slot['formatted_time'],
+                    'available' => true,
+                ];
+            }, $slots);
+
             return response()->json([
                 'success' => true,
                 'doctor' => [
@@ -134,7 +144,7 @@ class DoctorController extends Controller
                     'name' => 'Dr. ' . $doctor->user->name,
                 ],
                 'date' => $validated['date'],
-                'slots' => $slots,
+                'slots' => $formattedSlots,
             ]);
         } catch (Exception $e) {
             Log::error('Get Doctor Slots Error: ' . $e->getMessage());
