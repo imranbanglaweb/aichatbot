@@ -487,10 +487,21 @@ class AIService
         try {
             $lowerMessage = strtolower($message);
             $detectedIntent = $this->detectIntent($lowerMessage, $context);
+            // Load last_doctor_ids from session context if available FIRST
+            $contextExtractedData = $context['extracted_data'] ?? [];
+            if (!empty($contextExtractedData['last_doctor_ids']) && is_array($contextExtractedData['last_doctor_ids'])) {
+                $this->lastDoctorIds = array_values($contextExtractedData['last_doctor_ids']);
+                Log::debug('Loaded last_doctor_ids from context: ' . json_encode($this->lastDoctorIds));
+            }
+            
+            // Check if message contains a doctor number (1-10) - if so, don't clear the IDs
+            $hasDoctorNumber = is_numeric($message) && intval($message) >= 1 && intval($message) <= 10;
+            
             // if the user isn't actively asking for a list of doctors, the last
             // cached ID array is no longer valid.  Clearing it prevents an
             // unrelated number later from picking the wrong doctor.
-            if ($detectedIntent !== self::INTENT_LIST_DOCTORS) {
+            // BUT don't clear if the user is selecting a doctor number
+            if ($detectedIntent !== self::INTENT_LIST_DOCTORS && !$hasDoctorNumber) {
                 $this->lastDoctorIds = [];
             }
             
@@ -521,7 +532,8 @@ class AIService
                     // to a list of days) then we should not treat the number as a
                     // doctor selection.  extractEntities already fills
                     // "date" in that case.
-                    if (empty($extractedData['date'])) {
+                    // Also ignore if time_slot_number is being set (time slot selection)
+                    if (empty($extractedData['date']) && empty($extractedData['time_slot_number'])) {
                         $extractedData['doctor_number'] = $doctorNumber;
 
                         // Map against the most recently shown doctor list if available
@@ -534,7 +546,7 @@ class AIService
                             $this->lastDoctorIds = [];
                         }
                     } else {
-                        Log::debug('Ignored doctor_number ' . $doctorNumber . ' because date was extracted from same message');
+                        Log::debug('Ignored doctor_number ' . $doctorNumber . ' because date or time_slot was extracted from same message');
                     }
                 }
             } catch (Exception $e) {
@@ -1127,6 +1139,7 @@ class AIService
      */
     protected function extractDoctorName(string $message): ?string
     {
+        // First try regex patterns for English doctor names
         $patterns = [
             '/(?:dr\.?\s+)([a-z]+(?:\s+[a-z]+)*)/i',
             '/(?:doctor\s+)([a-z]+(?:\s+[a-z]+)*)/i',
@@ -1151,16 +1164,34 @@ class AIService
             }
         }
         
+        // Fallback: Check for any doctor name in the message (case-insensitive)
         $doctors = Doctor::query()
             ->with(['user'])
             ->limit(20)
             ->get();
         
         $lowerMessage = strtolower($message);
+        
+        // First try exact full name matches
         foreach ($doctors as $doctor) {
-            if ($doctor->user && str_contains($lowerMessage, strtolower($doctor->user->name))) {
-                Log::debug('Found doctor by direct name match: ' . $doctor->user->name);
-                return $doctor->user->name;
+            if ($doctor->user) {
+                $fullNameLower = strtolower($doctor->user->name);
+                // Check for full name match
+                if (str_contains($lowerMessage, $fullNameLower)) {
+                    Log::debug('Found doctor by full name match: ' . $doctor->user->name);
+                    return $doctor->user->name;
+                }
+            }
+        }
+        
+        // Then try first name matches
+        foreach ($doctors as $doctor) {
+            if ($doctor->user) {
+                $firstName = strtolower(explode(' ', $doctor->user->name)[0]);
+                if (str_contains($lowerMessage, $firstName)) {
+                    Log::debug('Found doctor by first name match: ' . $doctor->user->name);
+                    return $doctor->user->name;
+                }
             }
         }
         
@@ -1208,10 +1239,13 @@ class AIService
 
         Log::debug('extractEntitiesFromMessage called with: ' . $message);
 
-        // Check if doctor is already selected in context
+        // Check if doctor is already selected in context OR newly extracted
         $hasDoctorInContext = !empty($context['extracted_data']['doctor_number']) ||
                               !empty($context['extracted_data']['selected_doctor_id']) ||
-                              !empty($context['extracted_data']['doctor_name']);
+                              !empty($context['extracted_data']['doctor_name']) ||
+                              !empty($entities['doctor_number']) ||
+                              !empty($entities['selected_doctor_id']) ||
+                              !empty($entities['doctor_name']);
         
         foreach ($this->specializations as $keyword => $specialization) {
             if (str_contains($lowerMessage, $keyword)) {
@@ -1313,23 +1347,23 @@ class AIService
         // because in that case, the number is for date selection, not time slot
         $numValue = intval($message);
         if ($extractedDayNumber === null && is_numeric($message) && $numValue >= 1 && $numValue <= 20) {
+            // Check BOTH old context AND newly extracted entities for date/time
             $hasDateInContext = !empty($context['extracted_data']['date']);
+            $hasDateJustExtracted = !empty($entities['date']);
             
             // Also check for time_preference - if user selected morning/afternoon/evening,
             // then a number response should be treated as time slot selection
             $hasTimePreference = !empty($context['extracted_data']['time_preference']);
             
-            // Only set time_slot_number if we have date OR time_preference in context
-            // If we just extracted a day number, don't override with time_slot_number
-            if ($hasDoctorInContext && ($hasDateInContext || $hasTimePreference)) {
-                // Both doctor and date exist in context OR doctor and time preference exist
-                // - assume the user is selecting a time slot.
+            // Set time_slot_number if we have doctor AND (date in context OR date just extracted OR time preference)
+            if ($hasDoctorInContext && ($hasDateInContext || $hasDateJustExtracted || $hasTimePreference)) {
+                // Doctor and date/time exist - assume the user is selecting a time slot.
                 $entities['time_slot_number'] = $numValue;
-                Log::debug('Doctor in context, setting time_slot_number: ' . $numValue . ', hasDate=' . ($hasDateInContext ? 'yes' : 'no') . ', hasTimePref=' . ($hasTimePreference ? 'yes' : 'no'));
+                Log::debug('Doctor in context, setting time_slot_number: ' . $numValue . ', hasDate=' . ($hasDateInContext ? 'yes' : 'no') . ', hasDateExtracted=' . ($hasDateJustExtracted ? 'yes' : 'no') . ', hasTimePref=' . ($hasTimePreference ? 'yes' : 'no'));
             } else {
                 // No date or time_preference in context yet - don't set time_slot_number
                 // This could be a date selection or doctor number
-                Log::debug('No date/time preference in context, not setting time_slot_number for: ' . $message);
+                Log::debug('No date/time preference in context, not setting time_slot_number for: ' . $message . ', hasDoctor=' . ($hasDoctorInContext ? 'yes' : 'no') . ', hasDate=' . ($hasDateInContext ? 'yes' : 'no'));
             }
         } elseif ($extractedDayNumber === null && $this->matchesAny($lowerMessage, ['morning', 'am', '10 am', '11 am', '9 am'])) {
             $entities['time_preference'] = 'morning';
@@ -1512,15 +1546,21 @@ class AIService
             
             // Check if user selected a NEW doctor number (different from context)
             // If so, clear the stale date so they can pick a new date for the new doctor
+            // BUT don't clear if user is selecting a time slot (time_slot_number is also set)
             $previousDoctorNumber = $contextData['doctor_number'] ?? null;
             $newDoctorNumber = $data['doctor_number'] ?? null;
+            $newTimeSlotNumber = $data['time_slot_number'] ?? null;
             
-            if ($newDoctorNumber && $previousDoctorNumber && intval($newDoctorNumber) !== intval($previousDoctorNumber)) {
+            // Only clear date if it's truly a new doctor selection, NOT a time slot selection
+            if ($newDoctorNumber && $previousDoctorNumber && intval($newDoctorNumber) !== intval($previousDoctorNumber) && !$newTimeSlotNumber) {
                 // User selected a different doctor - clear the stale date
                 Log::debug('New doctor selected (' . $newDoctorNumber . ' vs ' . $previousDoctorNumber . '), clearing stale date');
                 $mergedData['date'] = null;
                 unset($mergedData['date']);
                 $date = null; // Also clear local variable
+            } elseif ($newTimeSlotNumber) {
+                // User is selecting a time slot - preserve the date
+                Log::debug('Time slot number selected (' . $newTimeSlotNumber . '), preserving date and doctor info');
             }
             
             Log::debug('Fully merged data: ' . json_encode($mergedData));
@@ -1543,11 +1583,11 @@ class AIService
                     $doctors = Doctor::query()
                         ->with(['specialization', 'user'])
                         ->whereHas('specialization', function ($q) use ($specialization) {
-                            // Use exact match or word-boundary matching to avoid matching "ENT" in "Dentist"
-                            $q->where('name', '=', $specialization)
-                              ->orWhere('name', 'LIKE', $specialization . ' %')
-                              ->orWhere('name', 'LIKE', '% ' . $specialization)
-                              ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
+                            // Use case-insensitive matching to handle "Gynecology" vs "Gynecologist"
+                            $q->whereRaw('LOWER(name) = LOWER(?)', [$specialization])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', [$specialization . ' %'])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', ['% ' . $specialization])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', ['% ' . $specialization . ' %']);
                         })
                         ->orderBy('rating', 'desc')
                         ->orderBy('experience_years', 'desc')
@@ -1624,11 +1664,11 @@ class AIService
                     if ($specialization) {
                         Log::debug('Case 2: Filtering by specialization: ' . $specialization);
                         $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
-                            // Use exact match or word-boundary matching to avoid matching partial words
-                            $q->where('name', '=', $specialization)
-                              ->orWhere('name', 'LIKE', $specialization . ' %')
-                              ->orWhere('name', 'LIKE', '% ' . $specialization)
-                              ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
+                            // Use case-insensitive matching to handle "Gynecology" vs "Gynecologist"
+                            $q->whereRaw('LOWER(name) = LOWER(?)', [$specialization])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', [$specialization . ' %'])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', ['% ' . $specialization])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', ['% ' . $specialization . ' %']);
                         });
                     } else {
                         Log::debug('Case 2: NO specialization filter applied!');
@@ -1647,11 +1687,25 @@ class AIService
                 }
                 
                 if (!$doctor) {
-                    return match($language) {
-                        'bn' => "দুঃখিত, ডাক্তার খুঁজে পাওয়া যায়নি। আবার চেষ্টা করুন।",
-                        'hi' => "क्षमा करें, डॉक्टर नहीं मिला। कृपया पुनः प्रयास करें।",
-                        default => "Sorry, doctor not found. Please try again.",
-                    };
+                    // Fallback: try to find doctor by name if ID lookup failed
+                    if ($doctorName) {
+                        Log::debug('Case 2: ID lookup failed, trying name lookup for: ' . $doctorName);
+                        $doctor = Doctor::query()
+                            ->with(['specialization', 'user', 'schedules'])
+                            ->whereHas('user', function ($q) use ($doctorName) {
+                                $q->where('name', 'LIKE', '%' . $doctorName . '%');
+                            })
+                            ->first();
+                    }
+                    
+                    if (!$doctor) {
+                        Log::error('Case 2: Doctor lookup failed. selectedDoctorId=' . ($selectedDoctorId ?? 'null') . ', doctorName=' . ($doctorName ?? 'null'));
+                        return match($language) {
+                            'bn' => "দুঃখিত, ডাক্তার খুঁজে পাওয়া যায়নি। আবার চেষ্টা করুন।",
+                            'hi' => "क्षमा करें, डॉक्टर नहीं मिला। कृपया पुनः प्रयास करें।",
+                            default => "Sorry, doctor not found. Please try again.",
+                        };
+                    }
                 }
                 
                 $doctorName = $doctor->user->name;
@@ -1730,11 +1784,11 @@ class AIService
                     
                     if ($specialization) {
                         $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
-                            // Use exact match or word-boundary matching to avoid matching partial words
-                            $q->where('name', '=', $specialization)
-                              ->orWhere('name', 'LIKE', $specialization . ' %')
-                              ->orWhere('name', 'LIKE', '% ' . $specialization)
-                              ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
+                            // Use case-insensitive matching to handle "Gynecology" vs "Gynecologist"
+                            $q->whereRaw('LOWER(name) = LOWER(?)', [$specialization])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', [$specialization . ' %'])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', ['% ' . $specialization])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', ['% ' . $specialization . ' %']);
                         });
                     }
                     $doctor = $doctorQuery->skip($doctorNumber - 1)->first();
@@ -1750,11 +1804,25 @@ class AIService
                 }
                 
                 if (!$doctor) {
-                    return match($language) {
-                        'bn' => "দুঃখিত, ডাক্তার খুঁজে পাওয়া যায়নি। আবার চেষ্টা করুন।",
-                        'hi' => "क्षमा करें, डॉक्टर नहीं मिला। कृपया पुनः प्रयास करें।",
-                        default => "Sorry, doctor not found. Please try again.",
-                    };
+                    // Fallback: try to find doctor by name if ID lookup failed
+                    if ($doctorName) {
+                        Log::debug('Case 3: ID lookup failed, trying name lookup for: ' . $doctorName);
+                        $doctor = Doctor::query()
+                            ->with(['specialization', 'user', 'schedules'])
+                            ->whereHas('user', function ($q) use ($doctorName) {
+                                $q->where('name', 'LIKE', '%' . $doctorName . '%');
+                            })
+                            ->first();
+                    }
+                    
+                    if (!$doctor) {
+                        Log::error('Case 3: Doctor lookup failed. selectedDoctorId=' . ($selectedDoctorId ?? 'null') . ', doctorName=' . ($doctorName ?? 'null'));
+                        return match($language) {
+                            'bn' => "দুঃখিত, ডাক্তার খুঁজে পাওয়া যায়নি। আবার চেষ্টা করুন।",
+                            'hi' => "क्षमा करें, डॉक्टर नहीं मिला। कृपया पुनः प्रयास करें।",
+                            default => "Sorry, doctor not found. Please try again.",
+                        };
+                    }
                 }
                 
                 $doctorName = $doctor->user->name;
@@ -1805,11 +1873,11 @@ class AIService
                     
                     if ($specialization) {
                         $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
-                            // Use exact match or word-boundary matching to avoid matching partial words
-                            $q->where('name', '=', $specialization)
-                              ->orWhere('name', 'LIKE', $specialization . ' %')
-                              ->orWhere('name', 'LIKE', '% ' . $specialization)
-                              ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
+                            // Use case-insensitive matching to handle "Gynecology" vs "Gynecologist"
+                            $q->whereRaw('LOWER(name) = LOWER(?)', [$specialization])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', [$specialization . ' %'])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', ['% ' . $specialization])
+                              ->orWhereRaw('LOWER(name) LIKE LOWER(?)', ['% ' . $specialization . ' %']);
                         });
                     }
                     $doctor = $doctorQuery->skip($doctorNumber - 1)->first();
@@ -1821,15 +1889,44 @@ class AIService
                         })
                         ->first();
                 } elseif ($selectedDoctorId) {
+                    Log::debug('Case 4: Looking up doctor by selectedDoctorId: ' . $selectedDoctorId);
                     $doctor = Doctor::with(['specialization', 'user', 'schedules'])->find($selectedDoctorId);
+                    if (!$doctor) {
+                        Log::error('Case 4: Doctor not found by selectedDoctorId: ' . $selectedDoctorId);
+                    }
                 }
                 
                 if (!$doctor) {
-                    return match($language) {
-                        'bn' => "দুঃখিত, ডাক্তার খুঁজে পাওয়া যায়নি। আবার চেষ্টা করুন।",
-                        'hi' => "क्षमा करें, डॉक्टर नहीं मिला। कृपया पुनः प्रयास करें।",
-                        default => "Sorry, doctor not found. Please try again.",
-                    };
+                    // Fallback: try to find doctor by name if ID lookup failed
+                    if ($doctorName) {
+                        Log::debug('Case 4: ID lookup failed, trying name lookup for: ' . $doctorName);
+                        $doctor = Doctor::query()
+                            ->with(['specialization', 'user', 'schedules'])
+                            ->whereHas('user', function ($q) use ($doctorName) {
+                                $q->where('name', 'LIKE', '%' . $doctorName . '%');
+                            })
+                            ->first();
+                        if (!$doctor) {
+                            Log::error('Case 4: Doctor not found by name: ' . $doctorName);
+                        }
+                    }
+                    
+                    if (!$doctor) {
+                        Log::error('Case 4: All doctor lookup methods failed. selectedDoctorId=' . ($selectedDoctorId ?? 'null') . ', doctorName=' . ($doctorName ?? 'null'));
+                        // Try to provide more helpful error based on what's missing
+                        if (!$selectedDoctorId && !$doctorName) {
+                            return match($language) {
+                                'bn' => "দুঃখিত, আপনার সেশনে ডাক্তারের তথ্য পাওয়া যায়নি। আবার শুরু থেকে চেষ্টা করুন।",
+                                'hi' => "क्षमा करें, आपके सत्र में डॉक्टर की जानकारी नहीं मिली। कृपया फिर से शुरू से प्रयास करें।",
+                                default => "Sorry, I couldn't find your doctor selection in the session. Please start over.",
+                            };
+                        }
+                        return match($language) {
+                            'bn' => "দুঃখিত, ডাক্তার খুঁজে পাওয়া যায়নি। আবার চেষ্টা করুন।",
+                            'hi' => "क्षमा करें, डॉक्टर नहीं मिला। कृपया पुनः प्रयास करें।",
+                            default => "Sorry, doctor not found. Please try again.",
+                        };
+                    }
                 }
                 
                 $doctorName = $doctor->user->name;

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\WebRTCController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,6 +72,23 @@ Route::get('/health', function () {
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
+});
+
+// WebRTC Voice Call routes
+Route::prefix('webrtc')->group(function () {
+    // Pusher authentication for private channels
+    Route::post('/auth/pusher', [WebRTCController::class, 'authenticatePusher']);
+    
+    // Get Pusher configuration
+    Route::get('/config', [WebRTCController::class, 'getPusherConfig']);
+    
+    // Call management
+    Route::post('/call/initiate', [WebRTCController::class, 'initiateCall']);
+    Route::post('/call/offer', [WebRTCController::class, 'sendOffer']);
+    Route::post('/call/answer', [WebRTCController::class, 'sendAnswer']);
+    Route::post('/call/ice-candidate', [WebRTCController::class, 'sendIceCandidate']);
+    Route::post('/call/ringing', [WebRTCController::class, 'sendRinging']);
+    Route::post('/call/end', [WebRTCController::class, 'endCall']);
 });
 
 // Protected routes

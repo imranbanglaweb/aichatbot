@@ -3,7 +3,7 @@
         'name' => 'medical/chatbot-backend',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'a876deeaaa1b84fe54a6179152259503f2b9057a',
+        'reference' => '7a79eca85d677c2e291a592a7eb350a551d2050c',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -541,7 +541,7 @@
         'medical/chatbot-backend' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'a876deeaaa1b84fe54a6179152259503f2b9057a',
+            'reference' => '7a79eca85d677c2e291a592a7eb350a551d2050c',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
