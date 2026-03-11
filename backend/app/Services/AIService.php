@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\Doctor;
+use App\Models\Appointment;
+use App\Models\User;
 use Carbon\Carbon;
 
 class AIService
@@ -13,6 +15,7 @@ class AIService
     protected string $apiKey;
     protected string $model = 'gemini-2.5-flash';
     protected bool $useLocalFallback = true;
+    protected ?NotificationService $notificationService = null;
 
     // Supported intents
     public const INTENT_GREET = 'greet';
@@ -422,6 +425,7 @@ class AIService
         $this->apiKey = config('services.gemini.api_key', env('GEMINI_API_KEY'));
         $this->model = config('services.gemini.model', env('GEMINI_MODEL', 'gemini-1.5-flash'));
         $this->useLocalFallback = env('AI_USE_LOCAL_FALLBACK', true);
+        $this->notificationService = new NotificationService();
     }
 
     /**
@@ -543,6 +547,49 @@ class AIService
                 Log::debug('Doctor name extracted from message: ' . $doctorNameFromMessage);
             }
             
+            // Check if user explicitly mentioned a new doctor name in the message
+            // If so, we should reset other doctor identifiers to ensure the new doctor is used
+            $contextData = $context['extracted_data'] ?? [];
+            $previousDoctorName = $contextData['doctor_name'] ?? null;
+            $previousDoctorNumber = $contextData['doctor_number'] ?? null;
+            $previousSelectedDoctorId = $contextData['selected_doctor_id'] ?? null;
+            
+            // If a new doctor name was extracted and it's different from the previous one,
+            // clear the previous doctor selection so we select the new doctor
+            if ($doctorNameFromMessage && $doctorNameFromMessage !== $previousDoctorName) {
+                // Clear previous doctor selection but keep the new doctor name
+                $extractedData['doctor_number'] = null;
+                $extractedData['selected_doctor_id'] = null;
+                // Clear date/time as well since we're selecting a new doctor
+                $extractedData['date'] = null;
+                $extractedData['time_preference'] = null;
+                $extractedData['time_slot_number'] = null;
+                Log::debug('New doctor specified, clearing previous doctor selection: ' . $previousDoctorName . ' -> ' . $doctorNameFromMessage);
+            }
+            
+            // Also check if message contains any doctor name (without "Dr." prefix)
+            // This handles cases like "I want to see Emily Williams" or "Christopher"
+            if (!$doctorNameFromMessage) {
+                $doctors = Doctor::query()->with(['user'])->limit(20)->get();
+                $lowerMessage = strtolower($message);
+                foreach ($doctors as $doctor) {
+                    if ($doctor->user && str_contains($lowerMessage, strtolower($doctor->user->name))) {
+                        // Found a doctor name in the message
+                        $newDoctorName = $doctor->user->name;
+                        if ($newDoctorName !== $previousDoctorName) {
+                            $extractedData['doctor_name'] = $newDoctorName;
+                            $extractedData['doctor_number'] = null;
+                            $extractedData['selected_doctor_id'] = null;
+                            $extractedData['date'] = null;
+                            $extractedData['time_preference'] = null;
+                            $extractedData['time_slot_number'] = null;
+                            Log::debug('Doctor name found in message (no Dr. prefix): ' . $newDoctorName);
+                        }
+                        break;
+                    }
+                }
+            }
+            
             if (!empty($context['extracted_data'])) {
                 // Filter out null values from new extracted data to preserve context values
                 $newDataFiltered = array_filter($extractedData, function($value) {
@@ -558,6 +605,73 @@ class AIService
             // so subsequent messages can map a numeric reply to the correct record.
             if ($detectedIntent === self::INTENT_LIST_DOCTORS && !empty($this->lastDoctorIds)) {
                 $extractedData['last_doctor_ids'] = $this->lastDoctorIds;
+            }
+
+            // If we're showing available days for date selection (doctor selected, no date yet),
+            // stash the available days so the next message can map day numbers correctly.
+            if ($detectedIntent === self::INTENT_BOOK_APPOINTMENT) {
+                $doctorNumber = $extractedData['doctor_number'] ?? null;
+                $selectedDoctorId = $extractedData['selected_doctor_id'] ?? null;
+                $doctorName = $extractedData['doctor_name'] ?? null;
+                $hasDate = !empty($extractedData['date']);
+                
+                // If doctor is selected but no date yet, we're in Case 2 (showing available days)
+                if (($doctorNumber || $selectedDoctorId || $doctorName) && !$hasDate) {
+                    // Get the doctor to find available days
+                    $doctor = null;
+                    if ($doctorNumber) {
+                        $doctorQuery = Doctor::query()
+                            ->with(['specialization', 'user', 'schedules'])
+                            ->orderBy('rating', 'desc')
+                            ->orderBy('experience_years', 'desc');
+                        $specialization = $extractedData['specialization'] ?? null;
+                        if ($specialization) {
+                            $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
+                                $q->where('name', 'LIKE', '%' . $specialization . '%');
+                            });
+                        }
+                        $doctor = $doctorQuery->skip($doctorNumber - 1)->first();
+                    } elseif ($selectedDoctorId) {
+                        $doctor = Doctor::with(['specialization', 'user', 'schedules'])->find($selectedDoctorId);
+                    } elseif ($doctorName) {
+                        $doctor = Doctor::query()
+                            ->with(['specialization', 'user', 'schedules'])
+                            ->whereHas('user', function ($q) use ($doctorName) {
+                                $q->where('name', 'LIKE', '%' . $doctorName . '%');
+                            })
+                            ->first();
+                    }
+                    
+                    if ($doctor) {
+                        $availableDays = [];
+                        if (!empty($doctor->available_days)) {
+                            $availableDays = array_map('strtolower', $doctor->available_days);
+                        } elseif ($doctor->schedules) {
+                            foreach ($doctor->schedules as $schedule) {
+                                if ($schedule->is_active) {
+                                    $availableDays[] = strtolower($schedule->day_of_week);
+                                }
+                            }
+                        }
+                        
+                        // De-duplicate and sort by weekday order (same as displayed)
+                        if (!empty($availableDays)) {
+                            $availableDays = array_values(array_unique($availableDays));
+                            $weekOrder = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+                            usort($availableDays, function($a, $b) use ($weekOrder) {
+                                $posA = array_search($a, $weekOrder);
+                                $posB = array_search($b, $weekOrder);
+                                return $posA <=> $posB;
+                            });
+                            
+                            // Only store if we have a reasonable number of days (1-7)
+                            if (count($availableDays) >= 1 && count($availableDays) <= 7) {
+                                $extractedData['available_days'] = $availableDays;
+                                Log::debug('Stashing available_days in extracted_data: ' . json_encode($availableDays));
+                            }
+                        }
+                    }
+                }
             }
 
             return [
@@ -1108,25 +1222,44 @@ class AIService
 
         Log::debug('Checking for date patterns in message: ' . $message);
         
-        // Map for numeric day selection (1-7 for days of week)
-        $dayNumberMap = [
-            '1' => 'monday', '2' => 'tuesday', '3' => 'wednesday', 
-            '4' => 'thursday', '5' => 'friday', '6' => 'saturday', '7' => 'sunday',
-            '8' => 'tomorrow', '9' => 'today'
-        ];
+        // Check if available_days are stored in context (from the displayed day list)
+        $displayedAvailableDays = $context['extracted_data']['available_days'] ?? [];
+        
+        // Build dynamic day number map based on displayed available days
+        // If context has available_days, use those for mapping numbers
+        // Otherwise, fall back to the standard week order
+        if (!empty($displayedAvailableDays) && is_array($displayedAvailableDays)) {
+            $dayNumberMap = [];
+            $dayIndex = 1;
+            foreach ($displayedAvailableDays as $day) {
+                $dayNumberMap[strval($dayIndex)] = strtolower($day);
+                $dayIndex++;
+            }
+            // Add today/tomorrow mappings
+            $dayNumberMap['8'] = 'tomorrow';
+            $dayNumberMap['9'] = 'today';
+            Log::debug('Using dynamic day number map from context: ' . json_encode($dayNumberMap));
+        } else {
+            // Fall back to standard week order
+            $dayNumberMap = [
+                '1' => 'monday', '2' => 'tuesday', '3' => 'wednesday', 
+                '4' => 'thursday', '5' => 'friday', '6' => 'saturday', '7' => 'sunday',
+                '8' => 'tomorrow', '9' => 'today'
+            ];
+        }
         
         // Check for numeric day selection first (e.g., "1" for Monday).
         // Only treat bare numbers as dates when a doctor is already selected in
-        // the context.  Otherwise a single digit could easily be a doctor
-        // number, and we don't want to turn "2" into Tuesday during the
-        // initial doctor selection step.  The caller (processLocally) will
-        // still later run extractDoctorNumber so the doctor choice isn't lost.
+        // the context AND there's no date already selected. Otherwise, numbers
+        // should be treated as time slot selections.
+        $hasDateInContext = !empty($context['extracted_data']['date']);
         if (is_numeric(trim($message)) && isset($dayNumberMap[trim($message)])) {
-            if ($hasDoctorInContext) {
-                Log::debug('Numeric day selected (doctor in context): ' . $message . ' => ' . $dayNumberMap[trim($message)]);
+            // Only extract date if doctor is in context AND no date is already selected
+            if ($hasDoctorInContext && !$hasDateInContext) {
+                Log::debug('Numeric day selected (doctor in context, no date): ' . $message . ' => ' . $dayNumberMap[trim($message)]);
                 $entities['date'] = $this->parseRelativeDate($dayNumberMap[trim($message)]);
             } else {
-                Log::debug('Numeric message "' . $message . '" detected but no doctor in context, skipping numeric day mapping');
+                Log::debug('Numeric message "' . $message . '" detected but date already in context or no doctor, skipping numeric day mapping');
             }
         } elseif (preg_match('/(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/', $message, $matches)) {
             Log::debug('Date pattern matched: ' . $matches[1]);
@@ -1410,7 +1543,11 @@ class AIService
                     $doctors = Doctor::query()
                         ->with(['specialization', 'user'])
                         ->whereHas('specialization', function ($q) use ($specialization) {
-                            $q->where('name', 'LIKE', '%' . $specialization . '%');
+                            // Use exact match or word-boundary matching to avoid matching "ENT" in "Dentist"
+                            $q->where('name', '=', $specialization)
+                              ->orWhere('name', 'LIKE', $specialization . ' %')
+                              ->orWhere('name', 'LIKE', '% ' . $specialization)
+                              ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
                         })
                         ->orderBy('rating', 'desc')
                         ->orderBy('experience_years', 'desc')
@@ -1487,7 +1624,11 @@ class AIService
                     if ($specialization) {
                         Log::debug('Case 2: Filtering by specialization: ' . $specialization);
                         $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
-                            $q->where('name', 'LIKE', '%' . $specialization . '%');
+                            // Use exact match or word-boundary matching to avoid matching partial words
+                            $q->where('name', '=', $specialization)
+                              ->orWhere('name', 'LIKE', $specialization . ' %')
+                              ->orWhere('name', 'LIKE', '% ' . $specialization)
+                              ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
                         });
                     } else {
                         Log::debug('Case 2: NO specialization filter applied!');
@@ -1514,6 +1655,11 @@ class AIService
                 }
                 
                 $doctorName = $doctor->user->name;
+                
+                // Store the doctor's ID and name in extracted data for future reference
+                $extractedData['selected_doctor_id'] = $doctor->id;
+                $extractedData['doctor_name'] = $doctorName;
+                Log::debug('Case 2: Stored selected_doctor_id: ' . $doctor->id . ', doctor_name: ' . $doctorName);
                 
                 $availableDays = [];
                 if (!empty($doctor->available_days)) {
@@ -1584,7 +1730,11 @@ class AIService
                     
                     if ($specialization) {
                         $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
-                            $q->where('name', 'LIKE', '%' . $specialization . '%');
+                            // Use exact match or word-boundary matching to avoid matching partial words
+                            $q->where('name', '=', $specialization)
+                              ->orWhere('name', 'LIKE', $specialization . ' %')
+                              ->orWhere('name', 'LIKE', '% ' . $specialization)
+                              ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
                         });
                     }
                     $doctor = $doctorQuery->skip($doctorNumber - 1)->first();
@@ -1608,6 +1758,11 @@ class AIService
                 }
                 
                 $doctorName = $doctor->user->name;
+                
+                // Store the doctor's ID and name in extracted data for future reference
+                $extractedData['selected_doctor_id'] = $doctor->id;
+                $extractedData['doctor_name'] = $doctorName;
+                Log::debug('Case 3: Stored selected_doctor_id: ' . $doctor->id . ', doctor_name: ' . $doctorName);
                 
                 $slots = $doctor->getAvailableTimeSlotsForDate($date);
                 
@@ -1650,7 +1805,11 @@ class AIService
                     
                     if ($specialization) {
                         $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
-                            $q->where('name', 'LIKE', '%' . $specialization . '%');
+                            // Use exact match or word-boundary matching to avoid matching partial words
+                            $q->where('name', '=', $specialization)
+                              ->orWhere('name', 'LIKE', $specialization . ' %')
+                              ->orWhere('name', 'LIKE', '% ' . $specialization)
+                              ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
                         });
                     }
                     $doctor = $doctorQuery->skip($doctorNumber - 1)->first();
@@ -1674,6 +1833,11 @@ class AIService
                 }
                 
                 $doctorName = $doctor->user->name;
+                
+                // Store the doctor's ID and name in extracted data for future reference
+                $extractedData['selected_doctor_id'] = $doctor->id;
+                $extractedData['doctor_name'] = $doctorName;
+                Log::debug('Case 4: Stored selected_doctor_id: ' . $doctor->id . ', doctor_name: ' . $doctorName);
                 
                 $slots = $doctor->getAvailableTimeSlotsForDate($date);
                 $slotIndex = $timeSlotNumber - 1;
@@ -1750,7 +1914,11 @@ class AIService
                     
                     if ($specialization) {
                         $doctorQuery->whereHas('specialization', function ($q) use ($specialization) {
-                            $q->where('name', 'LIKE', '%' . $specialization . '%');
+                            // Use exact match or word-boundary matching to avoid matching partial words
+                            $q->where('name', '=', $specialization)
+                              ->orWhere('name', 'LIKE', $specialization . ' %')
+                              ->orWhere('name', 'LIKE', '% ' . $specialization)
+                              ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
                         });
                     }
                     $doctor = $doctorQuery->skip($doctorNumber - 1)->first();
@@ -1777,6 +1945,9 @@ class AIService
                 $phone = !empty(trim($phone)) ? trim($phone) : null;
                 
                 if ($patientName && $phone) {
+                    // Create appointment and send notifications
+                    $appointmentResult = $this->createAppointmentAndNotify($doctor, $date, $time, $patientName, $phone, $language);
+                    
                     return match($language) {
                         'bn' => "✅ *অ্যাপয়েন্টমেন্ট নিশ্চিত করা হয়েছে!*\n\n" .
                             "👨‍⚕️ ডাক্তার: {$doctorName}\n" .
@@ -1826,6 +1997,87 @@ class AIService
     }
 
     /**
+     * Create appointment and send notifications
+     */
+    protected function createAppointmentAndNotify(Doctor $doctor, string $date, string $time, string $patientName, string $phone, string $language = 'en'): array
+    {
+        try {
+            // Find or create patient user
+            $patient = User::where('phone', $phone)->first();
+            
+            if (!$patient) {
+                // Create a new patient user
+                $patient = User::create([
+                    'name' => $patientName,
+                    'phone' => $phone,
+                    'email' => null,
+                    'role' => 'patient',
+                ]);
+            } else {
+                // Update name if provided
+                if ($patient->name !== $patientName) {
+                    $patient->update(['name' => $patientName]);
+                }
+            }
+            
+            // Parse time to get start and end times
+            $timeParts = explode(' - ', $time);
+            $startTime = isset($timeParts[0]) ? trim($timeParts[0]) : $time;
+            $endTime = isset($timeParts[1]) ? trim($timeParts[1]) : $time;
+            
+            // Create appointment
+            $appointment = Appointment::create([
+                'patient_id' => $patient->id,
+                'doctor_id' => $doctor->id,
+                'appointment_date' => $date,
+                'start_time' => $startTime,
+                'end_time' => $endTime,
+                'status' => 'confirmed',
+                'notes' => 'Booked via AI Chatbot',
+            ]);
+            
+            Log::info('Appointment created: ' . $appointment->id);
+            
+            // Send notifications
+            $notificationResults = [];
+            try {
+                if ($this->notificationService) {
+                    $appointmentData = [
+                        'doctor_name' => $doctor->user->name,
+                        'date' => $date,
+                        'time' => $time,
+                        'patient_name' => $patientName,
+                    ];
+                    
+                    // Send SMS
+                    $notificationResults['sms'] = $this->notificationService->sendAppointmentConfirmationSms($phone, $appointmentData);
+                    
+                    // Send email if patient has email
+                    if ($patient->email) {
+                        $notificationResults['email'] = $this->notificationService->sendAppointmentConfirmationEmail($patient->email, $appointmentData);
+                    }
+                    
+                    Log::info('Notifications sent: ' . json_encode($notificationResults));
+                }
+            } catch (Exception $e) {
+                Log::warning('Failed to send notifications: ' . $e->getMessage());
+            }
+            
+            return [
+                'success' => true,
+                'appointment_id' => $appointment->id,
+                'notifications' => $notificationResults,
+            ];
+        } catch (Exception $e) {
+            Log::error('Failed to create appointment: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
      * Build list doctors response
      */
     protected function buildListDoctorsResponse(array $data, string $language): string
@@ -1841,7 +2093,11 @@ class AIService
                 ->orderBy('experience_years', 'desc')
                 ->when($specialization, function ($query) use ($specialization) {
                     $query->whereHas('specialization', function ($q) use ($specialization) {
-                        $q->where('name', 'LIKE', '%' . $specialization . '%');
+                        // Use exact match or word-boundary matching to avoid matching partial words
+                        $q->where('name', '=', $specialization)
+                          ->orWhere('name', 'LIKE', $specialization . ' %')
+                          ->orWhere('name', 'LIKE', '% ' . $specialization)
+                          ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
                     });
                 })
                 ->limit(10)
@@ -2109,7 +2365,11 @@ class AIService
             ->with(['specialization'])
             ->when($specialization, function ($query) use ($specialization) {
                 $query->whereHas('specialization', function ($q) use ($specialization) {
-                    $q->where('name', 'LIKE', '%' . $specialization . '%');
+                    // Use exact match or word-boundary matching to avoid matching partial words
+                    $q->where('name', '=', $specialization)
+                      ->orWhere('name', 'LIKE', $specialization . ' %')
+                      ->orWhere('name', 'LIKE', '% ' . $specialization)
+                      ->orWhere('name', 'LIKE', '% ' . $specialization . ' %');
                 });
             })
             ->limit(5)
@@ -2302,7 +2562,11 @@ class AIService
             $doctors = Doctor::query()
                 ->with(['specialization'])
                 ->whereHas('specialization', function ($q) use ($matchedSpec) {
-                    $q->where('name', 'LIKE', '%' . $matchedSpec . '%');
+                    // Use exact match or word-boundary matching to avoid matching partial words
+                    $q->where('name', '=', $matchedSpec)
+                      ->orWhere('name', 'LIKE', $matchedSpec . ' %')
+                      ->orWhere('name', 'LIKE', '% ' . $matchedSpec)
+                      ->orWhere('name', 'LIKE', '% ' . $matchedSpec . ' %');
                 })
                 ->limit(3)
                 ->get();

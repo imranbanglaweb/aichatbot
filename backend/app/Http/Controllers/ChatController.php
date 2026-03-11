@@ -247,6 +247,57 @@ class ChatController extends Controller
     }
 
     /**
+     * Transcribe audio only (returns text for input box)
+     * POST /api/chat/transcribe
+     */
+    public function transcribe(Request $request): JsonResponse
+    {
+        try {
+            $request->validate([
+                'audio' => 'required|file|mimes:webm,wav,mp3,ogg,m4a|max:10240',
+            ]);
+
+            $language = $request->input('language', 'en');
+            
+            // Save uploaded audio
+            $audioFile = $request->file('audio');
+            $audioPath = $this->voiceService->saveUploadedAudio($audioFile);
+
+            // Convert speech to text with language hint
+            $sttLanguage = $this->mapLanguageForSTT($language);
+            
+            // Use Google STT or OpenAI Whisper based on configuration
+            $useGoogleStt = config('services.google.use_stt', false);
+            
+            if ($useGoogleStt) {
+                $sttResult = $this->voiceService->speechToTextGoogle($audioPath, $sttLanguage);
+            } else {
+                $sttResult = $this->voiceService->speechToText($audioPath, $sttLanguage);
+            }
+
+            if (!$sttResult['success']) {
+                return response()->json([
+                    'success' => false,
+                    'error' => $sttResult['error'] ?? 'Failed to transcribe audio',
+                ], 500);
+            }
+
+            return response()->json([
+                'success' => true,
+                'text' => $sttResult['text'],
+                'language' => $sttResult['language'] ?? $language,
+            ]);
+        } catch (Exception $e) {
+            Log::error('Transcription Error: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to transcribe audio: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
      * Get chat history
      * GET /api/chat/history/{sessionId}
      */

@@ -55,16 +55,41 @@ class AppointmentController extends Controller
                 ], 400);
             }
 
-            // Create or get patient
-            $patient = \App\Models\User::where('phone', $validated['patient_phone'])->first();
+            // Get the authenticated patient (logged-in user)
+            $patient = $request->user();
             
+            // If no authenticated user, create or get patient by phone (guest booking)
             if (!$patient) {
-                $patient = \App\Models\User::create([
-                    'name' => $validated['patient_name'],
-                    'phone' => $validated['patient_phone'],
-                    'email' => $validated['patient_email'] ?? null,
-                    'password' => bcrypt(\Illuminate\Support\Str::random(16)),
-                ]);
+                $patient = \App\Models\User::where('phone', $validated['patient_phone'])->first();
+                
+                if (!$patient) {
+                    $patient = \App\Models\User::create([
+                        'name' => $validated['patient_name'],
+                        'phone' => $validated['patient_phone'],
+                        'email' => $validated['patient_email'] ?? null,
+                        'password' => bcrypt(\Illuminate\Support\Str::random(16)),
+                    ]);
+                }
+            } else {
+                // If user is a doctor or admin, they can't book appointment
+                if ($patient->is_doctor || $patient->is_admin) {
+                    return response()->json([
+                        'success' => false,
+                        'error' => 'Only patients can book appointments.',
+                    ], 403);
+                }
+                
+                // If patient info is provided, update the user profile
+                if (!empty($validated['patient_name']) && $patient->name !== $validated['patient_name']) {
+                    $patient->name = $validated['patient_name'];
+                }
+                if (!empty($validated['patient_phone']) && $patient->phone !== $validated['patient_phone']) {
+                    $patient->phone = $validated['patient_phone'];
+                }
+                if (!empty($validated['patient_email'])) {
+                    $patient->email = $validated['patient_email'];
+                }
+                $patient->save();
             }
 
             // Calculate end time

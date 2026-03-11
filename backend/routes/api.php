@@ -27,6 +27,7 @@ Route::post('/test-post', function() {
 Route::prefix('chat')->group(function () {
     Route::post('/message', [ChatController::class, 'message']);
     Route::post('/voice/stt', [ChatController::class, 'speechToText']);
+    Route::post('/transcribe', [ChatController::class, 'transcribe']);
     Route::get('/history/{sessionId}', [ChatController::class, 'history']);
     Route::post('/end/{sessionId}', [ChatController::class, 'end']);
 });

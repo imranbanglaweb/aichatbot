@@ -142,6 +142,38 @@ class ApiService {
     });
   }
 
+  // Speech-to-text transcription (for voice input to text)
+  async transcribeAudio(audioFile, language = 'en') {
+    const formData = new FormData();
+    formData.append('audio', audioFile);
+    formData.append('language', language);
+
+    const token = localStorage.getItem('token');
+    const url = `${this.baseUrl}/chat/transcribe`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to transcribe audio');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Transcription Error:', error);
+      throw error;
+    }
+  }
+
   async getChatHistory(sessionId) {
     return this.request(`/chat/history/${sessionId}`);
   }

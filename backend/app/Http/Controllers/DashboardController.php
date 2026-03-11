@@ -22,11 +22,42 @@ class DashboardController extends Controller
         $upcomingAppointments = Appointment::where('patient_id', $user->id)
             ->where('appointment_date', '>=', now()->toDateString())
             ->where('status', '!=', 'cancelled')
-            ->with(['doctor.specialization'])
+            ->with(['doctor.user', 'doctor.specialization'])
             ->orderBy('appointment_date')
             ->orderBy('start_time')
             ->limit(5)
-            ->get();
+            ->get()
+            ->map(function ($appointment) {
+                $doctorName = 'Doctor';
+                if ($appointment->doctor && $appointment->doctor->user) {
+                    $doctorName = $appointment->doctor->user->name;
+                } elseif ($appointment->doctor) {
+                    $doctorName = 'Dr. ' . ($appointment->doctor->name ?? 'Doctor');
+                }
+                
+                return [
+                    'id' => $appointment->id,
+                    'appointment_number' => $appointment->appointment_number,
+                    'appointment_date' => $appointment->appointment_date->format('Y-m-d'),
+                    'appointment_time' => date('h:i A', strtotime($appointment->start_time)),
+                    'start_time' => $appointment->start_time,
+                    'end_time' => $appointment->end_time,
+                    'status' => $appointment->status,
+                    'type' => $appointment->type,
+                    'reason' => $appointment->reason,
+                    'fee' => $appointment->fee,
+                    'is_paid' => $appointment->is_paid,
+                    'doctor' => $appointment->doctor ? [
+                        'id' => $appointment->doctor->id,
+                        'name' => $doctorName,
+                        'profile_image' => $appointment->doctor->profile_image,
+                        'specialization' => $appointment->doctor->specialization ? [
+                            'id' => $appointment->doctor->specialization->id,
+                            'name' => $appointment->doctor->specialization->name,
+                        ] : null,
+                    ] : null,
+                ];
+            });
 
         // Get past appointments
         $pastAppointments = Appointment::where('patient_id', $user->id)
@@ -34,11 +65,42 @@ class DashboardController extends Controller
                 $query->where('appointment_date', '<', now()->toDateString())
                     ->orWhere('status', 'completed');
             })
-            ->with(['doctor.specialization'])
+            ->with(['doctor.user', 'doctor.specialization'])
             ->orderBy('appointment_date', 'desc')
             ->orderBy('start_time', 'desc')
             ->limit(5)
-            ->get();
+            ->get()
+            ->map(function ($appointment) {
+                $doctorName = 'Doctor';
+                if ($appointment->doctor && $appointment->doctor->user) {
+                    $doctorName = $appointment->doctor->user->name;
+                } elseif ($appointment->doctor) {
+                    $doctorName = 'Dr. ' . ($appointment->doctor->name ?? 'Doctor');
+                }
+                
+                return [
+                    'id' => $appointment->id,
+                    'appointment_number' => $appointment->appointment_number,
+                    'appointment_date' => $appointment->appointment_date->format('Y-m-d'),
+                    'appointment_time' => date('h:i A', strtotime($appointment->start_time)),
+                    'start_time' => $appointment->start_time,
+                    'end_time' => $appointment->end_time,
+                    'status' => $appointment->status,
+                    'type' => $appointment->type,
+                    'reason' => $appointment->reason,
+                    'fee' => $appointment->fee,
+                    'is_paid' => $appointment->is_paid,
+                    'doctor' => $appointment->doctor ? [
+                        'id' => $appointment->doctor->id,
+                        'name' => $doctorName,
+                        'profile_image' => $appointment->doctor->profile_image,
+                        'specialization' => $appointment->doctor->specialization ? [
+                            'id' => $appointment->doctor->specialization->id,
+                            'name' => $appointment->doctor->specialization->name,
+                        ] : null,
+                    ] : null,
+                ];
+            });
 
         // Get appointment statistics
         $stats = [
@@ -62,11 +124,28 @@ class DashboardController extends Controller
             ->get();
 
         // Get recommended doctors (based on common specializations)
-        $recommendedDoctors = Doctor::with('specialization')
+        $recommendedDoctors = Doctor::with(['user', 'specialization'])
             ->where('is_available', true)
             ->inRandomOrder()
             ->limit(5)
-            ->get();
+            ->get()
+            ->map(function ($doctor) {
+                return [
+                    'id' => $doctor->id,
+                    'name' => $doctor->user->name ?? 'Doctor',
+                    'profile_image' => $doctor->profile_image,
+                    'qualification' => $doctor->qualification,
+                    'experience_years' => $doctor->experience_years,
+                    'consultation_fee' => $doctor->consultation_fee,
+                    'rating' => $doctor->rating,
+                    'hospital_clinic' => $doctor->hospital_clinic,
+                    'city' => $doctor->city,
+                    'specialization' => $doctor->specialization ? [
+                        'id' => $doctor->specialization->id,
+                        'name' => $doctor->specialization->name,
+                    ] : null,
+                ];
+            });
 
         return response()->json([
             'success' => true,
@@ -101,25 +180,67 @@ class DashboardController extends Controller
             ], 404);
         }
 
-        $doctor = Doctor::with('specialization')->find($user->doctor_id);
+        $doctor = Doctor::with(['user', 'specialization'])->find($user->doctor_id);
 
         // Get today's appointments
         $todayAppointments = Appointment::where('doctor_id', $doctor->id)
             ->where('appointment_date', now()->toDateString())
             ->where('status', '!=', 'cancelled')
-            ->with(['patient'])
+            ->with(['patient.user'])
             ->orderBy('start_time')
-            ->get();
+            ->get()
+            ->map(function ($appointment) {
+                return [
+                    'id' => $appointment->id,
+                    'appointment_number' => $appointment->appointment_number,
+                    'appointment_date' => $appointment->appointment_date->format('Y-m-d'),
+                    'appointment_time' => date('h:i A', strtotime($appointment->start_time)),
+                    'start_time' => $appointment->start_time,
+                    'end_time' => $appointment->end_time,
+                    'status' => $appointment->status,
+                    'type' => $appointment->type,
+                    'reason' => $appointment->reason,
+                    'fee' => $appointment->fee,
+                    'is_paid' => $appointment->is_paid,
+                    'patient' => $appointment->patient ? [
+                        'id' => $appointment->patient->id,
+                        'name' => $appointment->patient->name,
+                        'profile_image' => $appointment->patient->profile_image,
+                        'phone' => $appointment->patient->phone,
+                    ] : null,
+                ];
+            });
 
         // Get upcoming appointments
         $upcomingAppointments = Appointment::where('doctor_id', $doctor->id)
             ->where('appointment_date', '>', now()->toDateString())
             ->where('status', '!=', 'cancelled')
-            ->with(['patient'])
+            ->with(['patient.user'])
             ->orderBy('appointment_date')
             ->orderBy('start_time')
             ->limit(10)
-            ->get();
+            ->get()
+            ->map(function ($appointment) {
+                return [
+                    'id' => $appointment->id,
+                    'appointment_number' => $appointment->appointment_number,
+                    'appointment_date' => $appointment->appointment_date->format('Y-m-d'),
+                    'appointment_time' => date('h:i A', strtotime($appointment->start_time)),
+                    'start_time' => $appointment->start_time,
+                    'end_time' => $appointment->end_time,
+                    'status' => $appointment->status,
+                    'type' => $appointment->type,
+                    'reason' => $appointment->reason,
+                    'fee' => $appointment->fee,
+                    'is_paid' => $appointment->is_paid,
+                    'patient' => $appointment->patient ? [
+                        'id' => $appointment->patient->id,
+                        'name' => $appointment->patient->name,
+                        'profile_image' => $appointment->patient->profile_image,
+                        'phone' => $appointment->patient->phone,
+                    ] : null,
+                ];
+            });
 
         // Get appointment statistics
         $stats = [
@@ -155,14 +276,23 @@ class DashboardController extends Controller
             ->limit(10)
             ->get()
             ->unique('patient_id')
-            ->take(5);
+            ->take(5)
+            ->map(function ($appointment) {
+                return [
+                    'id' => $appointment->patient->id,
+                    'name' => $appointment->patient->name,
+                    'profile_image' => $appointment->patient->profile_image,
+                    'phone' => $appointment->patient->phone,
+                    'last_visit' => $appointment->appointment_date->format('Y-m-d'),
+                ];
+            });
 
         return response()->json([
             'success' => true,
             'data' => [
                 'doctor' => [
                     'id' => $doctor->id,
-                    'name' => $doctor->name,
+                    'name' => $doctor->user->name ?? 'Doctor',
                     'specialization' => $doctor->specialization->name ?? null,
                     'profile_image' => $doctor->profile_image,
                     'consultation_fee' => $doctor->consultation_fee,
@@ -207,10 +337,39 @@ class DashboardController extends Controller
 
         // Get today's appointments
         $todayAppointments = Appointment::where('appointment_date', now()->toDateString())
-            ->with(['doctor', 'patient'])
+            ->with(['doctor.user', 'doctor.specialization', 'patient'])
             ->orderBy('start_time')
             ->limit(20)
-            ->get();
+            ->get()
+            ->map(function ($appointment) {
+                return [
+                    'id' => $appointment->id,
+                    'appointment_number' => $appointment->appointment_number,
+                    'appointment_date' => $appointment->appointment_date->format('Y-m-d'),
+                    'appointment_time' => date('h:i A', strtotime($appointment->start_time)),
+                    'start_time' => $appointment->start_time,
+                    'end_time' => $appointment->end_time,
+                    'status' => $appointment->status,
+                    'type' => $appointment->type,
+                    'reason' => $appointment->reason,
+                    'fee' => $appointment->fee,
+                    'is_paid' => $appointment->is_paid,
+                    'doctor' => $appointment->doctor ? [
+                        'id' => $appointment->doctor->id,
+                        'name' => $appointment->doctor->user->name ?? 'Doctor',
+                        'profile_image' => $appointment->doctor->profile_image,
+                        'specialization' => $appointment->doctor->specialization ? [
+                            'id' => $appointment->doctor->specialization->id,
+                            'name' => $appointment->doctor->specialization->name,
+                        ] : null,
+                    ] : null,
+                    'patient' => $appointment->patient ? [
+                        'id' => $appointment->patient->id,
+                        'name' => $appointment->patient->name,
+                        'profile_image' => $appointment->patient->profile_image,
+                    ] : null,
+                ];
+            });
 
         // Get appointment trends (last 7 days)
         $appointmentTrends = Appointment::whereBetween('appointment_date', [now()->subDays(7), now()->toDateString()])

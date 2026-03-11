@@ -32,19 +32,31 @@ const ChatBot = ({
 
   const { sendMessage, sendVoice } = useChat(selectedLanguage);
   const { isRecording, startRecording, stopRecording, transcribedText, interimTranscript, error: voiceError, isSupported, clearRecording } = useVoice(selectedLanguage);
+  const [voiceInputText, setVoiceInputText] = useState('');
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  // Handle transcribed text from Web Speech API
-  useEffect(() => {
-    if (transcribedText && !isRecording) {
-      handleVoiceInput(transcribedText);
-      clearRecording();
+  // Handle voice button stop - start recording
+  const handleStartRecording = useCallback(async () => {
+    await startRecording();
+  }, [startRecording]);
+
+  // Handle voice button stop - process transcription
+  const handleStopRecording = useCallback(async () => {
+    const text = await stopRecording();
+    if (text && text.trim()) {
+      setVoiceInputText(text.trim());
     }
-  }, [transcribedText, isRecording]);
+  }, [stopRecording]);
+
+  // Clear voice input text
+  const handleClearVoiceInput = useCallback(() => {
+    setVoiceInputText('');
+    clearRecording();
+  }, [clearRecording]);
 
   const handleSendMessage = useCallback(async (text) => {
     if (!text.trim()) return;
@@ -301,16 +313,18 @@ const ChatBot = ({
             disabled={isTyping}
             placeholder="Type your message..."
             language={selectedLanguage}
+            initialValue={voiceInputText}
+            onClear={() => setVoiceInputText('')}
           />
 
           {/* Voice button */}
           <VoiceButton 
             isRecording={isRecording}
-            onStartRecording={startRecording}
-            onStopRecording={stopRecording}
+            onStartRecording={handleStartRecording}
+            onStopRecording={handleStopRecording}
             primaryColor={primaryColor}
             language={selectedLanguage}
-            interimTranscript={interimTranscript}
+            interimTranscript={''}
             error={voiceError}
             isSupported={isSupported}
           />

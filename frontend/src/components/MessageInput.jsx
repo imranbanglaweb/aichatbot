@@ -11,9 +11,16 @@ const placeholders = {
   ar: 'اكتب رسالتك...',
 };
 
-export const MessageInput = ({ onSend, disabled, language = 'en' }) => {
-  const [message, setMessage] = useState('');
+export const MessageInput = ({ onSend, disabled, language = 'en', initialValue = '', onClear = null }) => {
+  const [message, setMessage] = useState(initialValue);
   const inputRef = useRef(null);
+
+  // Update message when initialValue changes
+  useEffect(() => {
+    if (initialValue) {
+      setMessage(initialValue);
+    }
+  }, [initialValue]);
 
   useEffect(() => {
     if (!disabled && inputRef.current) {
@@ -26,6 +33,9 @@ export const MessageInput = ({ onSend, disabled, language = 'en' }) => {
     if (message.trim() && !disabled) {
       onSend(message.trim());
       setMessage('');
+      if (onClear) {
+        onClear();
+      }
     }
   };
 
