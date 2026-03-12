@@ -10,8 +10,10 @@ const getApiUrl = () => {
   if (process.env.NODE_ENV === 'production') {
     return process.env.REACT_APP_API_URL || 'https://your-production-domain.com/api';
   }
-  // Development URL
-  return process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+  // Development URL - try multiple common Laravel dev server ports
+  // The API should be accessible at /api prefix
+  const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+  return baseUrl + '/api';
 };
 
 // Configuration object

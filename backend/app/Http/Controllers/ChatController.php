@@ -70,9 +70,24 @@ class ChatController extends Controller
             $newExtractedData = $result['extracted_data'] ?? [];
             $mergedExtractedData = array_merge($existingExtractedData, $newExtractedData);
             
+            // Preserve booking intent if we have booking-related data in context
+            $detectedIntent = $result['intent'];
+            $previousIntent = $session->current_intent;
+            $hasBookingData = !empty($mergedExtractedData['doctor_number']) || 
+                             !empty($mergedExtractedData['selected_doctor_id']) ||
+                             !empty($mergedExtractedData['doctor_name']) ||
+                             !empty($mergedExtractedData['date']) ||
+                             !empty($mergedExtractedData['time_slot_number']);
+            
+            // If previous intent was booking and we have booking data, keep the booking intent
+            if ($previousIntent === 'book_appointment' && $hasBookingData && $detectedIntent === 'general') {
+                $detectedIntent = 'book_appointment';
+                Log::debug('Preserved book_appointment intent due to existing booking data');
+            }
+            
             $session->update([
                 'extracted_data' => $mergedExtractedData,
-                'current_intent' => $result['intent'],
+                'current_intent' => $detectedIntent,
                 'message_count' => $session->message_count + 1,
                 'last_activity_at' => now(),
             ]);
@@ -168,9 +183,24 @@ class ChatController extends Controller
             $newExtractedData = $result['extracted_data'] ?? [];
             $mergedExtractedData = array_merge($existingExtractedData, $newExtractedData);
             
+            // Preserve booking intent if we have booking-related data in context
+            $detectedIntent = $result['intent'];
+            $previousIntent = $session->current_intent;
+            $hasBookingData = !empty($mergedExtractedData['doctor_number']) || 
+                             !empty($mergedExtractedData['selected_doctor_id']) ||
+                             !empty($mergedExtractedData['doctor_name']) ||
+                             !empty($mergedExtractedData['date']) ||
+                             !empty($mergedExtractedData['time_slot_number']);
+            
+            // If previous intent was booking and we have booking data, keep the booking intent
+            if ($previousIntent === 'book_appointment' && $hasBookingData && $detectedIntent === 'general') {
+                $detectedIntent = 'book_appointment';
+                Log::debug('Preserved book_appointment intent (voice) due to existing booking data');
+            }
+            
             $session->update([
                 'extracted_data' => $mergedExtractedData,
-                'current_intent' => $result['intent'],
+                'current_intent' => $detectedIntent,
                 'message_count' => $session->message_count + 1,
                 'last_activity_at' => now(),
             ]);

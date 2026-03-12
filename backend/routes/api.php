@@ -57,8 +57,10 @@ Route::prefix('appointment')->group(function () {
     Route::get('/{appointmentNumber}', [AppointmentController::class, 'show']);
 });
 
-// Appointments list
-Route::get('/appointments', [AppointmentController::class, 'index']);
+// Appointments list - protected route
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/appointments', [AppointmentController::class, 'index']);
+});
 
 // Health check
 Route::get('/health', function () {
@@ -107,5 +109,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/doctor', [DashboardController::class, 'doctorDashboard']);
         Route::get('/admin', [DashboardController::class, 'adminDashboard']);
         Route::get('/sidebar', [DashboardController::class, 'sidebarMenu']);
+    });
+
+    // Doctor management (admin)
+    Route::prefix('doctors')->group(function () {
+        Route::put('/{id}', [DoctorController::class, 'update']);
     });
 });

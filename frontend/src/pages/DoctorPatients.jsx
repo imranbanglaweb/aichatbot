@@ -19,7 +19,8 @@ const DoctorPatients = () => {
       // Would need a dedicated endpoint for doctor patients
       // Using appointments for now
       const response = await api.getAppointments();
-      const appointments = response.data || [];
+      // API returns {success: true, data: {appointments: [...], pagination: {...}}}
+      const appointments = response.data?.appointments || [];
       
       // Extract unique patients from appointments
       const uniquePatients = [];

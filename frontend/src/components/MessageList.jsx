@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
 import './MessageList.css';
 
@@ -32,6 +32,49 @@ export const MessageList = ({ messages, isTyping, botTypingText = '...' }) => {
 const MessageItem = ({ message }) => {
   const isBot = message.type === 'bot';
   const isEmergency = message.emergency;
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  // Check if message has audio
+  const hasAudio = message.audio_url || message.audio_content;
+  
+  // Get audio source - prefer base64 content, then URL
+  const getAudioSrc = () => {
+    if (message.audio_content) {
+      return 'data:audio/mp3;base64,' + message.audio_content;
+    }
+    return message.audio_url || '';
+  };
+
+  useEffect(() => {
+    if (audioRef.current && hasAudio) {
+      const audio = audioRef.current;
+      
+      const handlePlay = () => setIsPlaying(true);
+      const handlePause = () => setIsPlaying(false);
+      const handleEnded = () => setIsPlaying(false);
+      
+      audio.addEventListener('play', handlePlay);
+      audio.addEventListener('pause', handlePause);
+      audio.addEventListener('ended', handleEnded);
+      
+      return () => {
+        audio.removeEventListener('play', handlePlay);
+        audio.removeEventListener('pause', handlePause);
+        audio.removeEventListener('ended', handleEnded);
+      };
+    }
+  }, []);
+
+  const handlePlayAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+    }
+  };
 
   return (
     <div className={`message-item ${message.type} ${isEmergency ? 'emergency' : ''}`}>
@@ -57,7 +100,30 @@ const MessageItem = ({ message }) => {
           }}
         />
 
-        {message.audio_url && (
+        {/* Audio player with button for bot responses */}
+        {hasAudio && isBot && (
+          <div className="audio-player-container">
+            <audio 
+              ref={audioRef}
+              className="message-audio" 
+              src={getAudioSrc()}
+              preload="none"
+            />
+            <button 
+              className={`audio-play-button ${isPlaying ? 'playing' : ''}`}
+              onClick={handlePlayAudio}
+              disabled={!getAudioSrc()}
+              aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
+            >
+              <span className="audio-label">
+                {isPlaying ? 'Playing...' : 'Listen to response'}
+              </span>
+            </button>
+          </div>
+        )}
+
+        {/* Standard audio player for user messages */}
+        {hasAudio && !isBot && (
           <audio 
             controls 
             className="message-audio" 

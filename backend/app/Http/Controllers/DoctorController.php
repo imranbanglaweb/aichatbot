@@ -357,4 +357,88 @@ class DoctorController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Update doctor information
+     * PUT /api/doctors/{id}
+     */
+    public function update(Request $request, int $id): JsonResponse
+    {
+        try {
+            $doctor = Doctor::findOrFail($id);
+
+            $validated = $request->validate([
+                'name' => 'nullable|string|max:255',
+                'qualification' => 'nullable|string|max:255',
+                'experience_years' => 'nullable|integer|min:0|max:50',
+                'bio' => 'nullable|string',
+                'consultation_fee' => 'nullable|numeric|min:0',
+                'hospital_clinic' => 'nullable|string|max:255',
+                'address' => 'nullable|string|max:500',
+                'city' => 'nullable|string|max:100',
+                'languages' => 'nullable|array',
+                'languages.*' => 'string|max:50',
+                'available_days' => 'nullable|array',
+                'available_days.*' => 'string|in:sunday,monday,tuesday,wednesday,thursday,friday,saturday',
+                'start_time' => 'nullable|string',
+                'end_time' => 'nullable|string',
+                'slot_duration' => 'nullable|integer|min:15|max:120',
+                'is_available' => 'nullable|boolean',
+                'is_verified' => 'nullable|boolean',
+            ]);
+
+            // Format time fields to H:i:s format
+            if (!empty($validated['start_time'])) {
+                $validated['start_time'] = date('H:i:s', strtotime($validated['start_time']));
+            }
+            if (!empty($validated['end_time'])) {
+                $validated['end_time'] = date('H:i:s', strtotime($validated['end_time']));
+            }
+
+            // Update doctor fields
+            $updateFields = [
+                'qualification',
+                'experience_years',
+                'bio',
+                'consultation_fee',
+                'hospital_clinic',
+                'address',
+                'city',
+                'languages',
+                'available_days',
+                'start_time',
+                'end_time',
+                'slot_duration',
+                'is_available',
+                'is_verified',
+            ];
+
+            foreach ($updateFields as $field) {
+                if (isset($validated[$field])) {
+                    $doctor->$field = $validated[$field];
+                }
+            }
+
+            // Update name if provided (through user relationship)
+            if (!empty($validated['name']) && $doctor->user) {
+                $doctor->user->name = $validated['name'];
+                $doctor->user->save();
+            }
+
+            $doctor->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Doctor updated successfully',
+                'doctor' => $this->formatDoctor($doctor->fresh(['user', 'specialization'])),
+            ]);
+        } catch (Exception $e) {
+            Log::error('Update Doctor Error: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to update doctor: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
 }

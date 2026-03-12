@@ -18,7 +18,8 @@ const PatientAppointments = () => {
   const fetchAppointments = async () => {
     try {
       const response = await api.getAppointments();
-      setAppointments(response.data || []);
+      // API returns {success: true, data: {appointments: [...], pagination: {...}}} now
+      setAppointments(response.data?.appointments || []);
     } catch (err) {
       setError('Failed to load appointments');
       console.error(err);

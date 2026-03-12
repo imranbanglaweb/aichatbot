@@ -1,17 +1,231 @@
-[2026-03-11 18:02:14] local.DEBUG: detectIntent called with message: 1 (lower: 1), currentIntent: book_appointment  
-[2026-03-11 18:02:14] local.DEBUG: Number within slot count (1 <= 14), treating as time slot  
-[2026-03-11 18:02:14] local.DEBUG: extractEntitiesFromMessage called with: 1  
-[2026-03-11 18:02:14] local.DEBUG: Checking for date patterns in message: 1  
-[2026-03-11 18:02:14] local.DEBUG: Numeric message "1" detected but date already in context or no doctor, skipping numeric day mapping  
-[2026-03-11 18:02:14] local.DEBUG: No date pattern matched for message: 1  
-[2026-03-11 18:02:14] local.DEBUG: Doctor in context, setting time_slot_number: 1, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
-[2026-03-11 18:02:14] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":1,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
-[2026-03-11 18:02:14] local.DEBUG: Ignored doctor_number 1 because date or time_slot was extracted from same message  
-[2026-03-11 18:02:14] local.DEBUG: Merged extracted_data: context={"specialization":"Gynecology","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":4}, new={"specialization":"Gynecology","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":1,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":4}  
-[2026-03-11 18:02:14] local.DEBUG: buildResponse called with intent: book_appointment, language: en  
-[2026-03-11 18:02:14] local.DEBUG: buildBookingResponse called with data: {"specialization":"Gynecology","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":1,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":4}, context extracted_data: {"specialization":"Gynecology","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":4}  
-[2026-03-11 18:02:14] local.DEBUG: Time slot number selected (1), preserving date and doctor info  
-[2026-03-11 18:02:14] local.DEBUG: Fully merged data: {"specialization":"Gynecology","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":1,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":4}  
-[2026-03-11 18:02:14] local.DEBUG: Using merged values - doctorNumber: 4, date: 2026-03-16, time: null  
-[2026-03-11 18:02:14] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
-[2026-03-11 18:02:14] local.ERROR: Case 4: All doctor lookup methods failed. selectedDoctorId=null, doctorName=null  
+[2026-03-12 09:47:15] local.DEBUG: detectIntent called with message: 2 (lower: 2), currentIntent: book_appointment  
+[2026-03-12 09:47:15] local.DEBUG: Number within slot count (2 <= 10), treating as time slot  
+[2026-03-12 09:47:15] local.DEBUG: extractEntitiesFromMessage called with: 2  
+[2026-03-12 09:47:15] local.DEBUG: Checking for date patterns in message: 2  
+[2026-03-12 09:47:15] local.DEBUG: Numeric message "2" detected but date already in context or no doctor, skipping numeric day mapping  
+[2026-03-12 09:47:15] local.DEBUG: No date pattern matched for message: 2  
+[2026-03-12 09:47:15] local.DEBUG: Doctor in context, setting time_slot_number: 2, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-12 09:47:15] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":2,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-12 09:47:15] local.DEBUG: Ignored doctor_number 2 because date or time_slot was extracted from same message  
+[2026-03-12 09:47:15] local.DEBUG: Merged extracted_data: context={"specialization":"General Medicine","symptoms":[],"date":"2026-03-17","time_preference":null,"time_slot_number":null,"patient_name":"\u09a6\u09be\u0981\u09a4\u09c7\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":2}, new={"specialization":"General Medicine","symptoms":[],"date":"2026-03-17","time_preference":null,"time_slot_number":2,"patient_name":"\u09a6\u09be\u0981\u09a4\u09c7\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":2}  
+[2026-03-12 09:47:15] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-12 09:47:15] local.DEBUG: buildBookingResponse called with data: {"specialization":"General Medicine","symptoms":[],"date":"2026-03-17","time_preference":null,"time_slot_number":2,"patient_name":"\u09a6\u09be\u0981\u09a4\u09c7\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":2}, context extracted_data: {"specialization":"General Medicine","symptoms":[],"date":"2026-03-17","time_preference":null,"time_slot_number":null,"patient_name":"\u09a6\u09be\u0981\u09a4\u09c7\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":2}  
+[2026-03-12 09:47:15] local.DEBUG: Time slot number selected (2), preserving date and doctor info  
+[2026-03-12 09:47:15] local.DEBUG: Fully merged data: {"specialization":"General Medicine","symptoms":[],"date":"2026-03-17","time_preference":null,"time_slot_number":2,"patient_name":"\u09a6\u09be\u0981\u09a4\u09c7\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":2}  
+[2026-03-12 09:47:15] local.DEBUG: Using merged values - doctorNumber: 2, date: 2026-03-17, time: null  
+[2026-03-12 09:47:15] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-12 09:47:15] local.ERROR: Case 4: All doctor lookup methods failed. selectedDoctorId=null, doctorName=null  
+[2026-03-12 09:47:43] local.DEBUG: detectIntent called with message: দাঁতের doctor dorkar (lower: দাঁতের doctor dorkar), currentIntent: null  
+[2026-03-12 09:47:43] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from quick check: দাঁতের doctor dorkar  
+[2026-03-12 09:47:43] local.DEBUG: Detected specialization in message: দাঁত => Dentist  
+[2026-03-12 09:47:43] local.DEBUG: extractEntitiesFromMessage called with: দাঁতের doctor dorkar  
+[2026-03-12 09:47:43] local.DEBUG: Checking for date patterns in message: দাঁতের doctor dorkar  
+[2026-03-12 09:47:43] local.DEBUG: No date pattern matched for message: দাঁতের doctor dorkar  
+[2026-03-12 09:47:43] local.DEBUG: Name extracted (first word): Dorkar  
+[2026-03-12 09:47:43] local.DEBUG: Extracted entities from message: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-12 09:47:43] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-12 09:47:43] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}, context extracted_data: []  
+[2026-03-12 09:47:43] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"patient_name":"Dorkar"}  
+[2026-03-12 09:47:43] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
+[2026-03-12 09:47:43] local.DEBUG: Case 1: No doctor selected  
+[2026-03-12 09:48:16] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-12 09:48:16] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-12 09:48:16] local.DEBUG: extractEntitiesFromMessage called with: 5  
+[2026-03-12 09:48:16] local.DEBUG: Checking for date patterns in message: 5  
+[2026-03-12 09:48:16] local.DEBUG: Numeric message "5" detected but date already in context or no doctor, skipping numeric day mapping  
+[2026-03-12 09:48:16] local.DEBUG: No date pattern matched for message: 5  
+[2026-03-12 09:48:16] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 5, hasDoctor=no, hasDate=no  
+[2026-03-12 09:48:16] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-12 09:48:16] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}  
+[2026-03-12 09:48:16] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-12 09:48:16] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-12 09:48:16] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}  
+[2026-03-12 09:48:16] local.DEBUG: Using merged values - doctorNumber: 5, date: null, time: null  
+[2026-03-12 09:48:16] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=5, specialization=Dentist  
+[2026-03-12 09:48:16] local.DEBUG: Case 2: Filtering by specialization: Dentist  
+[2026-03-12 09:48:16] local.DEBUG: Case 2: Doctor query result: Dr. Mohammad Khan  
+[2026-03-12 09:48:16] local.DEBUG: Case 2: Stored selected_doctor_id: 13, doctor_name: Dr. Mohammad Khan  
+[2026-03-12 09:48:16] local.DEBUG: Stashing available_days in extracted_data: ["monday","wednesday","friday","saturday","sunday"]  
+[2026-03-12 09:48:39] local.DEBUG: detectIntent called with message: রবিবার (lower: রবিবার), currentIntent: book_appointment  
+[2026-03-12 09:48:39] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-12 09:48:39] local.DEBUG: extractEntitiesFromMessage called with: রবিবার  
+[2026-03-12 09:48:39] local.DEBUG: Checking for date patterns in message: রবিবার  
+[2026-03-12 09:48:39] local.DEBUG: No date pattern matched for message: রবিবার  
+[2026-03-12 09:48:39] local.DEBUG: extractEntitiesFromMessage called with: রবিবার  
+[2026-03-12 09:48:39] local.DEBUG: Checking for date patterns in message: রবিবার  
+[2026-03-12 09:48:39] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"friday","4":"saturday","5":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-12 09:48:39] local.DEBUG: No date pattern matched for message: রবিবার  
+[2026-03-12 09:48:39] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-12 09:48:39] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:48:39] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-12 09:48:39] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:48:39] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:48:39] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-15, time: null  
+[2026-03-12 09:48:39] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-15  
+[2026-03-12 09:48:39] local.DEBUG: Case 3: Stored selected_doctor_id: 13, doctor_name: Dr. Mohammad Khan  
+[2026-03-12 09:49:07] local.DEBUG: detectIntent called with message: 10 (lower: 10), currentIntent: book_appointment  
+[2026-03-12 09:49:07] local.DEBUG: Detected doctor number, assuming booking intent: 10  
+[2026-03-12 09:49:07] local.DEBUG: extractEntitiesFromMessage called with: 10  
+[2026-03-12 09:49:07] local.DEBUG: Checking for date patterns in message: 10  
+[2026-03-12 09:49:07] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"friday","4":"saturday","5":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-12 09:49:07] local.DEBUG: No date pattern matched for message: 10  
+[2026-03-12 09:49:07] local.DEBUG: Doctor in context, setting time_slot_number: 10, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-12 09:49:07] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-12 09:49:07] local.DEBUG: Ignored doctor_number 10 because date or time_slot was extracted from same message  
+[2026-03-12 09:49:07] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:49:07] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-12 09:49:07] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:49:07] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-12 09:49:07] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:49:07] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-15, time: null  
+[2026-03-12 09:49:07] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-12 09:49:07] local.DEBUG: Case 4: Stored selected_doctor_id: 13, doctor_name: Dr. Mohammad Khan  
+[2026-03-12 09:49:07] local.DEBUG: Case 4 - patient_name from mergedData: রবিবার  
+[2026-03-12 09:49:07] local.DEBUG: Case 4 - phone from mergedData: NULL  
+[2026-03-12 09:49:07] local.DEBUG: Case 4 - after trim, patient_name: রবিবার, phone: NULL  
+[2026-03-12 09:49:27] local.DEBUG: detectIntent called with message: bristy,01918329829 (lower: bristy,01918329829), currentIntent: book_appointment  
+[2026-03-12 09:49:27] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-12 09:49:27] local.DEBUG: extractEntitiesFromMessage called with: bristy,01918329829  
+[2026-03-12 09:49:27] local.DEBUG: Checking for date patterns in message: bristy,01918329829  
+[2026-03-12 09:49:27] local.DEBUG: No date pattern matched for message: bristy,01918329829  
+[2026-03-12 09:49:27] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-12 09:49:27] local.DEBUG: Name extracted from remaining: Bristy  
+[2026-03-12 09:49:27] local.DEBUG: matchTrainingData returned: general  
+[2026-03-12 09:49:27] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-12 09:49:27] local.DEBUG: extractEntitiesFromMessage called with: bristy,01918329829  
+[2026-03-12 09:49:27] local.DEBUG: Checking for date patterns in message: bristy,01918329829  
+[2026-03-12 09:49:27] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"friday","4":"saturday","5":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-12 09:49:27] local.DEBUG: No date pattern matched for message: bristy,01918329829  
+[2026-03-12 09:49:27] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-12 09:49:27] local.DEBUG: Name extracted from remaining: Bristy  
+[2026-03-12 09:49:27] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null}  
+[2026-03-12 09:49:27] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:49:27] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-12 09:49:27] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
+[2026-03-12 09:49:27] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:49:27] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-12 09:49:27] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:49:27] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-15, time: null  
+[2026-03-12 09:49:27] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-12 09:49:27] local.DEBUG: Case 4: Stored selected_doctor_id: 13, doctor_name: Dr. Mohammad Khan  
+[2026-03-12 09:49:27] local.DEBUG: Case 4 - patient_name from mergedData: Bristy  
+[2026-03-12 09:49:27] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
+[2026-03-12 09:49:27] local.DEBUG: Case 4 - after trim, patient_name: Bristy, phone: 01918329829  
+[2026-03-12 09:49:27] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-12 09:49:27] local.INFO: Appointment created: 16  
+[2026-03-12 09:49:29] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
+To: 01918329829@patient.local
+Subject: Appointment Confirmation - Medical Chatbot
+MIME-Version: 1.0
+Date: Thu, 12 Mar 2026 09:49:29 +0000
+Message-ID: <38912d30f70e552400466696d30fee84@gmail.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+        <html>
+        <body style='font-family: Arial, sans-serif; padding: 20px;'>
+            <h2 style='color: #2c3e50;'>Appointment Confirmed! ✅</h2>
+            <p>Dear <strong>Bristy</strong>,</p>
+            <p>Your appointment has been successfully booked. Here are the details:</p>
+            
+            <table style='border-collapse: collapse; width: 100%; max-width: 400px; margin: 20px 0;'>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Doctor</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Dr. Mohammad Khan</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Date</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-15</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Time</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>10:30 PM - 11:00 PM</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Patient Name</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Bristy</td>
+                </tr>
+            </table>
+            
+            <p style='margin-top: 20px;'>Please arrive 15 minutes before your scheduled time.</p>
+            <p>If you need to reschedule or cancel, please contact us.</p>
+            
+            <p style='margin-top: 30px;'>Thank you for choosing our service!</p>
+            <p><strong>Medical Appointment Team</strong></p>
+        </body>
+        </html>
+          
+[2026-03-12 09:49:29] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
+[2026-03-12 09:49:29] local.DEBUG: Case 4: Appointment created successfully: 16  
+[2026-03-12 09:49:29] local.DEBUG: Preserved book_appointment intent due to existing booking data  
+[2026-03-12 09:49:59] local.DEBUG: detectIntent called with message: ok (lower: ok), currentIntent: book_appointment  
+[2026-03-12 09:49:59] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-12 09:49:59] local.DEBUG: matchTrainingData returned: general  
+[2026-03-12 09:49:59] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-12 09:49:59] local.DEBUG: extractEntitiesFromMessage called with: ok  
+[2026-03-12 09:49:59] local.DEBUG: Checking for date patterns in message: ok  
+[2026-03-12 09:49:59] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"friday","4":"saturday","5":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-12 09:49:59] local.DEBUG: No date pattern matched for message: ok  
+[2026-03-12 09:49:59] local.DEBUG: Name extracted (first word): Ok  
+[2026-03-12 09:49:59] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Ok","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-12 09:49:59] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Ok","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:49:59] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-12 09:49:59] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
+[2026-03-12 09:49:59] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Ok","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:49:59] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-12 09:49:59] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Ok","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
+[2026-03-12 09:49:59] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-15, time: null  
+[2026-03-12 09:49:59] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-12 09:49:59] local.DEBUG: Case 4: Stored selected_doctor_id: 13, doctor_name: Dr. Mohammad Khan  
+[2026-03-12 09:49:59] local.DEBUG: Case 4 - patient_name from mergedData: Ok  
+[2026-03-12 09:49:59] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
+[2026-03-12 09:49:59] local.DEBUG: Case 4 - after trim, patient_name: Ok, phone: 01918329829  
+[2026-03-12 09:49:59] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-12 09:49:59] local.INFO: Appointment created: 17  
+[2026-03-12 09:50:01] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
+To: 01918329829@patient.local
+Subject: Appointment Confirmation - Medical Chatbot
+MIME-Version: 1.0
+Date: Thu, 12 Mar 2026 09:50:01 +0000
+Message-ID: <1ef60e2020cca6f4c25c8d9942447f24@gmail.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+        <html>
+        <body style='font-family: Arial, sans-serif; padding: 20px;'>
+            <h2 style='color: #2c3e50;'>Appointment Confirmed! ✅</h2>
+            <p>Dear <strong>Ok</strong>,</p>
+            <p>Your appointment has been successfully booked. Here are the details:</p>
+            
+            <table style='border-collapse: collapse; width: 100%; max-width: 400px; margin: 20px 0;'>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Doctor</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Dr. Mohammad Khan</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Date</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-15</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Time</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>10:30 PM - 11:00 PM</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Patient Name</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Ok</td>
+                </tr>
+            </table>
+            
+            <p style='margin-top: 20px;'>Please arrive 15 minutes before your scheduled time.</p>
+            <p>If you need to reschedule or cancel, please contact us.</p>
+            
+            <p style='margin-top: 30px;'>Thank you for choosing our service!</p>
+            <p><strong>Medical Appointment Team</strong></p>
+        </body>
+        </html>
+          
+[2026-03-12 09:50:01] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
+[2026-03-12 09:50:01] local.DEBUG: Case 4: Appointment created successfully: 17  
+[2026-03-12 09:50:01] local.DEBUG: Preserved book_appointment intent due to existing booking data  

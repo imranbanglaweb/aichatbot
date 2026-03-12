@@ -358,7 +358,20 @@ SSML;
      */
     public function saveUploadedAudio($file): string
     {
-        $extension = $file->getClientOriginalExtension() ?? 'webm';
+        $extension = $file->getClientOriginalExtension();
+        // Handle empty string or null extension
+        if (empty($extension)) {
+            // Try to detect from MIME type
+            $mimeType = $file->getMimeType();
+            $extension = match($mimeType) {
+                'audio/webm' => 'webm',
+                'audio/wav', 'audio/wave' => 'wav',
+                'audio/mpeg', 'audio/mp3' => 'mp3',
+                'audio/ogg' => 'ogg',
+                'audio/mp4', 'audio/x-m4a' => 'm4a',
+                default => 'webm',
+            };
+        }
         $fileName = 'voice_' . time() . '_' . md5($file->getClientOriginalName()) . '.' . $extension;
         $filePath = storage_path('app/' . $this->storagePath . '/' . $fileName);
         

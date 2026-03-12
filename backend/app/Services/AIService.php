@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Exception;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\Doctor;
@@ -263,6 +264,7 @@ class AIService
         'চিনি' => 'Endocrinology',
         'থাইরয়েড' => 'Endocrinology',
         'দাঁত' => 'Dentist',
+        'দাঁতের' => 'Dentist',
         'দাঁতে ব্যথা' => 'Dentist',
         'মাড়ি' => 'Dentist',
     ];
@@ -1409,23 +1411,31 @@ class AIService
 
         // If phone found, extract name from remaining text
         if ($entities['phone']) {
-            // Remove common separators and the phone number
-            $tempMessage = str_replace($entities['phone'], '', $message);
-            $tempMessage = str_replace(',', ' ', $tempMessage);
-            $remaining = trim($tempMessage);
-            $remaining = preg_replace('/[:,\-]/', ' ', $remaining);
-            $remaining = trim(preg_replace('/\b(my name is|i am|i\'m|name is|name|phone|mobile|number)\b/i','',$remaining));
-            $remaining = trim(preg_replace('/\s+/', ' ', $remaining)); // normalize whitespace
-            if ($remaining !== '' && preg_match('/[A-Za-z\x{0980}-\x{09FF}]/u', $remaining)) {
-                if (empty($entities['patient_name'])) {
-                    // Clean up the name - take first word if multiple words
-                    $nameParts = preg_split('/\s+/', $remaining);
-                    $potentialName = trim($nameParts[0]);
-                    // Clean up the name - only keep letters
-                    $potentialName = preg_replace('/[^A-Za-z]/', '', $potentialName);
-                    if (strlen($potentialName) >= 2) {
-                        $entities['patient_name'] = ucfirst(strtolower($potentialName));
-                        Log::debug('Name extracted from remaining: ' . $entities['patient_name']);
+            // First check for explicit "my name [name]" pattern with phone
+            if (preg_match('/(?:my name is|my name|i am|i\'m)\s+([A-Za-z]+(?:\s+[A-Za-z]+)*)/i', $message, $matches)) {
+                $entities['patient_name'] = ucfirst(strtolower($matches[1]));
+                Log::debug('Name extracted (my name pattern): ' . $entities['patient_name']);
+            } else {
+                // Remove common separators and the phone number
+                $tempMessage = str_replace($entities['phone'], '', $message);
+                $tempMessage = str_replace(',', ' ', $tempMessage);
+                $remaining = trim($tempMessage);
+                $remaining = preg_replace('/[:,\-]/', ' ', $remaining);
+                $remaining = trim(preg_replace('/\b(my name is|i am|i\'m|name is|name|phone|mobile|number)\b/i','',$remaining));
+                $remaining = trim(preg_replace('/\s+/', ' ', $remaining)); // normalize whitespace
+                if ($remaining !== '' && preg_match('/[A-Za-z\x{0980}-\x{09FF}]/u', $remaining)) {
+                    if (empty($entities['patient_name'])) {
+                        // Clean up the name - take first word if multiple words
+                        $nameParts = preg_split('/\s+/', $remaining);
+                        $potentialName = trim($nameParts[0]);
+                        // Clean up the name - only keep letters
+                        $potentialName = preg_replace('/[^A-Za-z]/', '', $potentialName);
+                        // Also filter out single words like "my", "hi", "hello", "ok"
+                        $notNameSingle = ['my', 'hi', 'hello', 'ok', 'yes', 'no', 'sure', 'please', 'thanks', 'thank'];
+                        if (strlen($potentialName) >= 2 && !in_array(strtolower($potentialName), $notNameSingle)) {
+                            $entities['patient_name'] = ucfirst(strtolower($potentialName));
+                            Log::debug('Name extracted from remaining: ' . $entities['patient_name']);
+                        }
                     }
                 }
             }
@@ -1446,7 +1456,7 @@ class AIService
                     $cleanWord = preg_replace('/[^A-Za-z]/', '', $word);
                     if (strlen($cleanWord) >= 2 && !is_numeric($cleanWord)) {
                         // Filter out common medical/specialization terms and other non-name words
-                        $notNameTerms = ['heart', 'cardio', 'cardiac', 'neuro', 'brain', 'ortho', 'bone', 'derma', 'skin', 'eye', 'optic', 'ear', 'ent', 'child', 'pediatric', 'baby', 'women', 'female', 'pregnant', 'cancer', 'tumor', 'diabetes', 'sugar', 'kidney', 'liver', 'lung', 'breath', 'stomach', 'gas', 'thyroid', 'doctor', 'need', 'want', 'help', 'please', 'book', 'appointment', 'make', 'get', 'have', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'today', 'tomorrow', 'yesterday', 'morning', 'afternoon', 'evening', 'night'];
+                        $notNameTerms = ['heart', 'cardio', 'cardiac', 'neuro', 'brain', 'ortho', 'bone', 'derma', 'skin', 'eye', 'optic', 'ear', 'ent', 'child', 'pediatric', 'baby', 'women', 'female', 'pregnant', 'cancer', 'tumor', 'diabetes', 'sugar', 'kidney', 'liver', 'lung', 'breath', 'stomach', 'gas', 'thyroid', 'doctor', 'need', 'want', 'help', 'please', 'book', 'appointment', 'make', 'get', 'have', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'today', 'tomorrow', 'yesterday', 'morning', 'afternoon', 'evening', 'night', 'specialist', 'special', 'specilist'];
                         if (!in_array(strtolower($cleanWord), $notNameTerms)) {
                             $entities['patient_name'] = ucfirst(strtolower($cleanWord));
                             Log::debug('Name extracted (first word): ' . $entities['patient_name']);
@@ -1507,6 +1517,21 @@ class AIService
         $language = $context['language'] ?? 'en';
         
         Log::debug('buildResponse called with intent: ' . $intent . ', language: ' . $language);
+        
+        // Check if we have booking data in context but intent is general - preserve booking flow
+        if ($intent === self::INTENT_GENERAL) {
+            $previousIntent = $context['current_intent'] ?? null;
+            $hasBookingData = !empty($extractedData['doctor_number']) || 
+                             !empty($extractedData['selected_doctor_id']) ||
+                             !empty($extractedData['doctor_name']) ||
+                             !empty($extractedData['date']) ||
+                             !empty($extractedData['time_slot_number']);
+            
+            if ($previousIntent === self::INTENT_BOOK_APPOINTMENT && $hasBookingData) {
+                $intent = self::INTENT_BOOK_APPOINTMENT;
+                Log::debug('Overriding intent to book_appointment due to existing booking data');
+            }
+        }
         
         return match ($intent) {
             self::INTENT_GREET => $this->getGreeting($language),
@@ -1958,6 +1983,25 @@ class AIService
                     if ($patientName && $phone) {
                         // Create the appointment
                         Log::debug('Case 4: Both name and phone available, confirming appointment');
+                        
+                        // Extract email if available
+                        $email = $mergedData['email'] ?? null;
+                        $email = !empty(trim($email)) && filter_var(trim($email), FILTER_VALIDATE_EMAIL) ? trim($email) : null;
+                        
+                        // Create appointment and send notifications
+                        $appointmentResult = $this->createAppointmentAndNotify($doctor, $date, $selectedTime, $patientName, $phone, $language, $email);
+                        
+                        if (!$appointmentResult['success']) {
+                            Log::error('Case 4: Appointment creation failed: ' . ($appointmentResult['error'] ?? 'Unknown error'));
+                            return match($language) {
+                                'bn' => 'দুঃখিত, আপনার অ্যাপয়েন্টমেন্ট বুক করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।',
+                                'hi' => 'क्षमा करें, आपकी अपॉइंटमेंट बुक करने में समस्या हुई। कृपया पुनः प्रयास करें।',
+                                default => 'Sorry, there was an error booking your appointment. Please try again.',
+                            };
+                        }
+                        
+                        Log::debug('Case 4: Appointment created successfully: ' . ($appointmentResult['appointment_id'] ?? 'unknown'));
+                        
                         return match($language) {
                             'bn' => "✅ *অ্যাপয়েন্টমেন্ট নিশ্চিত করা হয়েছে!*\n\n" .
                                 "👨‍⚕️ ডাক্তার: {$doctorName}\n" .
@@ -2036,14 +2080,25 @@ class AIService
                 
                 $patientName = $mergedData['patient_name'] ?? null;
                 $phone = $mergedData['phone'] ?? null;
+                $email = $mergedData['email'] ?? null;
                 
                 // Ensure we have actual values, not empty strings
                 $patientName = !empty(trim($patientName)) ? trim($patientName) : null;
                 $phone = !empty(trim($phone)) ? trim($phone) : null;
+                $email = !empty(trim($email)) && filter_var(trim($email), FILTER_VALIDATE_EMAIL) ? trim($email) : null;
                 
                 if ($patientName && $phone) {
+                    Log::debug('Case 4: Creating appointment with patient: ' . $patientName . ', phone: ' . $phone);
+                    
                     // Create appointment and send notifications
-                    $appointmentResult = $this->createAppointmentAndNotify($doctor, $date, $time, $patientName, $phone, $language);
+                    $appointmentResult = $this->createAppointmentAndNotify($doctor, $date, $time, $patientName, $phone, $language, $email);
+                    
+                    if (!$appointmentResult['success']) {
+                        Log::error('Appointment creation failed: ' . ($appointmentResult['error'] ?? 'Unknown error'));
+                        return 'Sorry, there was an error booking your appointment. Please try again.';
+                    }
+                    
+                    Log::debug('Appointment created successfully: ' . ($appointmentResult['appointment_id'] ?? 'unknown'));
                     
                     return match($language) {
                         'bn' => "✅ *অ্যাপয়েন্টমেন্ট নিশ্চিত করা হয়েছে!*\n\n" .
@@ -2096,24 +2151,37 @@ class AIService
     /**
      * Create appointment and send notifications
      */
-    protected function createAppointmentAndNotify(Doctor $doctor, string $date, string $time, string $patientName, string $phone, string $language = 'en'): array
+    protected function createAppointmentAndNotify(Doctor $doctor, string $date, string $time, string $patientName, string $phone, string $language = 'en', string $email = null): array
     {
         try {
             // Find or create patient user
             $patient = User::where('phone', $phone)->first();
             
+            // Generate placeholder email if not provided
+            if (empty($email)) {
+                $email = $phone . '@patient.local';
+            }
+            
             if (!$patient) {
-                // Create a new patient user
+                // Create a new patient user with a random password
                 $patient = User::create([
                     'name' => $patientName,
                     'phone' => $phone,
-                    'email' => null,
+                    'email' => $email,
+                    'password' => bcrypt(Str::random(12)), // Generate random password
                     'role' => 'patient',
                 ]);
             } else {
-                // Update name if provided
+                // Update name and email if provided
+                $updateData = [];
                 if ($patient->name !== $patientName) {
-                    $patient->update(['name' => $patientName]);
+                    $updateData['name'] = $patientName;
+                }
+                if ($email && $patient->email !== $email) {
+                    $updateData['email'] = $email;
+                }
+                if (!empty($updateData)) {
+                    $patient->update($updateData);
                 }
             }
             
@@ -2122,13 +2190,17 @@ class AIService
             $startTime = isset($timeParts[0]) ? trim($timeParts[0]) : $time;
             $endTime = isset($timeParts[1]) ? trim($timeParts[1]) : $time;
             
+            // Convert 12-hour format to 24-hour format for MySQL
+            $startTime24 = date('H:i:s', strtotime($startTime));
+            $endTime24 = date('H:i:s', strtotime($endTime));
+            
             // Create appointment
             $appointment = Appointment::create([
                 'patient_id' => $patient->id,
                 'doctor_id' => $doctor->id,
                 'appointment_date' => $date,
-                'start_time' => $startTime,
-                'end_time' => $endTime,
+                'start_time' => $startTime24,
+                'end_time' => $endTime24,
                 'status' => 'confirmed',
                 'notes' => 'Booked via AI Chatbot',
             ]);

@@ -118,6 +118,59 @@
   margin-top: 4px;
 }
 
+/* Audio Player Container */
+.audio-player-container {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* Audio Play Button */
+.audio-play-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.audio-play-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.audio-play-button.playing {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  animation: pulse 1s infinite;
+}
+
+.audio-play-button .audio-icon {
+  font-size: 16px;
+}
+
+.audio-play-button .audio-label {
+  font-weight: 500;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+  }
+}
+
 /* Appointment Number */
 .appointment-number {
   background: rgba(0, 0, 0, 0.1);

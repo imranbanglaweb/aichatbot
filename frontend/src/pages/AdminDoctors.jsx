@@ -12,6 +12,9 @@ const AdminDoctors = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [specFilter, setSpecFilter] = useState('');
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editFormData, setEditFormData] = useState({});
+  const [editLoading, setEditLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalDoctors, setTotalDoctors] = useState(0);
@@ -61,10 +64,73 @@ const AdminDoctors = () => {
 
   const handleViewProfile = (doctor) => {
     setSelectedDoctor(doctor);
+    setIsEditMode(false);
+  };
+
+  const handleEditClick = (doctor) => {
+    setSelectedDoctor(doctor);
+    setEditFormData({
+      name: doctor.name || '',
+      qualification: doctor.qualification || '',
+      experience_years: doctor.experience_years || 0,
+      bio: doctor.bio || '',
+      consultation_fee: doctor.consultation_fee || 0,
+      hospital_clinic: doctor.hospital_clinic || '',
+      address: doctor.address || '',
+      city: doctor.city || '',
+      languages: doctor.languages || ['English', 'Bengali'],
+      available_days: doctor.available_days || [],
+      start_time: doctor.working_hours?.start || '09:00',
+      end_time: doctor.working_hours?.end || '17:00',
+      slot_duration: doctor.slot_duration || 30,
+      is_available: doctor.is_available ?? true,
+      is_verified: doctor.is_verified ?? true,
+    });
+    setIsEditMode(true);
+  };
+
+  const handleEditFormChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setEditFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleDayToggle = (day) => {
+    setEditFormData(prev => {
+      const days = prev.available_days || [];
+      if (days.includes(day)) {
+        return { ...prev, available_days: days.filter(d => d !== day) };
+      } else {
+        return { ...prev, available_days: [...days, day] };
+      }
+    });
+  };
+
+  const handleSaveEdit = async () => {
+    setEditLoading(true);
+    try {
+      const response = await api.updateDoctor(selectedDoctor.id, editFormData);
+      if (response.success) {
+        alert('Doctor updated successfully!');
+        setIsEditMode(false);
+        setSelectedDoctor(null);
+        fetchData();
+      } else {
+        alert(response.error || 'Failed to update doctor');
+      }
+    } catch (err) {
+      alert(err.message || 'Failed to update doctor');
+    } finally {
+      setEditLoading(false);
+    }
   };
 
   const closeModal = () => {
     setSelectedDoctor(null);
+    setIsEditMode(false);
+    setEditFormData({});
   };
 
   if (loading) {
@@ -211,7 +277,17 @@ const AdminDoctors = () => {
 
                 <div className="doctor-actions">
                   <button 
-                    className="btn btn-primary btn-full"
+                    className="btn btn-secondary"
+                    onClick={() => handleEditClick(doctor)}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                    Edit
+                  </button>
+                  <button 
+                    className="btn btn-primary"
                     onClick={() => handleViewProfile(doctor)}
                   >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -262,7 +338,7 @@ const AdminDoctors = () => {
       </div>
 
       {/* Doctor Profile Modal */}
-      {selectedDoctor && (
+      {selectedDoctor && !isEditMode && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={closeModal}>
@@ -362,6 +438,234 @@ const AdminDoctors = () => {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Doctor Modal */}
+      {selectedDoctor && isEditMode && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content edit-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeModal}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            
+            <div className="modal-header">
+              <h2>Edit Doctor</h2>
+              <span className="modal-specialization">
+                {selectedDoctor.specialization?.name || 'General Medicine'}
+              </span>
+            </div>
+
+            <div className="modal-body">
+              <div className="edit-form">
+                <div className="form-section">
+                  <h3>Personal Information</h3>
+                  <div className="form-grid">
+                    <div className="form-group">
+                      <label>Name</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={editFormData.name || ''}
+                        onChange={handleEditFormChange}
+                        placeholder="Doctor Name"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Qualification</label>
+                      <input
+                        type="text"
+                        name="qualification"
+                        value={editFormData.qualification || ''}
+                        onChange={handleEditFormChange}
+                        placeholder="e.g., MBBS, FCPS"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Experience (Years)</label>
+                      <input
+                        type="number"
+                        name="experience_years"
+                        value={editFormData.experience_years || 0}
+                        onChange={handleEditFormChange}
+                        min="0"
+                        max="50"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Languages (comma separated)</label>
+                      <input
+                        type="text"
+                        name="languages"
+                        value={(editFormData.languages || []).join(', ')}
+                        onChange={(e) => setEditFormData(prev => ({ 
+                          ...prev, 
+                          languages: e.target.value.split(',').map(l => l.trim()).filter(l => l) 
+                        }))}
+                        placeholder="English, Bengali"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-section">
+                  <h3>Practice Information</h3>
+                  <div className="form-grid">
+                    <div className="form-group full-width">
+                      <label>Hospital/Clinic</label>
+                      <input
+                        type="text"
+                        name="hospital_clinic"
+                        value={editFormData.hospital_clinic || ''}
+                        onChange={handleEditFormChange}
+                        placeholder="Hospital or Clinic Name"
+                      />
+                    </div>
+                    <div className="form-group full-width">
+                      <label>Address</label>
+                      <input
+                        type="text"
+                        name="address"
+                        value={editFormData.address || ''}
+                        onChange={handleEditFormChange}
+                        placeholder="Full Address"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>City</label>
+                      <input
+                        type="text"
+                        name="city"
+                        value={editFormData.city || ''}
+                        onChange={handleEditFormChange}
+                        placeholder="City"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Consultation Fee (৳)</label>
+                      <input
+                        type="number"
+                        name="consultation_fee"
+                        value={editFormData.consultation_fee || 0}
+                        onChange={handleEditFormChange}
+                        min="0"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-section">
+                  <h3>Schedule</h3>
+                  <div className="form-grid">
+                    <div className="form-group">
+                      <label>Start Time</label>
+                      <input
+                        type="time"
+                        name="start_time"
+                        value={editFormData.start_time || '09:00'}
+                        onChange={handleEditFormChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>End Time</label>
+                      <input
+                        type="time"
+                        name="end_time"
+                        value={editFormData.end_time || '17:00'}
+                        onChange={handleEditFormChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Slot Duration (minutes)</label>
+                      <select
+                        name="slot_duration"
+                        value={editFormData.slot_duration || 30}
+                        onChange={handleEditFormChange}
+                      >
+                        <option value={15}>15 min</option>
+                        <option value={30}>30 min</option>
+                        <option value={45}>45 min</option>
+                        <option value={60}>60 min</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="form-group full-width">
+                    <label>Available Days</label>
+                    <div className="days-selector">
+                      {['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].map(day => (
+                        <button
+                          key={day}
+                          type="button"
+                          className={`day-toggle ${(editFormData.available_days || []).includes(day) ? 'active' : ''}`}
+                          onClick={() => handleDayToggle(day)}
+                        >
+                          {day.charAt(0).toUpperCase() + day.slice(1, 3)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-section">
+                  <h3>Bio</h3>
+                  <div className="form-group full-width">
+                    <textarea
+                      name="bio"
+                      value={editFormData.bio || ''}
+                      onChange={handleEditFormChange}
+                      placeholder="Brief description about the doctor..."
+                      rows={4}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-section">
+                  <h3>Status</h3>
+                  <div className="checkbox-group">
+                    <label className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        name="is_available"
+                        checked={editFormData.is_available ?? true}
+                        onChange={handleEditFormChange}
+                      />
+                      <span>Available for Booking</span>
+                    </label>
+                    <label className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        name="is_verified"
+                        checked={editFormData.is_verified ?? true}
+                        onChange={handleEditFormChange}
+                      />
+                      <span>Verified</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="form-actions">
+                  <button 
+                    type="button" 
+                    className="btn btn-secondary"
+                    onClick={closeModal}
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="button" 
+                    className="btn btn-primary"
+                    onClick={handleSaveEdit}
+                    disabled={editLoading}
+                  >
+                    {editLoading ? 'Saving...' : 'Save Changes'}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

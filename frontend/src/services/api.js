@@ -106,6 +106,13 @@ class ApiService {
     return this.request(`/doctors/${id}`);
   }
 
+  async updateDoctor(id, data) {
+    return this.request(`/doctors/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
   async getDoctorSlots(id, date) {
     const queryString = date ? `?date=${date}` : '';
     return this.request(`/doctors/${id}/slots${queryString}`);

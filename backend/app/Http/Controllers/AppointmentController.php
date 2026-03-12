@@ -322,23 +322,37 @@ class AppointmentController extends Controller
 
             return response()->json([
                 'success' => true,
-                'appointments' => $appointments->map(function ($appointment) {
-                    return [
-                        'id' => $appointment->id,
-                        'appointment_number' => $appointment->appointment_number,
-                        'status' => $appointment->status,
-                        'date' => $appointment->formatted_date,
-                        'time' => $appointment->formatted_time,
-                        'doctor_name' => 'Dr. ' . $appointment->doctor->user->name,
-                        'specialization' => $appointment->doctor->specialization->name,
-                        'can_cancel' => $appointment->canBeCancelled(),
-                        'can_reschedule' => $appointment->canBeRescheduled(),
-                    ];
-                }),
-                'pagination' => [
-                    'current_page' => $appointments->currentPage(),
-                    'last_page' => $appointments->lastPage(),
-                    'total' => $appointments->total(),
+                'data' => [
+                    'appointments' => $appointments->map(function ($appointment) {
+                        $doctorName = 'Doctor';
+                        $specializationName = 'General';
+                        
+                        if ($appointment->doctor) {
+                            if ($appointment->doctor->user) {
+                                $doctorName = 'Dr. ' . $appointment->doctor->user->name;
+                            }
+                            if ($appointment->doctor->specialization) {
+                                $specializationName = $appointment->doctor->specialization->name;
+                            }
+                        }
+                        
+                        return [
+                            'id' => $appointment->id,
+                            'appointment_number' => $appointment->appointment_number,
+                            'status' => $appointment->status,
+                            'date' => $appointment->formatted_date,
+                            'time' => $appointment->formatted_time,
+                            'doctor_name' => $doctorName,
+                            'specialization' => $specializationName,
+                            'can_cancel' => $appointment->canBeCancelled(),
+                            'can_reschedule' => $appointment->canBeRescheduled(),
+                        ];
+                    }),
+                    'pagination' => [
+                        'current_page' => $appointments->currentPage(),
+                        'last_page' => $appointments->lastPage(),
+                        'total' => $appointments->total(),
+                    ],
                 ],
             ]);
         } catch (Exception $e) {

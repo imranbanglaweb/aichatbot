@@ -17,10 +17,21 @@ const PatientDashboard = () => {
   const fetchDashboard = async () => {
     try {
       const response = await api.getPatientDashboard();
-      setDashboardData(response.data);
+      console.log('Raw dashboard response:', response);
+      
+      // Handle both response formats: {data: {...}} or {...} directly
+      let dashboardResponse = response;
+      if (response && response.data !== undefined) {
+        dashboardResponse = response.data;
+      } else if (response && response.success && response.data) {
+        dashboardResponse = response.data;
+      }
+      
+      console.log('Processed dashboard data:', dashboardResponse);
+      setDashboardData(dashboardResponse);
     } catch (err) {
-      setError('Failed to load dashboard data');
-      console.error(err);
+      setError('Failed to load dashboard data: ' + err.message);
+      console.error('Dashboard error:', err);
     } finally {
       setLoading(false);
     }
@@ -38,8 +49,13 @@ const PatientDashboard = () => {
   const upcomingAppointments = dashboardData?.upcoming_appointments || [];
   const recommendedDoctors = dashboardData?.recommended_doctors || [];
 
+  console.log('Stats:', stats);
+  console.log('Upcoming appointments:', upcomingAppointments);
+  console.log('Dashboard data:', dashboardData);
+
   return (
     <DashboardLayout title="Patient Dashboard">
+      {error && <div className="error-message">{error}</div>}
       <div className="stats-grid">
         <div className="stat-card">
           <div className="stat-icon blue">
