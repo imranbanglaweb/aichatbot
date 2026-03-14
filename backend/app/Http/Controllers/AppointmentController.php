@@ -32,8 +32,8 @@ class AppointmentController extends Controller
                 'doctor_id' => 'required|exists:doctors,id',
                 'appointment_date' => 'required|date|after_or_equal:today',
                 'start_time' => 'required',
-                'patient_name' => 'required|string|max:255',
-                'patient_phone' => 'required|string|max:20',
+                'patient_name' => 'nullable|string|max:255',
+                'patient_phone' => 'nullable|string|max:20',
                 'patient_email' => 'nullable|email',
                 'reason' => 'nullable|string|max:500',
             ]);
@@ -58,47 +58,33 @@ class AppointmentController extends Controller
             // Get the authenticated patient (logged-in user)
             $patient = $request->user();
             
-            // If no authenticated user, create or get patient by phone (guest booking)
+            // If no authenticated user, return error - user must be logged in
             if (!$patient) {
-                $patient = \App\Models\User::where('phone', $validated['patient_phone'])->first();
-                
-                if (!$patient) {
-                    $patient = \App\Models\User::create([
-                        'name' => $validated['patient_name'],
-                        'phone' => $validated['patient_phone'],
-                        'email' => $validated['patient_email'] ?? null,
-                        'password' => bcrypt(\Illuminate\Support\Str::random(16)),
-                    ]);
-                }
-            } else {
-                // If user is a doctor or admin, they can't book appointment
-                if ($patient->is_doctor || $patient->is_admin) {
-                    return response()->json([
-                        'success' => false,
-                        'error' => 'Only patients can book appointments.',
-                    ], 403);
-                }
-                
-                // If patient info is provided, update the user profile
-                if (!empty($validated['patient_name']) && $patient->name !== $validated['patient_name']) {
-                    $patient->name = $validated['patient_name'];
-                }
-                if (!empty($validated['patient_phone']) && $patient->phone !== $validated['patient_phone']) {
-                    $patient->phone = $validated['patient_phone'];
-                }
-                if (!empty($validated['patient_email'])) {
-                    $patient->email = $validated['patient_email'];
-                }
-                $patient->save();
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Please login to book an appointment.',
+                ], 401);
             }
+            
+            // If authenticated user is a doctor or admin, they can't book appointment
+            if ($patient->is_doctor || $patient->is_admin) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Only patients can book appointments.',
+                ], 403);
+            }
+            
+            // Use the logged-in user's ID as patient_id - no user creation needed
+            // The patient_name, patient_phone from form are just for record keeping
+            $patientId = $patient->id;
 
             // Calculate end time
             $startTime = \Carbon\Carbon::parse($validated['start_time']);
             $endTime = $startTime->addMinutes($doctor->slot_duration);
 
-            // Create appointment
+            // Create appointment - use logged-in user's ID
             $appointment = Appointment::create([
-                'patient_id' => $patient->id,
+                'patient_id' => $patientId,
                 'doctor_id' => $doctor->id,
                 'appointment_date' => $validated['appointment_date'],
                 'start_time' => $validated['start_time'],
@@ -312,13 +298,14 @@ class AppointmentController extends Controller
             }
 
             // Filter by patient (if authenticated)
-            if (auth()->check()) {
-                $query->where('patient_id', auth()->id());
+            $user = $request->user();
+            if ($user) {
+                $query->where('patient_id', $user->id);
             }
 
             $appointments = $query->orderBy('appointment_date', 'desc')
                 ->orderBy('start_time', 'desc')
-                ->paginate(20);
+                ->paginate(50);
 
             return response()->json([
                 'success' => true,
@@ -326,6 +313,9 @@ class AppointmentController extends Controller
                     'appointments' => $appointments->map(function ($appointment) {
                         $doctorName = 'Doctor';
                         $specializationName = 'General';
+                        $hospitalName = 'N/A';
+                        $consultationFee = 0;
+                        $doctorImage = null;
                         
                         if ($appointment->doctor) {
                             if ($appointment->doctor->user) {
@@ -334,6 +324,9 @@ class AppointmentController extends Controller
                             if ($appointment->doctor->specialization) {
                                 $specializationName = $appointment->doctor->specialization->name;
                             }
+                            $hospitalName = $appointment->doctor->hospital_clinic ?? 'N/A';
+                            $consultationFee = $appointment->doctor->consultation_fee ?? 0;
+                            $doctorImage = $appointment->doctor->profile_image ?? null;
                         }
                         
                         return [
@@ -344,6 +337,9 @@ class AppointmentController extends Controller
                             'time' => $appointment->formatted_time,
                             'doctor_name' => $doctorName,
                             'specialization' => $specializationName,
+                            'hospital' => $hospitalName,
+                            'fee' => $consultationFee,
+                            'doctor_image' => $doctorImage,
                             'can_cancel' => $appointment->canBeCancelled(),
                             'can_reschedule' => $appointment->canBeRescheduled(),
                         ];

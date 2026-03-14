@@ -1623,7 +1623,10 @@ class AIService
                         $doctorList = "";
                         foreach ($doctors as $index => $doctor) {
                             $spec = $doctor->specialization ? $doctor->specialization->name : 'General';
-                            $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctor->user->name . " - {$spec}";
+                            $doctorName = $doctor->user->name;
+                            // Remove duplicate Dr. prefix if already exists
+                            $doctorName = preg_replace('/^Dr\.\s+/i', '', $doctorName);
+                            $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctorName . " - {$spec}";
                             if ($doctor->consultation_fee > 0) {
                                 $doctorList .= " (Taka " . number_format($doctor->consultation_fee) . ")";
                             }
@@ -1633,7 +1636,7 @@ class AIService
                         }
                         
                         return match($language) {
-                            'bn' => "নিচের {$specialization} ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nডাক্তারের নম্বর বলুন (১-৫)।",
+                            'bn' => "নিচের {$specialization} ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nঅ্যাপয়েন্টমেন্ট বুক করতে ডাক্তারের নম্বর (১-" . count($doctors) . ") বলুন।",
                         'hi' => "नीचे दिए गए डॉक्टरों में से अपना डॉक्टर चुनें:{$doctorList}\n\nडॉक्टर का नंबर बताएं (1-" . count($doctors) . ")।",
                         default => "Choose a doctor from the list below:{$doctorList}\n\nPlease specify the doctor's number (1-" . count($doctors) . ").",
                         };
@@ -1651,7 +1654,10 @@ class AIService
                     $doctorList = "";
                     foreach ($doctors as $index => $doctor) {
                         $spec = $doctor->specialization ? $doctor->specialization->name : 'General';
-                        $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctor->user->name . " - {$spec}";
+                        $doctorName = $doctor->user->name;
+                        // Remove duplicate Dr. prefix if already exists
+                        $doctorName = preg_replace('/^Dr\.\s+/i', '', $doctorName);
+                        $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctorName . " - {$spec}";
                         if ($doctor->consultation_fee > 0) {
                             $doctorList .= " (Taka " . number_format($doctor->consultation_fee) . ")";
                         }
@@ -1661,7 +1667,7 @@ class AIService
                     }
                     
                     return match($language) {
-                        'bn' => "নিচের ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nডাক্তারের নম্বর বলুন (1-" . count($doctors) . ")।",
+                        'bn' => "নিচের ডাক্তারদের মধ্যে আপনার পছন্দের ডাক্তার নির্বাচন করুন:{$doctorList}\n\nঅ্যাপয়েন্টমেন্ট বুক করতে ডাক্তারের নম্বর (১-" . count($doctors) . ") বলুন।",
                         'hi' => "नीचे दिए गए डॉक्टरों में से अपना डॉक्टर चुनें:{$doctorList}\n\nडॉक्टर का नंबर बताएं (1-" . count($doctors) . ")।",
                         default => "Choose a doctor from the list below:{$doctorList}\n\nPlease specify the doctor's number (1-" . count($doctors) . ").",
                     };
@@ -1802,6 +1808,8 @@ class AIService
                 $doctor = null;
                 
                 if ($doctorNumber) {
+                    Log::debug('Case 4: Looking up doctor by doctorNumber: ' . $doctorNumber . ', specialization: ' . ($specialization ?? 'none'));
+                    
                     $doctorQuery = Doctor::query()
                         ->with(['specialization', 'user', 'schedules'])
                         ->orderBy('rating', 'desc')
@@ -1817,6 +1825,21 @@ class AIService
                         });
                     }
                     $doctor = $doctorQuery->skip($doctorNumber - 1)->first();
+                    
+                    // If doctor not found with specialization filter, try without it
+                    if (!$doctor && $specialization) {
+                        Log::debug('Case 4: Doctor not found with specialization filter, trying without it');
+                        $doctor = Doctor::query()
+                            ->with(['specialization', 'user', 'schedules'])
+                            ->orderBy('rating', 'desc')
+                            ->orderBy('experience_years', 'desc')
+                            ->skip($doctorNumber - 1)
+                            ->first();
+                    }
+                    
+                    if ($doctor) {
+                        Log::debug('Case 4: Found doctor by doctorNumber: ' . $doctor->user->name . ' (ID: ' . $doctor->id . ')');
+                    }
                 } elseif ($doctorName) {
                     $doctor = Doctor::query()
                         ->with(['specialization', 'user', 'schedules'])
@@ -1891,6 +1914,8 @@ class AIService
                 $doctor = null;
                 
                 if ($doctorNumber) {
+                    Log::debug('Case 4: Looking up doctor by doctorNumber: ' . $doctorNumber . ', specialization: ' . ($specialization ?? 'none'));
+                    
                     $doctorQuery = Doctor::query()
                         ->with(['specialization', 'user', 'schedules'])
                         ->orderBy('rating', 'desc')
@@ -1906,6 +1931,21 @@ class AIService
                         });
                     }
                     $doctor = $doctorQuery->skip($doctorNumber - 1)->first();
+                    
+                    // If doctor not found with specialization filter, try without it
+                    if (!$doctor && $specialization) {
+                        Log::debug('Case 4: Doctor not found with specialization filter, trying without it');
+                        $doctor = Doctor::query()
+                            ->with(['specialization', 'user', 'schedules'])
+                            ->orderBy('rating', 'desc')
+                            ->orderBy('experience_years', 'desc')
+                            ->skip($doctorNumber - 1)
+                            ->first();
+                    }
+                    
+                    if ($doctor) {
+                        Log::debug('Case 4: Found doctor by doctorNumber: ' . $doctor->user->name . ' (ID: ' . $doctor->id . ')');
+                    }
                 } elseif ($doctorName) {
                     $doctor = Doctor::query()
                         ->with(['specialization', 'user', 'schedules'])
@@ -1937,7 +1977,7 @@ class AIService
                     }
                     
                     if (!$doctor) {
-                        Log::error('Case 4: All doctor lookup methods failed. selectedDoctorId=' . ($selectedDoctorId ?? 'null') . ', doctorName=' . ($doctorName ?? 'null'));
+                        Log::error('Case 4: All doctor lookup methods failed. selectedDoctorId=' . ($selectedDoctorId ?? 'null') . ', doctorName=' . ($doctorName ?? 'null') . ', doctorNumber=' . ($doctorNumber ?? 'null'));
                         // Try to provide more helpful error based on what's missing
                         if (!$selectedDoctorId && !$doctorName) {
                             return match($language) {
@@ -2003,27 +2043,20 @@ class AIService
                         Log::debug('Case 4: Appointment created successfully: ' . ($appointmentResult['appointment_id'] ?? 'unknown'));
                         
                         return match($language) {
-                            'bn' => "✅ *অ্যাপয়েন্টমেন্ট নিশ্চিত করা হয়েছে!*\n\n" .
-                                "👨‍⚕️ ডাক্তার: {$doctorName}\n" .
-                                "📅 তারিখ: {$date}\n" .
-                                "⏰ সময়: {$selectedTime}\n" .
-                                "👤 রোগী: {$patientName}\n" .
-                                "📱 ফোন: {$phone}\n\n" .
-                                "ধন্যবাদ! আমরা আপনার সাথে যোগাযোগ করব।",
-                            'hi' => "✅ *अपॉइंटमेंट पुष्टि की गई!*\n\n" .
-                                "👨‍⚕️ डॉक्टर: {$doctorName}\n" .
-                                "📅 तारीख: {$date}\n" .
-                                "⏰ समय: {$selectedTime}\n" .
-                                "👤 रोगी: {$patientName}\n" .
-                                "📱 फोन: {$phone}\n\n" .
-                                "धन्यवाद! हम आपसे संपर्क करेंगे।",
-                            default => "✅ *Appointment Confirmed!*\n\n" .
-                                "👨‍⚕️ Doctor: {$doctorName}\n" .
-                                "📅 Date: {$date}\n" .
-                                "⏰ Time: {$selectedTime}\n" .
-                                "👤 Patient: {$patientName}\n" .
-                                "📱 Phone: {$phone}\n\n" .
-                                "Thank you! We will contact you shortly.",
+                            'bn' => "অ্যাপয়েন্টমেন্ট সফলভাবে নিশ্চিত হয়েছে! " .
+                                "ডাক্টার: ডক্টর {$doctorName}. " .
+                                "তারিখ: {$date}. " .
+                                "সময়: {$selectedTime}. " .
+                                "রোগীর নাম: {$patientName}. " .
+                                "যোগাযোগ নম্বর: {$phone}. " .
+                                "আপনার অ্যাপয়েন্টমেন্ট নিশ্চিত হয়েছে। আমাদের টিম শীঘ্রই আপনার সাথে যোগাযোগ করবে। ধন্যবাদ।",
+                            default => "Your appointment has been confirmed! " .
+                                "Doctor: Dr. {$doctorName}. " .
+                                "Appointment Date: {$date}. " .
+                                "Time Slot: {$selectedTime}. " .
+                                "Patient Name: {$patientName}. " .
+                                "Contact Number: {$phone}. " .
+                                "Your appointment has been successfully booked. Our team will contact you shortly. Thank you for choosing our service.",
                         };
                     }
                     
@@ -2101,27 +2134,20 @@ class AIService
                     Log::debug('Appointment created successfully: ' . ($appointmentResult['appointment_id'] ?? 'unknown'));
                     
                     return match($language) {
-                        'bn' => "✅ *অ্যাপয়েন্টমেন্ট নিশ্চিত করা হয়েছে!*\n\n" .
-                            "👨‍⚕️ ডাক্তার: {$doctorName}\n" .
-                            "📅 তারিখ: {$date}\n" .
-                            "⏰ সময়: {$time}\n" .
-                            "👤 রোগী: {$patientName}\n" .
-                            "📱 ফোন: {$phone}\n\n" .
-                            "ধন্যবাদ! আমরা আপনার সাথে যোগাযোগ করব।",
-                        'hi' => "✅ *अपॉइंटमेंट पुष्टि की गई!*\n\n" .
-                            "👨‍⚕️ डॉक्टर: {$doctorName}\n" .
-                            "📅 तारीख: {$date}\n" .
-                            "⏰ समय: {$time}\n" .
-                            "👤 रोगी: {$patientName}\n" .
-                            "📱 फोन: {$phone}\n\n" .
-                            "धन्यवाद! हम आपसे संपर्क करेंगे।",
-                        default => "✅ *Appointment Confirmed!*\n\n" .
-                            "👨‍⚕️ Doctor: {$doctorName}\n" .
-                            "📅 Date: {$date}\n" .
-                            "⏰ Time: {$time}\n" .
-                            "👤 Patient: {$patientName}\n" .
-                            "📱 Phone: {$phone}\n\n" .
-                            "Thank you! We will contact you shortly.",
+                        'bn' => "অ্যাপয়েন্টমেন্ট সফলভাবে নিশ্চিত হয়েছে! " .
+                            "ডাক্টার: ডক্টর {$doctorName}. " .
+                            "তারিখ: {$date}. " .
+                            "সময়: {$time}. " .
+                            "রোগীর নাম: {$patientName}. " .
+                            "যোগাযোগ নম্বর: {$phone}. " .
+                            "আপনার অ্যাপয়েন্টমেন্ট নিশ্চিত হয়েছে। আমাদের টিম শীঘ্রই আপনার সাথে যোগাযোগ করবে। ধন্যবাদ।",
+                        default => "Your appointment has been confirmed! " .
+                            "Doctor: Dr. {$doctorName}. " .
+                            "Appointment Date: {$date}. " .
+                            "Time Slot: {$time}. " .
+                            "Patient Name: {$patientName}. " .
+                            "Contact Number: {$phone}. " .
+                            "Your appointment has been successfully booked. Our team will contact you shortly. Thank you for choosing our service.",
                     };
                 }
                 
@@ -2285,7 +2311,10 @@ class AIService
             
             $doctorList = "";
             foreach ($doctors as $index => $doctor) {
-                $doctorList .= "\n👨‍⚕️ " . ($index + 1) . ". Dr. " . $doctor->user->name;
+                $doctorName = $doctor->user->name;
+                // Remove duplicate Dr. prefix if already exists
+                $doctorName = preg_replace('/^Dr\.\s+/i', '', $doctorName);
+                $doctorList .= "\n👨‍⚕️ " . ($index + 1) . ". Dr. " . $doctorName;
                 if ($doctor->specialization) {
                     $doctorList .= "\n   📋 " . $doctor->specialization->name;
                 }
@@ -2308,7 +2337,7 @@ class AIService
             }
             
             return match($language) {
-                'bn' => "নিচে আমাদের ডাক্তারদের তালিকা:{$doctorList}\n\nঅ্যাপয়েন্টমেন্ট বুক করতে ডাক্তারের নম্বর বলুন (১-৫)। উদাহরণ: ১ লিখুন।",
+                'bn' => "নিচে আমাদের ডাক্তারদের তালিকা:{$doctorList}\n\nঅ্যাপয়েন্টমেন্ট বুক করতে ডাক্তারের নম্বর (১-৫) বলুন। উদাহরণ: ১ লিখুন।",
                 'hi' => "यहां हमारे उपलब्ध डॉक्टरों की सूची है:{$doctorList}\n\nअपॉइंटमेंट बुक करने के लिए डॉक्टर का नंबर बताएं (1-5)। उदाहरण: 1 लिखें।",
                 default => "Here are our available doctors:{$doctorList}\n\nTo book an appointment, please specify the doctor's number (1-5). Example: Type 1",
             };
@@ -2554,7 +2583,10 @@ class AIService
         if ($doctors->isNotEmpty()) {
             $doctorList = "";
             foreach ($doctors as $index => $doctor) {
-                $doctorList .= "\n👨‍⚕️ **" . ($index + 1) . ". Dr. " . $doctor->user->name . "**";
+                $doctorName = $doctor->user->name;
+                // Remove duplicate Dr. prefix if already exists
+                $doctorName = preg_replace('/^Dr\.\s+/i', '', $doctorName);
+                $doctorList .= "\n👨‍⚕️ **" . ($index + 1) . ". Dr. " . $doctorName . "**";
                 if ($doctor->specialization) {
                     $doctorList .= "\n   📋 Specialization: " . $doctor->specialization->name;
                 }
@@ -2585,7 +2617,7 @@ class AIService
             }
             
             return match($language) {
-                'bn' => "ডাক্তার সম্পর্কে তথ্য:{$doctorList}\n\nঅ্যাপয়েন্টমেন্ট বুক করতে ডাক্তারের নম্বর বলুন (১-৫)।\nউদাহরণ: ১ লিখুন।",
+                'bn' => "ডাক্তার সম্পর্কে তথ্য:{$doctorList}\n\nঅ্যাপয়েন্টমেন্ট বুক করতে ডাক্তারের নম্বর (১-৫) বলুন।\nউদাহরণ: ১ লিখুন।",
                 'hi' => "डॉक्टर की जानकारी:{$doctorList}\n\nअपॉइंटमेंट बुक करने के लिए डॉक्टर का नंबर बताएं (1-5)।\nउदाहरण: 1 लिखें।",
                 default => "Doctor Information:{$doctorList}\n\nTo book an appointment, please specify the doctor's number (1-5).\nExample: Type 1",
             };
@@ -2743,7 +2775,10 @@ class AIService
             if ($doctors->isNotEmpty()) {
                 $doctorList = "";
                 foreach ($doctors as $index => $doctor) {
-                    $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctor->user->name;
+                    $doctorName = $doctor->user->name;
+                    // Remove duplicate Dr. prefix if already exists
+                    $doctorName = preg_replace('/^Dr\.\s+/i', '', $doctorName);
+                    $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctorName;
                     if ($doctor->specialization) {
                         $doctorList .= " - " . $doctor->specialization->name;
                     }
@@ -2779,7 +2814,10 @@ class AIService
 
         $doctorList = "";
         foreach ($doctors as $index => $doctor) {
-            $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctor->user->name;
+            $doctorName = $doctor->user->name;
+            // Remove duplicate Dr. prefix if already exists
+            $doctorName = preg_replace('/^Dr\.\s+/i', '', $doctorName);
+            $doctorList .= "\n" . ($index + 1) . ". Dr. " . $doctorName;
             if ($doctor->specialization) {
                 $doctorList .= " - " . $doctor->specialization->name;
             }

@@ -19,13 +19,14 @@ class DashboardController extends Controller
         $user = $request->user();
         
         // Get upcoming appointments
+        $today = \Carbon\Carbon::today()->toDateString();
         $upcomingAppointments = Appointment::where('patient_id', $user->id)
-            ->where('appointment_date', '>=', now()->toDateString())
+            ->whereRaw('appointment_date >= ?', [$today])
             ->where('status', '!=', 'cancelled')
             ->with(['doctor.user', 'doctor.specialization'])
             ->orderBy('appointment_date')
             ->orderBy('start_time')
-            ->limit(5)
+            ->limit(20)
             ->get()
             ->map(function ($appointment) {
                 $doctorName = 'Doctor';
@@ -61,14 +62,14 @@ class DashboardController extends Controller
 
         // Get past appointments
         $pastAppointments = Appointment::where('patient_id', $user->id)
-            ->where(function ($query) {
-                $query->where('appointment_date', '<', now()->toDateString())
+            ->where(function ($query) use ($today) {
+                $query->whereRaw('appointment_date < ?', [$today])
                     ->orWhere('status', 'completed');
             })
             ->with(['doctor.user', 'doctor.specialization'])
             ->orderBy('appointment_date', 'desc')
             ->orderBy('start_time', 'desc')
-            ->limit(5)
+            ->limit(20)
             ->get()
             ->map(function ($appointment) {
                 $doctorName = 'Doctor';
@@ -106,7 +107,7 @@ class DashboardController extends Controller
         $stats = [
             'total_appointments' => Appointment::where('patient_id', $user->id)->count(),
             'upcoming_appointments' => Appointment::where('patient_id', $user->id)
-                ->where('appointment_date', '>=', now()->toDateString())
+                ->whereRaw('appointment_date >= ?', [$today])
                 ->where('status', '!=', 'cancelled')
                 ->count(),
             'completed_appointments' => Appointment::where('patient_id', $user->id)
@@ -183,8 +184,9 @@ class DashboardController extends Controller
         $doctor = Doctor::with(['user', 'specialization'])->find($user->doctor_id);
 
         // Get today's appointments
+        $today = \Carbon\Carbon::today()->toDateString();
         $todayAppointments = Appointment::where('doctor_id', $doctor->id)
-            ->where('appointment_date', now()->toDateString())
+            ->whereRaw('appointment_date = ?', [$today])
             ->where('status', '!=', 'cancelled')
             ->with(['patient.user'])
             ->orderBy('start_time')
@@ -213,7 +215,7 @@ class DashboardController extends Controller
 
         // Get upcoming appointments
         $upcomingAppointments = Appointment::where('doctor_id', $doctor->id)
-            ->where('appointment_date', '>', now()->toDateString())
+            ->whereRaw('appointment_date > ?', [$today])
             ->where('status', '!=', 'cancelled')
             ->with(['patient.user'])
             ->orderBy('appointment_date')
@@ -246,11 +248,11 @@ class DashboardController extends Controller
         $stats = [
             'total_appointments' => Appointment::where('doctor_id', $doctor->id)->count(),
             'today_appointments' => Appointment::where('doctor_id', $doctor->id)
-                ->where('appointment_date', now()->toDateString())
+                ->whereRaw('appointment_date = ?', [$today])
                 ->where('status', '!=', 'cancelled')
                 ->count(),
             'upcoming_appointments' => Appointment::where('doctor_id', $doctor->id)
-                ->where('appointment_date', '>=', now()->toDateString())
+                ->whereRaw('appointment_date >= ?', [$today])
                 ->where('status', '!=', 'cancelled')
                 ->count(),
             'completed_appointments' => Appointment::where('doctor_id', $doctor->id)
@@ -262,8 +264,10 @@ class DashboardController extends Controller
         ];
 
         // Get weekly appointments for chart
+        $weekStart = \Carbon\Carbon::today()->startOfWeek()->toDateString();
+        $weekEnd = \Carbon\Carbon::today()->endOfWeek()->toDateString();
         $weeklyAppointments = Appointment::where('doctor_id', $doctor->id)
-            ->whereBetween('appointment_date', [now()->startOfWeek(), now()->endOfWeek()])
+            ->whereRaw('appointment_date between ? and ?', [$weekStart, $weekEnd])
             ->select(DB::raw('DATE(appointment_date) as date'), DB::raw('count(*) as count'))
             ->groupBy('date')
             ->get();
@@ -322,11 +326,12 @@ class DashboardController extends Controller
         }
 
         // Get statistics
+        $today = \Carbon\Carbon::today()->toDateString();
         $stats = [
             'total_users' => User::where('is_admin', false)->where('is_doctor', false)->count(),
             'total_doctors' => User::where('is_doctor', true)->count(),
             'total_appointments' => Appointment::count(),
-            'today_appointments' => Appointment::where('appointment_date', now()->toDateString())->count(),
+            'today_appointments' => Appointment::whereRaw('appointment_date = ?', [$today])->count(),
         ];
 
         // Get recent registrations
@@ -336,7 +341,7 @@ class DashboardController extends Controller
             ->get();
 
         // Get today's appointments
-        $todayAppointments = Appointment::where('appointment_date', now()->toDateString())
+        $todayAppointments = Appointment::whereRaw('appointment_date = ?', [$today])
             ->with(['doctor.user', 'doctor.specialization', 'patient'])
             ->orderBy('start_time')
             ->limit(20)
@@ -372,7 +377,8 @@ class DashboardController extends Controller
             });
 
         // Get appointment trends (last 7 days)
-        $appointmentTrends = Appointment::whereBetween('appointment_date', [now()->subDays(7), now()->toDateString()])
+        $weekAgo = \Carbon\Carbon::today()->subDays(7)->toDateString();
+        $appointmentTrends = Appointment::whereRaw('appointment_date between ? and ?', [$weekAgo, $today])
             ->select(DB::raw('DATE(appointment_date) as date'), DB::raw('count(*) as count'))
             ->groupBy('date')
             ->get();

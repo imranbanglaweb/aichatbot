@@ -244,16 +244,9 @@ class ChatController extends Controller
         $mapping = [
             'en' => 'en-US',
             'bn' => 'bn-IN',
-            'hi' => 'hi-IN',
-            'es' => 'es-ES',
-            'fr' => 'fr-FR',
-            'de' => 'de-DE',
-            'zh' => 'zh-CN',
-            'ar' => 'ar-SA',
-            'ja' => 'ja-JP',
         ];
 
-        return $mapping[$language] ?? 'en-US';
+        return $mapping[$language] ?? 'bn-IN';
     }
 
     /**
@@ -264,16 +257,9 @@ class ChatController extends Controller
         $mapping = [
             'en' => 'en',
             'bn' => 'bn',
-            'hi' => 'hi',
-            'es' => 'es',
-            'fr' => 'fr',
-            'de' => 'de',
-            'zh' => 'zh',
-            'ar' => 'ar',
-            'ja' => 'ja',
         ];
 
-        return $mapping[$language] ?? 'en';
+        return $mapping[$language] ?? 'bn';
     }
 
     /**

@@ -19,6 +19,40 @@ Route::get('/test', function() {
     return ['status' => 'ok', 'message' => 'API is working'];
 });
 
+// Debug route - list all appointments (for testing only)
+Route::get('/debug/appointments', function() {
+    $appointments = \App\Models\Appointment::with(['doctor.user', 'doctor.specialization', 'patient'])
+        ->latest()
+        ->take(10)
+        ->get();
+    return [
+        'total' => \App\Models\Appointment::count(),
+        'appointments' => $appointments->map(function($a) {
+            return [
+                'id' => $a->id,
+                'patient_id' => $a->patient_id,
+                'doctor_id' => $a->doctor_id,
+                'date' => $a->appointment_date,
+                'status' => $a->status,
+                'patient_name' => $a->patient?->name,
+                'doctor_name' => $a->doctor?->user?->name,
+            ];
+        })
+    ];
+});
+
+// Debug - get current user info (requires auth)
+Route::middleware('auth:sanctum')->get('/debug/current-user', function() {
+    $user = request()->user();
+    return [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'is_admin' => $user->is_admin,
+        'is_doctor' => $user->is_doctor,
+    ];
+});
+
 // Simple POST test
 Route::post('/test-post', function() {
     return ['status' => 'ok', 'message' => 'POST test works'];
@@ -49,8 +83,8 @@ Route::prefix('doctors')->group(function () {
 Route::get('/specializations', [DoctorController::class, 'specializations']);
 Route::post('/specializations/sync', [DoctorController::class, 'syncSpecializations']);
 
-// Appointment routes
-Route::prefix('appointment')->group(function () {
+// Appointment routes - protected, requires authentication
+Route::middleware('auth:sanctum')->prefix('appointment')->group(function () {
     Route::post('/book', [AppointmentController::class, 'book']);
     Route::post('/cancel', [AppointmentController::class, 'cancel']);
     Route::post('/reschedule', [AppointmentController::class, 'reschedule']);
@@ -101,6 +135,37 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
         Route::put('/profile', [AuthController::class, 'updateProfile']);
         Route::put('/password', [AuthController::class, 'changePassword']);
+    });
+
+    // Debug - current user's appointments
+    Route::get('/debug/my-appointments', function() {
+        $user = request()->user();
+        
+        if (!$user) {
+            return [
+                'error' => 'Not authenticated',
+                'message' => 'Please login first'
+            ];
+        }
+        
+        $appointments = \App\Models\Appointment::with(['doctor.user', 'doctor.specialization'])
+            ->where('patient_id', $user->id)
+            ->latest()
+            ->get();
+        return [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'total' => $appointments->count(),
+            'appointments' => $appointments->map(function($a) {
+                return [
+                    'id' => $a->id,
+                    'patient_id' => $a->patient_id,
+                    'date' => $a->appointment_date,
+                    'status' => $a->status,
+                    'doctor_name' => $a->doctor?->user?->name,
+                ];
+            })
+        ];
     });
 
     // Dashboard

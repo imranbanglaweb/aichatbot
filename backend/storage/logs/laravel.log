@@ -1,124 +1,62 @@
-[2026-03-12 09:47:15] local.DEBUG: detectIntent called with message: 2 (lower: 2), currentIntent: book_appointment  
-[2026-03-12 09:47:15] local.DEBUG: Number within slot count (2 <= 10), treating as time slot  
-[2026-03-12 09:47:15] local.DEBUG: extractEntitiesFromMessage called with: 2  
-[2026-03-12 09:47:15] local.DEBUG: Checking for date patterns in message: 2  
-[2026-03-12 09:47:15] local.DEBUG: Numeric message "2" detected but date already in context or no doctor, skipping numeric day mapping  
-[2026-03-12 09:47:15] local.DEBUG: No date pattern matched for message: 2  
-[2026-03-12 09:47:15] local.DEBUG: Doctor in context, setting time_slot_number: 2, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
-[2026-03-12 09:47:15] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":2,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
-[2026-03-12 09:47:15] local.DEBUG: Ignored doctor_number 2 because date or time_slot was extracted from same message  
-[2026-03-12 09:47:15] local.DEBUG: Merged extracted_data: context={"specialization":"General Medicine","symptoms":[],"date":"2026-03-17","time_preference":null,"time_slot_number":null,"patient_name":"\u09a6\u09be\u0981\u09a4\u09c7\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":2}, new={"specialization":"General Medicine","symptoms":[],"date":"2026-03-17","time_preference":null,"time_slot_number":2,"patient_name":"\u09a6\u09be\u0981\u09a4\u09c7\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":2}  
-[2026-03-12 09:47:15] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
-[2026-03-12 09:47:15] local.DEBUG: buildBookingResponse called with data: {"specialization":"General Medicine","symptoms":[],"date":"2026-03-17","time_preference":null,"time_slot_number":2,"patient_name":"\u09a6\u09be\u0981\u09a4\u09c7\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":2}, context extracted_data: {"specialization":"General Medicine","symptoms":[],"date":"2026-03-17","time_preference":null,"time_slot_number":null,"patient_name":"\u09a6\u09be\u0981\u09a4\u09c7\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":2}  
-[2026-03-12 09:47:15] local.DEBUG: Time slot number selected (2), preserving date and doctor info  
-[2026-03-12 09:47:15] local.DEBUG: Fully merged data: {"specialization":"General Medicine","symptoms":[],"date":"2026-03-17","time_preference":null,"time_slot_number":2,"patient_name":"\u09a6\u09be\u0981\u09a4\u09c7\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":2}  
-[2026-03-12 09:47:15] local.DEBUG: Using merged values - doctorNumber: 2, date: 2026-03-17, time: null  
-[2026-03-12 09:47:15] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
-[2026-03-12 09:47:15] local.ERROR: Case 4: All doctor lookup methods failed. selectedDoctorId=null, doctorName=null  
-[2026-03-12 09:47:43] local.DEBUG: detectIntent called with message: দাঁতের doctor dorkar (lower: দাঁতের doctor dorkar), currentIntent: null  
-[2026-03-12 09:47:43] local.DEBUG: Detected INTENT_BOOK_APPOINTMENT from quick check: দাঁতের doctor dorkar  
-[2026-03-12 09:47:43] local.DEBUG: Detected specialization in message: দাঁত => Dentist  
-[2026-03-12 09:47:43] local.DEBUG: extractEntitiesFromMessage called with: দাঁতের doctor dorkar  
-[2026-03-12 09:47:43] local.DEBUG: Checking for date patterns in message: দাঁতের doctor dorkar  
-[2026-03-12 09:47:43] local.DEBUG: No date pattern matched for message: দাঁতের doctor dorkar  
-[2026-03-12 09:47:43] local.DEBUG: Name extracted (first word): Dorkar  
-[2026-03-12 09:47:43] local.DEBUG: Extracted entities from message: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}  
-[2026-03-12 09:47:43] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
-[2026-03-12 09:47:43] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}, context extracted_data: []  
-[2026-03-12 09:47:43] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"patient_name":"Dorkar"}  
-[2026-03-12 09:47:43] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
-[2026-03-12 09:47:43] local.DEBUG: Case 1: No doctor selected  
-[2026-03-12 09:48:16] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
-[2026-03-12 09:48:16] local.DEBUG: Detected doctor number, assuming booking intent: 5  
-[2026-03-12 09:48:16] local.DEBUG: extractEntitiesFromMessage called with: 5  
-[2026-03-12 09:48:16] local.DEBUG: Checking for date patterns in message: 5  
-[2026-03-12 09:48:16] local.DEBUG: Numeric message "5" detected but date already in context or no doctor, skipping numeric day mapping  
-[2026-03-12 09:48:16] local.DEBUG: No date pattern matched for message: 5  
-[2026-03-12 09:48:16] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 5, hasDoctor=no, hasDate=no  
-[2026-03-12 09:48:16] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
-[2026-03-12 09:48:16] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}  
-[2026-03-12 09:48:16] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
-[2026-03-12 09:48:16] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}  
-[2026-03-12 09:48:16] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}  
-[2026-03-12 09:48:16] local.DEBUG: Using merged values - doctorNumber: 5, date: null, time: null  
-[2026-03-12 09:48:16] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=5, specialization=Dentist  
-[2026-03-12 09:48:16] local.DEBUG: Case 2: Filtering by specialization: Dentist  
-[2026-03-12 09:48:16] local.DEBUG: Case 2: Doctor query result: Dr. Mohammad Khan  
-[2026-03-12 09:48:16] local.DEBUG: Case 2: Stored selected_doctor_id: 13, doctor_name: Dr. Mohammad Khan  
-[2026-03-12 09:48:16] local.DEBUG: Stashing available_days in extracted_data: ["monday","wednesday","friday","saturday","sunday"]  
-[2026-03-12 09:48:39] local.DEBUG: detectIntent called with message: রবিবার (lower: রবিবার), currentIntent: book_appointment  
-[2026-03-12 09:48:39] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
-[2026-03-12 09:48:39] local.DEBUG: extractEntitiesFromMessage called with: রবিবার  
-[2026-03-12 09:48:39] local.DEBUG: Checking for date patterns in message: রবিবার  
-[2026-03-12 09:48:39] local.DEBUG: No date pattern matched for message: রবিবার  
-[2026-03-12 09:48:39] local.DEBUG: extractEntitiesFromMessage called with: রবিবার  
-[2026-03-12 09:48:39] local.DEBUG: Checking for date patterns in message: রবিবার  
-[2026-03-12 09:48:39] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"friday","4":"saturday","5":"sunday","8":"tomorrow","9":"today"}  
-[2026-03-12 09:48:39] local.DEBUG: No date pattern matched for message: রবিবার  
-[2026-03-12 09:48:39] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null}  
-[2026-03-12 09:48:39] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:48:39] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
-[2026-03-12 09:48:39] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:48:39] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:48:39] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-15, time: null  
-[2026-03-12 09:48:39] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-15  
-[2026-03-12 09:48:39] local.DEBUG: Case 3: Stored selected_doctor_id: 13, doctor_name: Dr. Mohammad Khan  
-[2026-03-12 09:49:07] local.DEBUG: detectIntent called with message: 10 (lower: 10), currentIntent: book_appointment  
-[2026-03-12 09:49:07] local.DEBUG: Detected doctor number, assuming booking intent: 10  
-[2026-03-12 09:49:07] local.DEBUG: extractEntitiesFromMessage called with: 10  
-[2026-03-12 09:49:07] local.DEBUG: Checking for date patterns in message: 10  
-[2026-03-12 09:49:07] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"friday","4":"saturday","5":"sunday","8":"tomorrow","9":"today"}  
-[2026-03-12 09:49:07] local.DEBUG: No date pattern matched for message: 10  
-[2026-03-12 09:49:07] local.DEBUG: Doctor in context, setting time_slot_number: 10, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
-[2026-03-12 09:49:07] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
-[2026-03-12 09:49:07] local.DEBUG: Ignored doctor_number 10 because date or time_slot was extracted from same message  
-[2026-03-12 09:49:07] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:49:07] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
-[2026-03-12 09:49:07] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:49:07] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
-[2026-03-12 09:49:07] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:49:07] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-15, time: null  
-[2026-03-12 09:49:07] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
-[2026-03-12 09:49:07] local.DEBUG: Case 4: Stored selected_doctor_id: 13, doctor_name: Dr. Mohammad Khan  
-[2026-03-12 09:49:07] local.DEBUG: Case 4 - patient_name from mergedData: রবিবার  
-[2026-03-12 09:49:07] local.DEBUG: Case 4 - phone from mergedData: NULL  
-[2026-03-12 09:49:07] local.DEBUG: Case 4 - after trim, patient_name: রবিবার, phone: NULL  
-[2026-03-12 09:49:27] local.DEBUG: detectIntent called with message: bristy,01918329829 (lower: bristy,01918329829), currentIntent: book_appointment  
-[2026-03-12 09:49:27] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
-[2026-03-12 09:49:27] local.DEBUG: extractEntitiesFromMessage called with: bristy,01918329829  
-[2026-03-12 09:49:27] local.DEBUG: Checking for date patterns in message: bristy,01918329829  
-[2026-03-12 09:49:27] local.DEBUG: No date pattern matched for message: bristy,01918329829  
-[2026-03-12 09:49:27] local.DEBUG: Phone extracted: 01918329829  
-[2026-03-12 09:49:27] local.DEBUG: Name extracted from remaining: Bristy  
-[2026-03-12 09:49:27] local.DEBUG: matchTrainingData returned: general  
-[2026-03-12 09:49:27] local.DEBUG: No intent detected, returning INTENT_GENERAL  
-[2026-03-12 09:49:27] local.DEBUG: extractEntitiesFromMessage called with: bristy,01918329829  
-[2026-03-12 09:49:27] local.DEBUG: Checking for date patterns in message: bristy,01918329829  
-[2026-03-12 09:49:27] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"friday","4":"saturday","5":"sunday","8":"tomorrow","9":"today"}  
-[2026-03-12 09:49:27] local.DEBUG: No date pattern matched for message: bristy,01918329829  
-[2026-03-12 09:49:27] local.DEBUG: Phone extracted: 01918329829  
-[2026-03-12 09:49:27] local.DEBUG: Name extracted from remaining: Bristy  
-[2026-03-12 09:49:27] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null}  
-[2026-03-12 09:49:27] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:49:27] local.DEBUG: buildResponse called with intent: general, language: bn  
-[2026-03-12 09:49:27] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
-[2026-03-12 09:49:27] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"\u09b0\u09ac\u09bf\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:49:27] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
-[2026-03-12 09:49:27] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:49:27] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-15, time: null  
-[2026-03-12 09:49:27] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
-[2026-03-12 09:49:27] local.DEBUG: Case 4: Stored selected_doctor_id: 13, doctor_name: Dr. Mohammad Khan  
-[2026-03-12 09:49:27] local.DEBUG: Case 4 - patient_name from mergedData: Bristy  
-[2026-03-12 09:49:27] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
-[2026-03-12 09:49:27] local.DEBUG: Case 4 - after trim, patient_name: Bristy, phone: 01918329829  
-[2026-03-12 09:49:27] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
-[2026-03-12 09:49:27] local.INFO: Appointment created: 16  
-[2026-03-12 09:49:29] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
+[2026-03-13 18:08:37] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-13 18:08:37] local.DEBUG: Number within slot count (5 <= 14), treating as time slot  
+[2026-03-13 18:08:37] local.DEBUG: extractEntitiesFromMessage called with: 5  
+[2026-03-13 18:08:37] local.DEBUG: Checking for date patterns in message: 5  
+[2026-03-13 18:08:37] local.DEBUG: Numeric message "5" detected but date already in context or no doctor, skipping numeric day mapping  
+[2026-03-13 18:08:37] local.DEBUG: No date pattern matched for message: 5  
+[2026-03-13 18:08:37] local.DEBUG: Doctor in context, setting time_slot_number: 5, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-13 18:08:37] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":5,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-13 18:08:37] local.DEBUG: Ignored doctor_number 5 because date or time_slot was extracted from same message  
+[2026-03-13 18:08:37] local.DEBUG: Merged extracted_data: context={"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"\u0995\u09b0\u09a4\u09c7","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}, new={"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":5,"patient_name":"\u0995\u09b0\u09a4\u09c7","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}  
+[2026-03-13 18:08:37] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-13 18:08:37] local.DEBUG: buildBookingResponse called with data: {"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":5,"patient_name":"\u0995\u09b0\u09a4\u09c7","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}, context extracted_data: {"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"\u0995\u09b0\u09a4\u09c7","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}  
+[2026-03-13 18:08:37] local.DEBUG: Time slot number selected (5), preserving date and doctor info  
+[2026-03-13 18:08:37] local.DEBUG: Fully merged data: {"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":5,"patient_name":"\u0995\u09b0\u09a4\u09c7","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}  
+[2026-03-13 18:08:37] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-20, time: null  
+[2026-03-13 18:08:37] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-13 18:08:37] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 5, specialization: none  
+[2026-03-13 18:08:37] local.DEBUG: Case 4: Found doctor by doctorNumber: Sarah Johnson (ID: 1)  
+[2026-03-13 18:08:37] local.DEBUG: Case 4: Stored selected_doctor_id: 1, doctor_name: Sarah Johnson  
+[2026-03-13 18:08:37] local.DEBUG: Case 4 - patient_name from mergedData: করতে  
+[2026-03-13 18:08:37] local.DEBUG: Case 4 - phone from mergedData: NULL  
+[2026-03-13 18:08:37] local.DEBUG: Case 4 - after trim, patient_name: করতে, phone: NULL  
+[2026-03-13 18:08:59] local.DEBUG: detectIntent called with message: imran,01918329829 (lower: imran,01918329829), currentIntent: book_appointment  
+[2026-03-13 18:08:59] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-13 18:08:59] local.DEBUG: extractEntitiesFromMessage called with: imran,01918329829  
+[2026-03-13 18:08:59] local.DEBUG: Checking for date patterns in message: imran,01918329829  
+[2026-03-13 18:08:59] local.DEBUG: No date pattern matched for message: imran,01918329829  
+[2026-03-13 18:08:59] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-13 18:08:59] local.DEBUG: Name extracted from remaining: Imran  
+[2026-03-13 18:08:59] local.DEBUG: matchTrainingData returned: general  
+[2026-03-13 18:08:59] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-13 18:08:59] local.DEBUG: extractEntitiesFromMessage called with: imran,01918329829  
+[2026-03-13 18:08:59] local.DEBUG: Checking for date patterns in message: imran,01918329829  
+[2026-03-13 18:08:59] local.DEBUG: No date pattern matched for message: imran,01918329829  
+[2026-03-13 18:08:59] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-13 18:08:59] local.DEBUG: Name extracted from remaining: Imran  
+[2026-03-13 18:08:59] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null}  
+[2026-03-13 18:08:59] local.DEBUG: Merged extracted_data: context={"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":5,"patient_name":"\u0995\u09b0\u09a4\u09c7","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}, new={"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":5,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5}  
+[2026-03-13 18:08:59] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-13 18:08:59] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
+[2026-03-13 18:08:59] local.DEBUG: buildBookingResponse called with data: {"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":5,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5}, context extracted_data: {"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":5,"patient_name":"\u0995\u09b0\u09a4\u09c7","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}  
+[2026-03-13 18:08:59] local.DEBUG: Time slot number selected (5), preserving date and doctor info  
+[2026-03-13 18:08:59] local.DEBUG: Fully merged data: {"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":5,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5}  
+[2026-03-13 18:08:59] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-20, time: null  
+[2026-03-13 18:08:59] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-13 18:08:59] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 5, specialization: none  
+[2026-03-13 18:08:59] local.DEBUG: Case 4: Found doctor by doctorNumber: Sarah Johnson (ID: 1)  
+[2026-03-13 18:08:59] local.DEBUG: Case 4: Stored selected_doctor_id: 1, doctor_name: Sarah Johnson  
+[2026-03-13 18:08:59] local.DEBUG: Case 4 - patient_name from mergedData: Imran  
+[2026-03-13 18:08:59] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
+[2026-03-13 18:08:59] local.DEBUG: Case 4 - after trim, patient_name: Imran, phone: 01918329829  
+[2026-03-13 18:08:59] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-13 18:08:59] local.INFO: Appointment created: 23  
+[2026-03-13 18:09:01] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
 To: 01918329829@patient.local
 Subject: Appointment Confirmation - Medical Chatbot
 MIME-Version: 1.0
-Date: Thu, 12 Mar 2026 09:49:29 +0000
-Message-ID: <38912d30f70e552400466696d30fee84@gmail.com>
+Date: Fri, 13 Mar 2026 18:09:01 +0000
+Message-ID: <01c5fe4eaa72b4e437ca311f18772e5e@gmail.com>
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -126,25 +64,25 @@ Content-Transfer-Encoding: quoted-printable
         <html>
         <body style='font-family: Arial, sans-serif; padding: 20px;'>
             <h2 style='color: #2c3e50;'>Appointment Confirmed! ✅</h2>
-            <p>Dear <strong>Bristy</strong>,</p>
+            <p>Dear <strong>Imran</strong>,</p>
             <p>Your appointment has been successfully booked. Here are the details:</p>
             
             <table style='border-collapse: collapse; width: 100%; max-width: 400px; margin: 20px 0;'>
                 <tr>
                     <td style='padding: 10px; border: 1px solid #ddd;'><strong>Doctor</strong></td>
-                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Dr. Mohammad Khan</td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Sarah Johnson</td>
                 </tr>
                 <tr>
                     <td style='padding: 10px; border: 1px solid #ddd;'><strong>Date</strong></td>
-                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-15</td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-20</td>
                 </tr>
                 <tr>
                     <td style='padding: 10px; border: 1px solid #ddd;'><strong>Time</strong></td>
-                    <td style='padding: 10px; border: 1px solid #ddd;'>10:30 PM - 11:00 PM</td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>11:00 AM - 11:30 AM</td>
                 </tr>
                 <tr>
                     <td style='padding: 10px; border: 1px solid #ddd;'><strong>Patient Name</strong></td>
-                    <td style='padding: 10px; border: 1px solid #ddd;'>Bristy</td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Imran</td>
                 </tr>
             </table>
             
@@ -156,39 +94,673 @@ Content-Transfer-Encoding: quoted-printable
         </body>
         </html>
           
-[2026-03-12 09:49:29] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
-[2026-03-12 09:49:29] local.DEBUG: Case 4: Appointment created successfully: 16  
-[2026-03-12 09:49:29] local.DEBUG: Preserved book_appointment intent due to existing booking data  
-[2026-03-12 09:49:59] local.DEBUG: detectIntent called with message: ok (lower: ok), currentIntent: book_appointment  
-[2026-03-12 09:49:59] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
-[2026-03-12 09:49:59] local.DEBUG: matchTrainingData returned: general  
-[2026-03-12 09:49:59] local.DEBUG: No intent detected, returning INTENT_GENERAL  
-[2026-03-12 09:49:59] local.DEBUG: extractEntitiesFromMessage called with: ok  
-[2026-03-12 09:49:59] local.DEBUG: Checking for date patterns in message: ok  
-[2026-03-12 09:49:59] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"friday","4":"saturday","5":"sunday","8":"tomorrow","9":"today"}  
-[2026-03-12 09:49:59] local.DEBUG: No date pattern matched for message: ok  
-[2026-03-12 09:49:59] local.DEBUG: Name extracted (first word): Ok  
-[2026-03-12 09:49:59] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Ok","phone":null,"email":null,"location":null,"appointment_number":null}  
-[2026-03-12 09:49:59] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Ok","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:49:59] local.DEBUG: buildResponse called with intent: general, language: bn  
-[2026-03-12 09:49:59] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
-[2026-03-12 09:49:59] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Ok","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Bristy","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:49:59] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
-[2026-03-12 09:49:59] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Ok","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","friday","saturday","sunday"]}  
-[2026-03-12 09:49:59] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-15, time: null  
-[2026-03-12 09:49:59] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
-[2026-03-12 09:49:59] local.DEBUG: Case 4: Stored selected_doctor_id: 13, doctor_name: Dr. Mohammad Khan  
-[2026-03-12 09:49:59] local.DEBUG: Case 4 - patient_name from mergedData: Ok  
-[2026-03-12 09:49:59] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
-[2026-03-12 09:49:59] local.DEBUG: Case 4 - after trim, patient_name: Ok, phone: 01918329829  
-[2026-03-12 09:49:59] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
-[2026-03-12 09:49:59] local.INFO: Appointment created: 17  
-[2026-03-12 09:50:01] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
+[2026-03-13 18:09:01] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
+[2026-03-13 18:09:01] local.DEBUG: Case 4: Appointment created successfully: 23  
+[2026-03-13 18:09:01] local.DEBUG: Preserved book_appointment intent due to existing booking data  
+[2026-03-14 06:24:49] local.DEBUG: detectIntent called with message: hello (lower: hello), currentIntent: null  
+[2026-03-14 06:24:49] local.DEBUG: matchTrainingData returned: general  
+[2026-03-14 06:24:49] local.DEBUG: Detected INTENT_GREET  
+[2026-03-14 06:24:49] local.DEBUG: extractEntitiesFromMessage called with: hello  
+[2026-03-14 06:24:49] local.DEBUG: Checking for date patterns in message: hello  
+[2026-03-14 06:24:49] local.DEBUG: No date pattern matched for message: hello  
+[2026-03-14 06:24:49] local.DEBUG: Name extracted (first word): Hello  
+[2026-03-14 06:24:49] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 06:24:49] local.DEBUG: buildResponse called with intent: greet, language: bn  
+[2026-03-14 06:25:20] local.DEBUG: detectIntent called with message: dentist doctor dokar (lower: dentist doctor dokar), currentIntent: greet  
+[2026-03-14 06:25:20] local.DEBUG: Detected specialization: dentist => Dentist  
+[2026-03-14 06:25:20] local.DEBUG: Detected specialization in message: dentist => Dentist  
+[2026-03-14 06:25:20] local.DEBUG: extractEntitiesFromMessage called with: dentist doctor dokar  
+[2026-03-14 06:25:20] local.DEBUG: Checking for date patterns in message: dentist doctor dokar  
+[2026-03-14 06:25:20] local.DEBUG: No date pattern matched for message: dentist doctor dokar  
+[2026-03-14 06:25:20] local.DEBUG: Name extracted (first word): Dentist  
+[2026-03-14 06:25:20] local.DEBUG: Extracted entities from message: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 06:25:20] local.DEBUG: Merged extracted_data: context={"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 06:25:20] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 06:25:20] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null}, context extracted_data: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 06:25:20] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 06:25:20] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
+[2026-03-14 06:25:20] local.DEBUG: Case 1: No doctor selected  
+[2026-03-14 06:27:07] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-14 06:27:07] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-14 06:27:07] local.DEBUG: extractEntitiesFromMessage called with: 5  
+[2026-03-14 06:27:07] local.DEBUG: Checking for date patterns in message: 5  
+[2026-03-14 06:27:07] local.DEBUG: Numeric message "5" detected but date already in context or no doctor, skipping numeric day mapping  
+[2026-03-14 06:27:07] local.DEBUG: No date pattern matched for message: 5  
+[2026-03-14 06:27:07] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 5, hasDoctor=no, hasDate=no  
+[2026-03-14 06:27:07] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 06:27:07] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}  
+[2026-03-14 06:27:07] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 06:27:07] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 06:27:07] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5}  
+[2026-03-14 06:27:07] local.DEBUG: Using merged values - doctorNumber: 5, date: null, time: null  
+[2026-03-14 06:27:07] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=5, specialization=Dentist  
+[2026-03-14 06:27:07] local.DEBUG: Case 2: Filtering by specialization: Dentist  
+[2026-03-14 06:27:07] local.DEBUG: Case 2: Doctor query result: Dr. Mohammad Khan  
+[2026-03-14 06:27:07] local.DEBUG: Case 2: Stored selected_doctor_id: 6, doctor_name: Dr. Mohammad Khan  
+[2026-03-14 06:27:07] local.DEBUG: Stashing available_days in extracted_data: ["monday","wednesday","thursday","friday","saturday"]  
+[2026-03-14 06:27:30] local.DEBUG: detectIntent called with message: 2 (lower: 2), currentIntent: book_appointment  
+[2026-03-14 06:27:30] local.DEBUG: Detected doctor number, assuming booking intent: 2  
+[2026-03-14 06:27:30] local.DEBUG: extractEntitiesFromMessage called with: 2  
+[2026-03-14 06:27:30] local.DEBUG: Checking for date patterns in message: 2  
+[2026-03-14 06:27:30] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"thursday","4":"friday","5":"saturday","8":"tomorrow","9":"today"}  
+[2026-03-14 06:27:30] local.DEBUG: Numeric day selected (doctor in context, no date): 2 => wednesday  
+[2026-03-14 06:27:30] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 06:27:30] local.DEBUG: Ignored doctor_number 2 because date or time_slot was extracted from same message  
+[2026-03-14 06:27:30] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}  
+[2026-03-14 06:27:30] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 06:27:30] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}  
+[2026-03-14 06:27:30] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}  
+[2026-03-14 06:27:30] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-18, time: null  
+[2026-03-14 06:27:30] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-18  
+[2026-03-14 06:27:30] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 5, specialization: Dentist  
+[2026-03-14 06:27:30] local.DEBUG: Case 4: Found doctor by doctorNumber: Dr. Mohammad Khan (ID: 6)  
+[2026-03-14 06:27:30] local.DEBUG: Case 3: Stored selected_doctor_id: 6, doctor_name: Dr. Mohammad Khan  
+[2026-03-14 06:27:59] local.DEBUG: detectIntent called with message: 10 (lower: 10), currentIntent: book_appointment  
+[2026-03-14 06:27:59] local.DEBUG: Detected doctor number, assuming booking intent: 10  
+[2026-03-14 06:27:59] local.DEBUG: extractEntitiesFromMessage called with: 10  
+[2026-03-14 06:27:59] local.DEBUG: Checking for date patterns in message: 10  
+[2026-03-14 06:27:59] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"thursday","4":"friday","5":"saturday","8":"tomorrow","9":"today"}  
+[2026-03-14 06:27:59] local.DEBUG: No date pattern matched for message: 10  
+[2026-03-14 06:27:59] local.DEBUG: Doctor in context, setting time_slot_number: 10, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-14 06:27:59] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 06:27:59] local.DEBUG: Ignored doctor_number 10 because date or time_slot was extracted from same message  
+[2026-03-14 06:27:59] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":10,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}  
+[2026-03-14 06:27:59] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 06:27:59] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":10,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":null,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}  
+[2026-03-14 06:27:59] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-14 06:27:59] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":10,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}  
+[2026-03-14 06:27:59] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-18, time: null  
+[2026-03-14 06:27:59] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 06:27:59] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 5, specialization: Dentist  
+[2026-03-14 06:27:59] local.DEBUG: Case 4: Found doctor by doctorNumber: Dr. Mohammad Khan (ID: 6)  
+[2026-03-14 06:27:59] local.DEBUG: Case 4: Stored selected_doctor_id: 6, doctor_name: Dr. Mohammad Khan  
+[2026-03-14 06:27:59] local.DEBUG: Case 4 - patient_name from mergedData: Dentist  
+[2026-03-14 06:27:59] local.DEBUG: Case 4 - phone from mergedData: NULL  
+[2026-03-14 06:27:59] local.DEBUG: Case 4 - after trim, patient_name: Dentist, phone: NULL  
+[2026-03-14 06:28:29] local.DEBUG: detectIntent called with message: my name inaya,0918329829 (lower: my name inaya,0918329829), currentIntent: book_appointment  
+[2026-03-14 06:28:29] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-14 06:28:29] local.DEBUG: extractEntitiesFromMessage called with: my name inaya,0918329829  
+[2026-03-14 06:28:29] local.DEBUG: Checking for date patterns in message: my name inaya,0918329829  
+[2026-03-14 06:28:29] local.DEBUG: No date pattern matched for message: my name inaya,0918329829  
+[2026-03-14 06:28:29] local.DEBUG: Phone extracted: 091832982  
+[2026-03-14 06:28:29] local.DEBUG: Name extracted (my name pattern): Inaya  
+[2026-03-14 06:28:29] local.DEBUG: extractEntitiesFromMessage called with: my name inaya,0918329829  
+[2026-03-14 06:28:29] local.DEBUG: Checking for date patterns in message: my name inaya,0918329829  
+[2026-03-14 06:28:29] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"wednesday","3":"thursday","4":"friday","5":"saturday","8":"tomorrow","9":"today"}  
+[2026-03-14 06:28:29] local.DEBUG: No date pattern matched for message: my name inaya,0918329829  
+[2026-03-14 06:28:29] local.DEBUG: Phone extracted: 091832982  
+[2026-03-14 06:28:29] local.DEBUG: Name extracted (my name pattern): Inaya  
+[2026-03-14 06:28:29] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":"morning","time_slot_number":null,"patient_name":"Inaya","phone":"091832982","email":null,"location":null,"appointment_number":null}  
+[2026-03-14 06:28:29] local.DEBUG: Merged extracted_data: context={"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":10,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}, new={"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":"morning","time_slot_number":10,"patient_name":"Inaya","phone":"091832982","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}  
+[2026-03-14 06:28:29] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 06:28:29] local.DEBUG: buildBookingResponse called with data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":"morning","time_slot_number":10,"patient_name":"Inaya","phone":"091832982","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}, context extracted_data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":null,"time_slot_number":10,"patient_name":"Dentist","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}  
+[2026-03-14 06:28:29] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-14 06:28:29] local.DEBUG: Fully merged data: {"specialization":"Dentist","symptoms":[],"date":"2026-03-18","time_preference":"morning","time_slot_number":10,"patient_name":"Inaya","phone":"091832982","email":null,"location":null,"appointment_number":null,"doctor_number":5,"available_days":["monday","wednesday","thursday","friday","saturday"]}  
+[2026-03-14 06:28:29] local.DEBUG: Using merged values - doctorNumber: 5, date: 2026-03-18, time: morning  
+[2026-03-14 06:28:29] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 06:28:29] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 5, specialization: Dentist  
+[2026-03-14 06:28:29] local.DEBUG: Case 4: Found doctor by doctorNumber: Dr. Mohammad Khan (ID: 6)  
+[2026-03-14 06:28:29] local.DEBUG: Case 4: Stored selected_doctor_id: 6, doctor_name: Dr. Mohammad Khan  
+[2026-03-14 06:28:29] local.DEBUG: Case 4 - patient_name from mergedData: Inaya  
+[2026-03-14 06:28:29] local.DEBUG: Case 4 - phone from mergedData: 091832982  
+[2026-03-14 06:28:29] local.DEBUG: Case 4 - after trim, patient_name: Inaya, phone: 091832982  
+[2026-03-14 06:28:29] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-14 06:28:31] local.INFO: Appointment created: 31  
+[2026-03-14 06:28:35] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
+To: 091832982@patient.local
+Subject: Appointment Confirmation - Medical Chatbot
+MIME-Version: 1.0
+Date: Sat, 14 Mar 2026 06:28:35 +0000
+Message-ID: <9f5ace6545d6f5d36eebccb20c0828ec@gmail.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+        <html>
+        <body style='font-family: Arial, sans-serif; padding: 20px;'>
+            <h2 style='color: #2c3e50;'>Appointment Confirmed! ✅</h2>
+            <p>Dear <strong>Inaya</strong>,</p>
+            <p>Your appointment has been successfully booked. Here are the details:</p>
+            
+            <table style='border-collapse: collapse; width: 100%; max-width: 400px; margin: 20px 0;'>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Doctor</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Dr. Mohammad Khan</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Date</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-18</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Time</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>03:30 PM - 04:00 PM</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Patient Name</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Inaya</td>
+                </tr>
+            </table>
+            
+            <p style='margin-top: 20px;'>Please arrive 15 minutes before your scheduled time.</p>
+            <p>If you need to reschedule or cancel, please contact us.</p>
+            
+            <p style='margin-top: 30px;'>Thank you for choosing our service!</p>
+            <p><strong>Medical Appointment Team</strong></p>
+        </body>
+        </html>
+          
+[2026-03-14 06:28:35] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
+[2026-03-14 06:28:35] local.DEBUG: Case 4: Appointment created successfully: 31  
+[2026-03-14 16:07:16] local.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select * from `personal_access_tokens` where `personal_access_tokens`.`id` = 1 limit 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select * from `personal_access_tokens` where `personal_access_tokens`.`id` = 1 limit 1) at F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php:825)
+[stacktrace]
+#0 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(979): Illuminate/Database/Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#1 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(958): Illuminate/Database/Connection->tryAgainIfCausedByLostConnection(Object(Illuminate/Database/QueryException), 'select * from `...', Array, Object(Closure))
+#2 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(781): Illuminate/Database/Connection->handleQueryException(Object(Illuminate/Database/QueryException), 'select * from `...', Array, Object(Closure))
+#3 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate/Database/Connection->run('select * from `...', Array, Object(Closure))
+#4 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3106): Illuminate/Database/Connection->select('select * from `...', Array, true)
+#5 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3091): Illuminate/Database/Query/Builder->runSelect()
+#6 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3676): Illuminate/Database/Query/Builder->Illuminate/Database/Query/{closure}()
+#7 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3090): Illuminate/Database/Query/Builder->onceWithColumns(Array, Object(Closure))
+#8 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(811): Illuminate/Database/Query/Builder->get(Array)
+#9 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(793): Illuminate/Database/Eloquent/Builder->getModels(Array)
+#10 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(343): Illuminate/Database/Eloquent/Builder->get(Array)
+#11 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(477): Illuminate/Database/Eloquent/Builder->first(Array)
+#12 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate/Database/Eloquent/Builder->find('1')
+#13 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2372): Illuminate/Database/Eloquent/Model->forwardCallTo(Object(Illuminate/Database/Eloquent/Builder), 'find', Array)
+#14 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2384): Illuminate/Database/Eloquent/Model->__call('find', Array)
+#15 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/sanctum/src/PersonalAccessToken.php(66): Illuminate/Database/Eloquent/Model::__callStatic('find', Array)
+#16 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/sanctum/src/Guard.php(43): Laravel/Sanctum/PersonalAccessToken::findToken('IqgbDJAevNF0FLy...')
+#17 [internal function]: Laravel/Sanctum/Guard->__invoke(Object(Illuminate/Http/Request), NULL)
+#18 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/RequestGuard.php(57): call_user_func(Object(Laravel/Sanctum/Guard), Object(Illuminate/Http/Request), NULL)
+#19 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/GuardHelpers.php(56): Illuminate/Auth/RequestGuard->user()
+#20 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(83): Illuminate/Auth/RequestGuard->check()
+#21 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(62): Illuminate/Auth/Middleware/Authenticate->authenticate(Object(Illuminate/Http/Request), Array)
+#22 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Auth/Middleware/Authenticate->handle(Object(Illuminate/Http/Request), Object(Closure), 'sanctum')
+#23 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#24 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#25 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#26 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#27 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#28 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#29 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#30 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#31 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#32 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#33 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#38 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#39 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#41 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#43 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#44 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#45 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#47 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#48 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#49 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#50 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#51 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#52 F:/xampp php8/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#53 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('F://xampp php8//h...')
+#54 {main}
+
+[previous exception] [object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it at F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:66)
+[stacktrace]
+#0 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(66): PDO->__construct('mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
+#1 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(85): Illuminate/Database/Connectors/Connector->createPdoConnection('mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
+#2 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(48): Illuminate/Database/Connectors/Connector->tryAgainIfCausedByLostConnection(Object(PDOException), 'mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
+#3 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate/Database/Connectors/Connector->createConnection('mysql:host=127....', Array, Array)
+#4 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php(185): Illuminate/Database/Connectors/MySqlConnector->connect(Array)
+#5 [internal function]: Illuminate/Database/Connectors/ConnectionFactory->Illuminate/Database/Connectors/{closure}()
+#6 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1231): call_user_func(Object(Closure))
+#7 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1267): Illuminate/Database/Connection->getPdo()
+#8 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(512): Illuminate/Database/Connection->getReadPdo()
+#9 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(407): Illuminate/Database/Connection->getPdoForSelect(true)
+#10 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate/Database/Connection->Illuminate/Database/{closure}('select * from `...', Array)
+#11 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(979): Illuminate/Database/Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#12 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(958): Illuminate/Database/Connection->tryAgainIfCausedByLostConnection(Object(Illuminate/Database/QueryException), 'select * from `...', Array, Object(Closure))
+#13 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(781): Illuminate/Database/Connection->handleQueryException(Object(Illuminate/Database/QueryException), 'select * from `...', Array, Object(Closure))
+#14 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate/Database/Connection->run('select * from `...', Array, Object(Closure))
+#15 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3106): Illuminate/Database/Connection->select('select * from `...', Array, true)
+#16 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3091): Illuminate/Database/Query/Builder->runSelect()
+#17 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3676): Illuminate/Database/Query/Builder->Illuminate/Database/Query/{closure}()
+#18 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3090): Illuminate/Database/Query/Builder->onceWithColumns(Array, Object(Closure))
+#19 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(811): Illuminate/Database/Query/Builder->get(Array)
+#20 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(793): Illuminate/Database/Eloquent/Builder->getModels(Array)
+#21 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(343): Illuminate/Database/Eloquent/Builder->get(Array)
+#22 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(477): Illuminate/Database/Eloquent/Builder->first(Array)
+#23 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate/Database/Eloquent/Builder->find('1')
+#24 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2372): Illuminate/Database/Eloquent/Model->forwardCallTo(Object(Illuminate/Database/Eloquent/Builder), 'find', Array)
+#25 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2384): Illuminate/Database/Eloquent/Model->__call('find', Array)
+#26 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/sanctum/src/PersonalAccessToken.php(66): Illuminate/Database/Eloquent/Model::__callStatic('find', Array)
+#27 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/sanctum/src/Guard.php(43): Laravel/Sanctum/PersonalAccessToken::findToken('IqgbDJAevNF0FLy...')
+#28 [internal function]: Laravel/Sanctum/Guard->__invoke(Object(Illuminate/Http/Request), NULL)
+#29 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/RequestGuard.php(57): call_user_func(Object(Laravel/Sanctum/Guard), Object(Illuminate/Http/Request), NULL)
+#30 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/GuardHelpers.php(56): Illuminate/Auth/RequestGuard->user()
+#31 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(83): Illuminate/Auth/RequestGuard->check()
+#32 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(62): Illuminate/Auth/Middleware/Authenticate->authenticate(Object(Illuminate/Http/Request), Array)
+#33 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Auth/Middleware/Authenticate->handle(Object(Illuminate/Http/Request), Object(Closure), 'sanctum')
+#34 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#35 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#37 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#38 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#39 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#40 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#41 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#42 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#43 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#44 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#45 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#47 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#48 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#49 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#50 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#51 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#52 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#53 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#54 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#55 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#56 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#57 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#58 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#59 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#60 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#61 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#62 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#63 F:/xampp php8/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#64 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('F://xampp php8//h...')
+#65 {main}
+"} 
+[2026-03-14 16:16:56] local.DEBUG: detectIntent called with message: hello (lower: hello), currentIntent: null  
+[2026-03-14 16:16:56] local.DEBUG: matchTrainingData returned: general  
+[2026-03-14 16:16:56] local.DEBUG: Detected INTENT_GREET  
+[2026-03-14 16:16:56] local.DEBUG: extractEntitiesFromMessage called with: hello  
+[2026-03-14 16:16:56] local.DEBUG: Checking for date patterns in message: hello  
+[2026-03-14 16:16:56] local.DEBUG: No date pattern matched for message: hello  
+[2026-03-14 16:16:56] local.DEBUG: Name extracted (first word): Hello  
+[2026-03-14 16:16:56] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 16:16:56] local.DEBUG: buildResponse called with intent: greet, language: bn  
+[2026-03-14 16:17:29] local.DEBUG: detectIntent called with message: ent doctor lagbe (lower: ent doctor lagbe), currentIntent: greet  
+[2026-03-14 16:17:29] local.DEBUG: Detected specialization: ent => ENT  
+[2026-03-14 16:17:29] local.DEBUG: Detected specialization in message: ent => ENT  
+[2026-03-14 16:17:29] local.DEBUG: extractEntitiesFromMessage called with: ent doctor lagbe  
+[2026-03-14 16:17:29] local.DEBUG: Checking for date patterns in message: ent doctor lagbe  
+[2026-03-14 16:17:29] local.DEBUG: No date pattern matched for message: ent doctor lagbe  
+[2026-03-14 16:17:29] local.DEBUG: Name extracted (first word): Lagbe  
+[2026-03-14 16:17:29] local.DEBUG: Extracted entities from message: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 16:17:29] local.DEBUG: Merged extracted_data: context={"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 16:17:29] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 16:17:29] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null}, context extracted_data: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 16:17:29] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 16:17:29] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
+[2026-03-14 16:17:29] local.DEBUG: Case 1: No doctor selected  
+[2026-03-14 16:17:56] local.DEBUG: detectIntent called with message: 1 (lower: 1), currentIntent: book_appointment  
+[2026-03-14 16:17:56] local.DEBUG: Detected doctor number, assuming booking intent: 1  
+[2026-03-14 16:17:56] local.DEBUG: extractEntitiesFromMessage called with: 1  
+[2026-03-14 16:17:56] local.DEBUG: Checking for date patterns in message: 1  
+[2026-03-14 16:17:56] local.DEBUG: Numeric message "1" detected but date already in context or no doctor, skipping numeric day mapping  
+[2026-03-14 16:17:56] local.DEBUG: No date pattern matched for message: 1  
+[2026-03-14 16:17:56] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 1, hasDoctor=no, hasDate=no  
+[2026-03-14 16:17:56] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 16:17:56] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-14 16:17:56] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 16:17:56] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 16:17:56] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-14 16:17:56] local.DEBUG: Using merged values - doctorNumber: 1, date: null, time: null  
+[2026-03-14 16:17:56] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=1, specialization=ENT  
+[2026-03-14 16:17:56] local.DEBUG: Case 2: Filtering by specialization: ENT  
+[2026-03-14 16:17:56] local.DEBUG: Case 2: Doctor query result: Christopher Brown  
+[2026-03-14 16:17:56] local.DEBUG: Case 2: Stored selected_doctor_id: 14, doctor_name: Christopher Brown  
+[2026-03-14 16:17:56] local.DEBUG: Stashing available_days in extracted_data: ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]  
+[2026-03-14 16:18:20] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-14 16:18:20] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-14 16:18:20] local.DEBUG: extractEntitiesFromMessage called with: 5  
+[2026-03-14 16:18:20] local.DEBUG: Checking for date patterns in message: 5  
+[2026-03-14 16:18:20] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"thursday","5":"friday","6":"saturday","7":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 16:18:20] local.DEBUG: Numeric day selected (doctor in context, no date): 5 => friday  
+[2026-03-14 16:18:20] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 16:18:20] local.DEBUG: Ignored doctor_number 5 because date or time_slot was extracted from same message  
+[2026-03-14 16:18:20] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, new={"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 16:18:20] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 16:18:20] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 16:18:20] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 16:18:20] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-20, time: null  
+[2026-03-14 16:18:20] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-20  
+[2026-03-14 16:18:20] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: ENT  
+[2026-03-14 16:18:20] local.DEBUG: Case 4: Found doctor by doctorNumber: Christopher Brown (ID: 14)  
+[2026-03-14 16:18:20] local.DEBUG: Case 3: Stored selected_doctor_id: 14, doctor_name: Christopher Brown  
+[2026-03-14 16:18:46] local.DEBUG: detectIntent called with message: 10 (lower: 10), currentIntent: book_appointment  
+[2026-03-14 16:18:46] local.DEBUG: Number within slot count (10 <= 10), treating as time slot  
+[2026-03-14 16:18:46] local.DEBUG: extractEntitiesFromMessage called with: 10  
+[2026-03-14 16:18:46] local.DEBUG: Checking for date patterns in message: 10  
+[2026-03-14 16:18:46] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"thursday","5":"friday","6":"saturday","7":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 16:18:46] local.DEBUG: No date pattern matched for message: 10  
+[2026-03-14 16:18:46] local.DEBUG: Doctor in context, setting time_slot_number: 10, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-14 16:18:46] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 16:18:46] local.DEBUG: Ignored doctor_number 10 because date or time_slot was extracted from same message  
+[2026-03-14 16:18:46] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, new={"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":10,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 16:18:46] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 16:18:46] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":10,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 16:18:46] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-14 16:18:46] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":10,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 16:18:46] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-20, time: null  
+[2026-03-14 16:18:46] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 16:18:46] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: ENT  
+[2026-03-14 16:18:46] local.DEBUG: Case 4: Found doctor by doctorNumber: Christopher Brown (ID: 14)  
+[2026-03-14 16:18:46] local.DEBUG: Case 4: Stored selected_doctor_id: 14, doctor_name: Christopher Brown  
+[2026-03-14 16:18:46] local.DEBUG: Case 4 - patient_name from mergedData: Lagbe  
+[2026-03-14 16:18:46] local.DEBUG: Case 4 - phone from mergedData: NULL  
+[2026-03-14 16:18:46] local.DEBUG: Case 4 - after trim, patient_name: Lagbe, phone: NULL  
+[2026-03-14 16:19:12] local.DEBUG: detectIntent called with message: inaya,01918329829 (lower: inaya,01918329829), currentIntent: book_appointment  
+[2026-03-14 16:19:12] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-14 16:19:12] local.DEBUG: extractEntitiesFromMessage called with: inaya,01918329829  
+[2026-03-14 16:19:12] local.DEBUG: Checking for date patterns in message: inaya,01918329829  
+[2026-03-14 16:19:12] local.DEBUG: No date pattern matched for message: inaya,01918329829  
+[2026-03-14 16:19:12] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-14 16:19:12] local.DEBUG: Name extracted from remaining: Inaya  
+[2026-03-14 16:19:12] local.DEBUG: matchTrainingData returned: general  
+[2026-03-14 16:19:12] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-14 16:19:12] local.DEBUG: extractEntitiesFromMessage called with: inaya,01918329829  
+[2026-03-14 16:19:12] local.DEBUG: Checking for date patterns in message: inaya,01918329829  
+[2026-03-14 16:19:12] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"thursday","5":"friday","6":"saturday","7":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 16:19:12] local.DEBUG: No date pattern matched for message: inaya,01918329829  
+[2026-03-14 16:19:12] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-14 16:19:12] local.DEBUG: Name extracted from remaining: Inaya  
+[2026-03-14 16:19:12] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null}  
+[2026-03-14 16:19:12] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":10,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, new={"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":10,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 16:19:12] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-14 16:19:12] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
+[2026-03-14 16:19:12] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":10,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":10,"patient_name":"Lagbe","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 16:19:12] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-14 16:19:12] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":10,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 16:19:12] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-20, time: null  
+[2026-03-14 16:19:12] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 16:19:12] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: ENT  
+[2026-03-14 16:19:12] local.DEBUG: Case 4: Found doctor by doctorNumber: Christopher Brown (ID: 14)  
+[2026-03-14 16:19:12] local.DEBUG: Case 4: Stored selected_doctor_id: 14, doctor_name: Christopher Brown  
+[2026-03-14 16:19:12] local.DEBUG: Case 4 - patient_name from mergedData: Inaya  
+[2026-03-14 16:19:12] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
+[2026-03-14 16:19:12] local.DEBUG: Case 4 - after trim, patient_name: Inaya, phone: 01918329829  
+[2026-03-14 16:19:12] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-14 16:19:12] local.INFO: Appointment created: 32  
+[2026-03-14 16:19:16] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
 To: 01918329829@patient.local
 Subject: Appointment Confirmation - Medical Chatbot
 MIME-Version: 1.0
-Date: Thu, 12 Mar 2026 09:50:01 +0000
-Message-ID: <1ef60e2020cca6f4c25c8d9942447f24@gmail.com>
+Date: Sat, 14 Mar 2026 16:19:16 +0000
+Message-ID: <752bba2f015a5a1b5f7ec3c4aeb3daa9@gmail.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+        <html>
+        <body style='font-family: Arial, sans-serif; padding: 20px;'>
+            <h2 style='color: #2c3e50;'>Appointment Confirmed! ✅</h2>
+            <p>Dear <strong>Inaya</strong>,</p>
+            <p>Your appointment has been successfully booked. Here are the details:</p>
+            
+            <table style='border-collapse: collapse; width: 100%; max-width: 400px; margin: 20px 0;'>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Doctor</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Christopher Brown</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Date</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-20</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Time</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>10:30 PM - 11:00 PM</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Patient Name</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Inaya</td>
+                </tr>
+            </table>
+            
+            <p style='margin-top: 20px;'>Please arrive 15 minutes before your scheduled time.</p>
+            <p>If you need to reschedule or cancel, please contact us.</p>
+            
+            <p style='margin-top: 30px;'>Thank you for choosing our service!</p>
+            <p><strong>Medical Appointment Team</strong></p>
+        </body>
+        </html>
+          
+[2026-03-14 16:19:16] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
+[2026-03-14 16:19:16] local.DEBUG: Case 4: Appointment created successfully: 32  
+[2026-03-14 16:19:16] local.DEBUG: Preserved book_appointment intent due to existing booking data  
+[2026-03-14 17:01:48] local.ERROR: Route [login] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [login] not defined. at F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517)
+[stacktrace]
+#0 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(853): Illuminate/Routing/UrlGenerator->route('login', Array, true)
+#1 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Configuration/ApplicationBuilder.php(278): route('login')
+#2 [internal function]: Illuminate/Foundation/Configuration/ApplicationBuilder->Illuminate/Foundation/Configuration/{closure}(Object(Illuminate/Http/Request))
+#3 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(118): call_user_func(Object(Closure), Object(Illuminate/Http/Request))
+#4 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(105): Illuminate/Auth/Middleware/Authenticate->redirectTo(Object(Illuminate/Http/Request))
+#5 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(88): Illuminate/Auth/Middleware/Authenticate->unauthenticated(Object(Illuminate/Http/Request), Array)
+#6 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(62): Illuminate/Auth/Middleware/Authenticate->authenticate(Object(Illuminate/Http/Request), Array)
+#7 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Auth/Middleware/Authenticate->handle(Object(Illuminate/Http/Request), Object(Closure), 'sanctum')
+#8 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#9 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#10 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#11 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#12 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#13 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#14 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#15 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#16 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#17 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#18 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#19 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#20 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#21 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#22 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#23 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#24 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#25 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#26 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#27 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#28 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#29 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#34 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#35 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#36 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#37 F:/xampp php8/htdocs/aichatbot/backend/public/index.php(18): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#38 F:/xampp php8/htdocs/aichatbot/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('F://xampp php8//h...')
+#39 {main}
+"} 
+[2026-03-14 17:12:31] local.DEBUG: detectIntent called with message: hello we need eye specialis (lower: hello we need eye specialis), currentIntent: null  
+[2026-03-14 17:12:31] local.DEBUG: Detected specialization: eye => Ophthalmologist  
+[2026-03-14 17:12:31] local.DEBUG: Detected specialization in message: eye => Ophthalmologist  
+[2026-03-14 17:12:31] local.DEBUG: extractEntitiesFromMessage called with: hello we need eye specialis  
+[2026-03-14 17:12:31] local.DEBUG: Checking for date patterns in message: hello we need eye specialis  
+[2026-03-14 17:12:31] local.DEBUG: No date pattern matched for message: hello we need eye specialis  
+[2026-03-14 17:12:31] local.DEBUG: Name extracted (first word): Hello  
+[2026-03-14 17:12:31] local.DEBUG: Extracted entities from message: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:12:31] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:12:31] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null}, context extracted_data: []  
+[2026-03-14 17:12:31] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"patient_name":"Hello"}  
+[2026-03-14 17:12:31] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
+[2026-03-14 17:12:31] local.DEBUG: Case 1: No doctor selected  
+[2026-03-14 17:12:51] local.DEBUG: detectIntent called with message: 1 (lower: 1), currentIntent: book_appointment  
+[2026-03-14 17:12:51] local.DEBUG: Detected doctor number, assuming booking intent: 1  
+[2026-03-14 17:12:51] local.DEBUG: extractEntitiesFromMessage called with: 1  
+[2026-03-14 17:12:51] local.DEBUG: Checking for date patterns in message: 1  
+[2026-03-14 17:12:51] local.DEBUG: Numeric message "1" detected but date already in context or no doctor, skipping numeric day mapping  
+[2026-03-14 17:12:51] local.DEBUG: No date pattern matched for message: 1  
+[2026-03-14 17:12:51] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 1, hasDoctor=no, hasDate=no  
+[2026-03-14 17:12:51] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:12:51] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-14 17:12:51] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:12:51] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:12:51] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-14 17:12:51] local.DEBUG: Using merged values - doctorNumber: 1, date: null, time: null  
+[2026-03-14 17:12:51] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=1, specialization=Ophthalmologist  
+[2026-03-14 17:12:51] local.DEBUG: Case 2: Filtering by specialization: Ophthalmologist  
+[2026-03-14 17:12:51] local.DEBUG: Case 2: Doctor query result: Maya Patel  
+[2026-03-14 17:12:51] local.DEBUG: Case 2: Stored selected_doctor_id: 12, doctor_name: Maya Patel  
+[2026-03-14 17:12:51] local.DEBUG: Stashing available_days in extracted_data: ["monday","tuesday","wednesday","friday","saturday","sunday"]  
+[2026-03-14 17:13:08] local.DEBUG: detectIntent called with message: সোমবার (lower: সোমবার), currentIntent: book_appointment  
+[2026-03-14 17:13:08] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-14 17:13:08] local.DEBUG: extractEntitiesFromMessage called with: সোমবার  
+[2026-03-14 17:13:08] local.DEBUG: Checking for date patterns in message: সোমবার  
+[2026-03-14 17:13:08] local.DEBUG: No date pattern matched for message: সোমবার  
+[2026-03-14 17:13:08] local.DEBUG: extractEntitiesFromMessage called with: সোমবার  
+[2026-03-14 17:13:08] local.DEBUG: Checking for date patterns in message: সোমবার  
+[2026-03-14 17:13:08] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 17:13:08] local.DEBUG: No date pattern matched for message: সোমবার  
+[2026-03-14 17:13:08] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:13:08] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:13:08] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:13:08] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Hello","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:13:08] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:13:08] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-16, time: null  
+[2026-03-14 17:13:08] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-16  
+[2026-03-14 17:13:08] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-14 17:13:08] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 12)  
+[2026-03-14 17:13:08] local.DEBUG: Case 3: Stored selected_doctor_id: 12, doctor_name: Maya Patel  
+[2026-03-14 17:13:42] local.DEBUG: detectIntent called with message: 13 (lower: 13), currentIntent: book_appointment  
+[2026-03-14 17:13:42] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-14 17:13:42] local.DEBUG: Doctor + date in context, treating 13 as time slot selection  
+[2026-03-14 17:13:42] local.DEBUG: extractEntitiesFromMessage called with: 13  
+[2026-03-14 17:13:42] local.DEBUG: Checking for date patterns in message: 13  
+[2026-03-14 17:13:42] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 17:13:42] local.DEBUG: No date pattern matched for message: 13  
+[2026-03-14 17:13:42] local.DEBUG: Doctor in context, setting time_slot_number: 13, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-14 17:13:42] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":13,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:13:42] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:13:42] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:13:42] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:13:42] local.DEBUG: Time slot number selected (13), preserving date and doctor info  
+[2026-03-14 17:13:42] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:13:42] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-16, time: null  
+[2026-03-14 17:13:42] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 17:13:42] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-14 17:13:42] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 12)  
+[2026-03-14 17:13:42] local.DEBUG: Case 4: Stored selected_doctor_id: 12, doctor_name: Maya Patel  
+[2026-03-14 17:13:42] local.DEBUG: Case 4 - patient_name from mergedData: সোমবার  
+[2026-03-14 17:13:42] local.DEBUG: Case 4 - phone from mergedData: NULL  
+[2026-03-14 17:13:42] local.DEBUG: Case 4 - after trim, patient_name: সোমবার, phone: NULL  
+[2026-03-14 17:14:00] local.DEBUG: detectIntent called with message: inaya,01918329829 (lower: inaya,01918329829), currentIntent: book_appointment  
+[2026-03-14 17:14:00] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-14 17:14:00] local.DEBUG: extractEntitiesFromMessage called with: inaya,01918329829  
+[2026-03-14 17:14:00] local.DEBUG: Checking for date patterns in message: inaya,01918329829  
+[2026-03-14 17:14:00] local.DEBUG: No date pattern matched for message: inaya,01918329829  
+[2026-03-14 17:14:00] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-14 17:14:00] local.DEBUG: Name extracted from remaining: Inaya  
+[2026-03-14 17:14:00] local.DEBUG: matchTrainingData returned: general  
+[2026-03-14 17:14:00] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-14 17:14:00] local.DEBUG: extractEntitiesFromMessage called with: inaya,01918329829  
+[2026-03-14 17:14:00] local.DEBUG: Checking for date patterns in message: inaya,01918329829  
+[2026-03-14 17:14:00] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 17:14:00] local.DEBUG: No date pattern matched for message: inaya,01918329829  
+[2026-03-14 17:14:00] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-14 17:14:00] local.DEBUG: Name extracted from remaining: Inaya  
+[2026-03-14 17:14:00] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:14:00] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:14:00] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-14 17:14:00] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
+[2026-03-14 17:14:00] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"\u09b8\u09cb\u09ae\u09ac\u09be\u09b0","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:14:00] local.DEBUG: Time slot number selected (13), preserving date and doctor info  
+[2026-03-14 17:14:00] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:14:00] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-16, time: null  
+[2026-03-14 17:14:00] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 17:14:00] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-14 17:14:00] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 12)  
+[2026-03-14 17:14:00] local.DEBUG: Case 4: Stored selected_doctor_id: 12, doctor_name: Maya Patel  
+[2026-03-14 17:14:00] local.DEBUG: Case 4 - patient_name from mergedData: Inaya  
+[2026-03-14 17:14:00] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
+[2026-03-14 17:14:00] local.DEBUG: Case 4 - after trim, patient_name: Inaya, phone: 01918329829  
+[2026-03-14 17:14:00] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-14 17:14:00] local.INFO: Appointment created: 33  
+[2026-03-14 17:14:02] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
+To: 01918329829@patient.local
+Subject: Appointment Confirmation - Medical Chatbot
+MIME-Version: 1.0
+Date: Sat, 14 Mar 2026 17:14:02 +0000
+Message-ID: <bc369966e4cc265bcb265b58710bc9c9@gmail.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+        <html>
+        <body style='font-family: Arial, sans-serif; padding: 20px;'>
+            <h2 style='color: #2c3e50;'>Appointment Confirmed! ✅</h2>
+            <p>Dear <strong>Inaya</strong>,</p>
+            <p>Your appointment has been successfully booked. Here are the details:</p>
+            
+            <table style='border-collapse: collapse; width: 100%; max-width: 400px; margin: 20px 0;'>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Doctor</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Maya Patel</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Date</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-16</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Time</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>04:00 PM - 04:30 PM</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Patient Name</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Inaya</td>
+                </tr>
+            </table>
+            
+            <p style='margin-top: 20px;'>Please arrive 15 minutes before your scheduled time.</p>
+            <p>If you need to reschedule or cancel, please contact us.</p>
+            
+            <p style='margin-top: 30px;'>Thank you for choosing our service!</p>
+            <p><strong>Medical Appointment Team</strong></p>
+        </body>
+        </html>
+          
+[2026-03-14 17:14:02] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
+[2026-03-14 17:14:02] local.DEBUG: Case 4: Appointment created successfully: 33  
+[2026-03-14 17:14:02] local.DEBUG: Preserved book_appointment intent due to existing booking data  
+[2026-03-14 17:17:40] local.DEBUG: detectIntent called with message: ok (lower: ok), currentIntent: book_appointment  
+[2026-03-14 17:17:40] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-14 17:17:40] local.DEBUG: matchTrainingData returned: general  
+[2026-03-14 17:17:40] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-14 17:17:40] local.DEBUG: extractEntitiesFromMessage called with: ok  
+[2026-03-14 17:17:40] local.DEBUG: Checking for date patterns in message: ok  
+[2026-03-14 17:17:40] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 17:17:40] local.DEBUG: No date pattern matched for message: ok  
+[2026-03-14 17:17:40] local.DEBUG: Name extracted (first word): Ok  
+[2026-03-14 17:17:40] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Ok","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:17:40] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"Ok","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:17:40] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-14 17:17:40] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
+[2026-03-14 17:17:40] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"Ok","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:17:40] local.DEBUG: Time slot number selected (13), preserving date and doctor info  
+[2026-03-14 17:17:40] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":13,"patient_name":"Ok","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:17:40] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-16, time: null  
+[2026-03-14 17:17:40] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 17:17:40] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-14 17:17:40] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 12)  
+[2026-03-14 17:17:40] local.DEBUG: Case 4: Stored selected_doctor_id: 12, doctor_name: Maya Patel  
+[2026-03-14 17:17:40] local.DEBUG: Case 4 - patient_name from mergedData: Ok  
+[2026-03-14 17:17:40] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
+[2026-03-14 17:17:40] local.DEBUG: Case 4 - after trim, patient_name: Ok, phone: 01918329829  
+[2026-03-14 17:17:40] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-14 17:17:40] local.INFO: Appointment created: 34  
+[2026-03-14 17:17:41] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
+To: 01918329829@patient.local
+Subject: Appointment Confirmation - Medical Chatbot
+MIME-Version: 1.0
+Date: Sat, 14 Mar 2026 17:17:41 +0000
+Message-ID: <d39c710df5ab5fbf0302d9c2402b7fae@gmail.com>
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -202,15 +774,15 @@ Content-Transfer-Encoding: quoted-printable
             <table style='border-collapse: collapse; width: 100%; max-width: 400px; margin: 20px 0;'>
                 <tr>
                     <td style='padding: 10px; border: 1px solid #ddd;'><strong>Doctor</strong></td>
-                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Dr. Mohammad Khan</td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Maya Patel</td>
                 </tr>
                 <tr>
                     <td style='padding: 10px; border: 1px solid #ddd;'><strong>Date</strong></td>
-                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-15</td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-16</td>
                 </tr>
                 <tr>
                     <td style='padding: 10px; border: 1px solid #ddd;'><strong>Time</strong></td>
-                    <td style='padding: 10px; border: 1px solid #ddd;'>10:30 PM - 11:00 PM</td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>04:00 PM - 04:30 PM</td>
                 </tr>
                 <tr>
                     <td style='padding: 10px; border: 1px solid #ddd;'><strong>Patient Name</strong></td>
@@ -226,6 +798,301 @@ Content-Transfer-Encoding: quoted-printable
         </body>
         </html>
           
-[2026-03-12 09:50:01] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
-[2026-03-12 09:50:01] local.DEBUG: Case 4: Appointment created successfully: 17  
-[2026-03-12 09:50:01] local.DEBUG: Preserved book_appointment intent due to existing booking data  
+[2026-03-14 17:17:41] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
+[2026-03-14 17:17:41] local.DEBUG: Case 4: Appointment created successfully: 34  
+[2026-03-14 17:17:41] local.DEBUG: Preserved book_appointment intent due to existing booking data  
+[2026-03-14 17:21:05] local.DEBUG: detectIntent called with message: we need eye specialist (lower: we need eye specialist), currentIntent: null  
+[2026-03-14 17:21:05] local.DEBUG: Detected specialization: eye => Ophthalmologist  
+[2026-03-14 17:21:05] local.DEBUG: Detected specialization in message: eye => Ophthalmologist  
+[2026-03-14 17:21:05] local.DEBUG: extractEntitiesFromMessage called with: we need eye specialist  
+[2026-03-14 17:21:05] local.DEBUG: Checking for date patterns in message: we need eye specialist  
+[2026-03-14 17:21:05] local.DEBUG: No date pattern matched for message: we need eye specialist  
+[2026-03-14 17:21:05] local.DEBUG: Name extracted (first word): We  
+[2026-03-14 17:21:05] local.DEBUG: Extracted entities from message: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:21:05] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:21:05] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null}, context extracted_data: []  
+[2026-03-14 17:21:05] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"patient_name":"We"}  
+[2026-03-14 17:21:05] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
+[2026-03-14 17:21:05] local.DEBUG: Case 1: No doctor selected  
+[2026-03-14 17:53:59] local.DEBUG: detectIntent called with message: 1 (lower: 1), currentIntent: book_appointment  
+[2026-03-14 17:53:59] local.DEBUG: Detected doctor number, assuming booking intent: 1  
+[2026-03-14 17:53:59] local.DEBUG: extractEntitiesFromMessage called with: 1  
+[2026-03-14 17:53:59] local.DEBUG: Checking for date patterns in message: 1  
+[2026-03-14 17:53:59] local.DEBUG: Numeric message "1" detected but date already in context or no doctor, skipping numeric day mapping  
+[2026-03-14 17:53:59] local.DEBUG: No date pattern matched for message: 1  
+[2026-03-14 17:53:59] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 1, hasDoctor=no, hasDate=no  
+[2026-03-14 17:53:59] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:53:59] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-14 17:53:59] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:53:59] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:53:59] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-14 17:53:59] local.DEBUG: Using merged values - doctorNumber: 1, date: null, time: null  
+[2026-03-14 17:53:59] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=1, specialization=Ophthalmologist  
+[2026-03-14 17:53:59] local.DEBUG: Case 2: Filtering by specialization: Ophthalmologist  
+[2026-03-14 17:53:59] local.DEBUG: Case 2: Doctor query result: Maya Patel  
+[2026-03-14 17:53:59] local.DEBUG: Case 2: Stored selected_doctor_id: 12, doctor_name: Maya Patel  
+[2026-03-14 17:53:59] local.DEBUG: Stashing available_days in extracted_data: ["monday","tuesday","wednesday","friday","saturday","sunday"]  
+[2026-03-14 17:54:21] local.DEBUG: detectIntent called with message: 6 (lower: 6), currentIntent: book_appointment  
+[2026-03-14 17:54:21] local.DEBUG: Detected doctor number, assuming booking intent: 6  
+[2026-03-14 17:54:21] local.DEBUG: extractEntitiesFromMessage called with: 6  
+[2026-03-14 17:54:21] local.DEBUG: Checking for date patterns in message: 6  
+[2026-03-14 17:54:21] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 17:54:21] local.DEBUG: Numeric day selected (doctor in context, no date): 6 => sunday  
+[2026-03-14 17:54:21] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:54:21] local.DEBUG: Ignored doctor_number 6 because date or time_slot was extracted from same message  
+[2026-03-14 17:54:21] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:54:21] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:54:21] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:54:21] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:54:21] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-15, time: null  
+[2026-03-14 17:54:21] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-15  
+[2026-03-14 17:54:21] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-14 17:54:21] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 12)  
+[2026-03-14 17:54:21] local.DEBUG: Case 3: Stored selected_doctor_id: 12, doctor_name: Maya Patel  
+[2026-03-14 17:54:50] local.DEBUG: detectIntent called with message: 10 (lower: 10), currentIntent: book_appointment  
+[2026-03-14 17:54:50] local.DEBUG: Detected doctor number, assuming booking intent: 10  
+[2026-03-14 17:54:50] local.DEBUG: extractEntitiesFromMessage called with: 10  
+[2026-03-14 17:54:50] local.DEBUG: Checking for date patterns in message: 10  
+[2026-03-14 17:54:50] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 17:54:50] local.DEBUG: No date pattern matched for message: 10  
+[2026-03-14 17:54:50] local.DEBUG: Doctor in context, setting time_slot_number: 10, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-14 17:54:50] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:54:50] local.DEBUG: Ignored doctor_number 10 because date or time_slot was extracted from same message  
+[2026-03-14 17:54:50] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:54:50] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:54:50] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":null,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:54:50] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-14 17:54:50] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:54:50] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-15, time: null  
+[2026-03-14 17:54:50] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 17:54:50] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-14 17:54:50] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 12)  
+[2026-03-14 17:54:50] local.DEBUG: Case 4: Stored selected_doctor_id: 12, doctor_name: Maya Patel  
+[2026-03-14 17:54:50] local.DEBUG: Case 4 - patient_name from mergedData: We  
+[2026-03-14 17:54:50] local.DEBUG: Case 4 - phone from mergedData: NULL  
+[2026-03-14 17:54:50] local.DEBUG: Case 4 - after trim, patient_name: We, phone: NULL  
+[2026-03-14 17:55:09] local.DEBUG: detectIntent called with message: inaya,01918329829 (lower: inaya,01918329829), currentIntent: book_appointment  
+[2026-03-14 17:55:09] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-14 17:55:09] local.DEBUG: extractEntitiesFromMessage called with: inaya,01918329829  
+[2026-03-14 17:55:09] local.DEBUG: Checking for date patterns in message: inaya,01918329829  
+[2026-03-14 17:55:09] local.DEBUG: No date pattern matched for message: inaya,01918329829  
+[2026-03-14 17:55:09] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-14 17:55:09] local.DEBUG: Name extracted from remaining: Inaya  
+[2026-03-14 17:55:09] local.DEBUG: matchTrainingData returned: general  
+[2026-03-14 17:55:09] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-14 17:55:09] local.DEBUG: extractEntitiesFromMessage called with: inaya,01918329829  
+[2026-03-14 17:55:09] local.DEBUG: Checking for date patterns in message: inaya,01918329829  
+[2026-03-14 17:55:09] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 17:55:09] local.DEBUG: No date pattern matched for message: inaya,01918329829  
+[2026-03-14 17:55:09] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-14 17:55:09] local.DEBUG: Name extracted from remaining: Inaya  
+[2026-03-14 17:55:09] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:55:09] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:55:09] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-14 17:55:09] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
+[2026-03-14 17:55:09] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"We","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:55:09] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-14 17:55:09] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-15","time_preference":null,"time_slot_number":10,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-14 17:55:09] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-15, time: null  
+[2026-03-14 17:55:09] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 17:55:09] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-14 17:55:09] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 12)  
+[2026-03-14 17:55:09] local.DEBUG: Case 4: Stored selected_doctor_id: 12, doctor_name: Maya Patel  
+[2026-03-14 17:55:09] local.DEBUG: Case 4 - patient_name from mergedData: Inaya  
+[2026-03-14 17:55:09] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
+[2026-03-14 17:55:09] local.DEBUG: Case 4 - after trim, patient_name: Inaya, phone: 01918329829  
+[2026-03-14 17:55:09] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-14 17:55:10] local.INFO: Appointment created: 35  
+[2026-03-14 17:55:11] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
+To: 01918329829@patient.local
+Subject: Appointment Confirmation - Medical Chatbot
+MIME-Version: 1.0
+Date: Sat, 14 Mar 2026 17:55:11 +0000
+Message-ID: <2e43252142e3c188e4fdccdfdc23acbd@gmail.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+        <html>
+        <body style='font-family: Arial, sans-serif; padding: 20px;'>
+            <h2 style='color: #2c3e50;'>Appointment Confirmed! ✅</h2>
+            <p>Dear <strong>Inaya</strong>,</p>
+            <p>Your appointment has been successfully booked. Here are the details:</p>
+            
+            <table style='border-collapse: collapse; width: 100%; max-width: 400px; margin: 20px 0;'>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Doctor</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Maya Patel</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Date</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-15</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Time</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>10:30 PM - 11:00 PM</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Patient Name</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Inaya</td>
+                </tr>
+            </table>
+            
+            <p style='margin-top: 20px;'>Please arrive 15 minutes before your scheduled time.</p>
+            <p>If you need to reschedule or cancel, please contact us.</p>
+            
+            <p style='margin-top: 30px;'>Thank you for choosing our service!</p>
+            <p><strong>Medical Appointment Team</strong></p>
+        </body>
+        </html>
+          
+[2026-03-14 17:55:11] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
+[2026-03-14 17:55:11] local.DEBUG: Case 4: Appointment created successfully: 35  
+[2026-03-14 17:55:11] local.DEBUG: Preserved book_appointment intent due to existing booking data  
+[2026-03-14 17:57:58] local.DEBUG: detectIntent called with message: ent specialist need (lower: ent specialist need), currentIntent: null  
+[2026-03-14 17:57:58] local.DEBUG: Detected specialization: ent => ENT  
+[2026-03-14 17:57:58] local.DEBUG: Detected specialization in message: ent => ENT  
+[2026-03-14 17:57:58] local.DEBUG: extractEntitiesFromMessage called with: ent specialist need  
+[2026-03-14 17:57:58] local.DEBUG: Checking for date patterns in message: ent specialist need  
+[2026-03-14 17:57:58] local.DEBUG: No date pattern matched for message: ent specialist need  
+[2026-03-14 17:57:58] local.DEBUG: Extracted entities from message: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:57:58] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:57:58] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}, context extracted_data: []  
+[2026-03-14 17:57:58] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[]}  
+[2026-03-14 17:57:58] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
+[2026-03-14 17:57:58] local.DEBUG: Case 1: No doctor selected  
+[2026-03-14 17:58:18] local.DEBUG: detectIntent called with message: 1 (lower: 1), currentIntent: book_appointment  
+[2026-03-14 17:58:18] local.DEBUG: Detected doctor number, assuming booking intent: 1  
+[2026-03-14 17:58:18] local.DEBUG: extractEntitiesFromMessage called with: 1  
+[2026-03-14 17:58:18] local.DEBUG: Checking for date patterns in message: 1  
+[2026-03-14 17:58:18] local.DEBUG: Numeric message "1" detected but date already in context or no doctor, skipping numeric day mapping  
+[2026-03-14 17:58:18] local.DEBUG: No date pattern matched for message: 1  
+[2026-03-14 17:58:18] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 1, hasDoctor=no, hasDate=no  
+[2026-03-14 17:58:18] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:58:18] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-14 17:58:18] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:58:18] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:58:18] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-14 17:58:18] local.DEBUG: Using merged values - doctorNumber: 1, date: null, time: null  
+[2026-03-14 17:58:18] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=1, specialization=ENT  
+[2026-03-14 17:58:18] local.DEBUG: Case 2: Filtering by specialization: ENT  
+[2026-03-14 17:58:18] local.DEBUG: Case 2: Doctor query result: Christopher Brown  
+[2026-03-14 17:58:18] local.DEBUG: Case 2: Stored selected_doctor_id: 14, doctor_name: Christopher Brown  
+[2026-03-14 17:58:18] local.DEBUG: Stashing available_days in extracted_data: ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]  
+[2026-03-14 17:58:35] local.DEBUG: detectIntent called with message: 4 (lower: 4), currentIntent: book_appointment  
+[2026-03-14 17:58:35] local.DEBUG: Detected doctor number, assuming booking intent: 4  
+[2026-03-14 17:58:35] local.DEBUG: extractEntitiesFromMessage called with: 4  
+[2026-03-14 17:58:35] local.DEBUG: Checking for date patterns in message: 4  
+[2026-03-14 17:58:35] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"thursday","5":"friday","6":"saturday","7":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 17:58:35] local.DEBUG: Numeric day selected (doctor in context, no date): 4 => thursday  
+[2026-03-14 17:58:35] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:58:35] local.DEBUG: Ignored doctor_number 4 because date or time_slot was extracted from same message  
+[2026-03-14 17:58:35] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, new={"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 17:58:35] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:58:35] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 17:58:35] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 17:58:35] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-19, time: null  
+[2026-03-14 17:58:35] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-19  
+[2026-03-14 17:58:35] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: ENT  
+[2026-03-14 17:58:35] local.DEBUG: Case 4: Found doctor by doctorNumber: Christopher Brown (ID: 14)  
+[2026-03-14 17:58:35] local.DEBUG: Case 3: Stored selected_doctor_id: 14, doctor_name: Christopher Brown  
+[2026-03-14 17:59:09] local.DEBUG: detectIntent called with message: 14 (lower: 14), currentIntent: book_appointment  
+[2026-03-14 17:59:09] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-14 17:59:09] local.DEBUG: Doctor + date in context, treating 14 as time slot selection  
+[2026-03-14 17:59:09] local.DEBUG: extractEntitiesFromMessage called with: 14  
+[2026-03-14 17:59:09] local.DEBUG: Checking for date patterns in message: 14  
+[2026-03-14 17:59:09] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"thursday","5":"friday","6":"saturday","7":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 17:59:09] local.DEBUG: No date pattern matched for message: 14  
+[2026-03-14 17:59:09] local.DEBUG: Doctor in context, setting time_slot_number: 14, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-14 17:59:09] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":14,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:59:09] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, new={"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":14,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 17:59:09] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-14 17:59:09] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":14,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 17:59:09] local.DEBUG: Time slot number selected (14), preserving date and doctor info  
+[2026-03-14 17:59:09] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":14,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 17:59:09] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-19, time: null  
+[2026-03-14 17:59:09] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 17:59:09] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: ENT  
+[2026-03-14 17:59:09] local.DEBUG: Case 4: Found doctor by doctorNumber: Christopher Brown (ID: 14)  
+[2026-03-14 17:59:09] local.DEBUG: Case 4: Stored selected_doctor_id: 14, doctor_name: Christopher Brown  
+[2026-03-14 17:59:09] local.DEBUG: Case 4 - patient_name from mergedData: NULL  
+[2026-03-14 17:59:09] local.DEBUG: Case 4 - phone from mergedData: NULL  
+[2026-03-14 17:59:09] local.DEBUG: Case 4 - after trim, patient_name: NULL, phone: NULL  
+[2026-03-14 17:59:31] local.DEBUG: detectIntent called with message: inaya,01918329829 (lower: inaya,01918329829), currentIntent: book_appointment  
+[2026-03-14 17:59:31] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-14 17:59:31] local.DEBUG: extractEntitiesFromMessage called with: inaya,01918329829  
+[2026-03-14 17:59:31] local.DEBUG: Checking for date patterns in message: inaya,01918329829  
+[2026-03-14 17:59:31] local.DEBUG: No date pattern matched for message: inaya,01918329829  
+[2026-03-14 17:59:31] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-14 17:59:31] local.DEBUG: Name extracted from remaining: Inaya  
+[2026-03-14 17:59:31] local.DEBUG: matchTrainingData returned: general  
+[2026-03-14 17:59:31] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-14 17:59:31] local.DEBUG: extractEntitiesFromMessage called with: inaya,01918329829  
+[2026-03-14 17:59:31] local.DEBUG: Checking for date patterns in message: inaya,01918329829  
+[2026-03-14 17:59:31] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"thursday","5":"friday","6":"saturday","7":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-14 17:59:31] local.DEBUG: No date pattern matched for message: inaya,01918329829  
+[2026-03-14 17:59:31] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-14 17:59:31] local.DEBUG: Name extracted from remaining: Inaya  
+[2026-03-14 17:59:31] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null}  
+[2026-03-14 17:59:31] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":14,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, new={"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":14,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 17:59:31] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-14 17:59:31] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
+[2026-03-14 17:59:31] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":14,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":14,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 17:59:31] local.DEBUG: Time slot number selected (14), preserving date and doctor info  
+[2026-03-14 17:59:31] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":"2026-03-19","time_preference":null,"time_slot_number":14,"patient_name":"Inaya","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-14 17:59:31] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-19, time: null  
+[2026-03-14 17:59:31] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-14 17:59:31] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: ENT  
+[2026-03-14 17:59:31] local.DEBUG: Case 4: Found doctor by doctorNumber: Christopher Brown (ID: 14)  
+[2026-03-14 17:59:31] local.DEBUG: Case 4: Stored selected_doctor_id: 14, doctor_name: Christopher Brown  
+[2026-03-14 17:59:31] local.DEBUG: Case 4 - patient_name from mergedData: Inaya  
+[2026-03-14 17:59:31] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
+[2026-03-14 17:59:31] local.DEBUG: Case 4 - after trim, patient_name: Inaya, phone: 01918329829  
+[2026-03-14 17:59:31] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-14 17:59:31] local.INFO: Appointment created: 36  
+[2026-03-14 17:59:32] local.DEBUG: From: Medical Appointment System <md.imran1200@gmail.com>
+To: 01918329829@patient.local
+Subject: Appointment Confirmation - Medical Chatbot
+MIME-Version: 1.0
+Date: Sat, 14 Mar 2026 17:59:32 +0000
+Message-ID: <7c5490c9ae1d811a98da5c02eee3ab0e@gmail.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+        <html>
+        <body style='font-family: Arial, sans-serif; padding: 20px;'>
+            <h2 style='color: #2c3e50;'>Appointment Confirmed! ✅</h2>
+            <p>Dear <strong>Inaya</strong>,</p>
+            <p>Your appointment has been successfully booked. Here are the details:</p>
+            
+            <table style='border-collapse: collapse; width: 100%; max-width: 400px; margin: 20px 0;'>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Doctor</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Dr. Christopher Brown</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Date</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>2026-03-19</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Time</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>05:30 PM - 06:00 PM</td>
+                </tr>
+                <tr>
+                    <td style='padding: 10px; border: 1px solid #ddd;'><strong>Patient Name</strong></td>
+                    <td style='padding: 10px; border: 1px solid #ddd;'>Inaya</td>
+                </tr>
+            </table>
+            
+            <p style='margin-top: 20px;'>Please arrive 15 minutes before your scheduled time.</p>
+            <p>If you need to reschedule or cancel, please contact us.</p>
+            
+            <p style='margin-top: 30px;'>Thank you for choosing our service!</p>
+            <p><strong>Medical Appointment Team</strong></p>
+        </body>
+        </html>
+          
+[2026-03-14 17:59:32] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"},"email":{"success":true,"message":"Email sent successfully"}}  
+[2026-03-14 17:59:32] local.DEBUG: Case 4: Appointment created successfully: 36  
+[2026-03-14 17:59:32] local.DEBUG: Preserved book_appointment intent due to existing booking data  
