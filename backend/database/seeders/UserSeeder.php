@@ -8,59 +8,52 @@ use Illuminate\Database\Seeder;
 class UserSeeder extends Seeder
 {
     /**
-     * Seed only 3 users: patient, doctor, admin
+     * Seed ONLY 3 users: 1 patient, 1 admin, 1 doctor
      */
     public function run(): void
     {
-        // Seed 1 patient user
-        $patientData = [
+        // Delete ALL existing users first
+        User::whereNotNull('id')->delete();
+        $this->command->info("🗑️  Deleted all existing users");
+        
+        // Create 1 patient user
+        User::create([
             'name' => 'John Patient',
             'email' => 'patient@demo.com',
             'phone' => '+1234567001',
-            'password' => 'password',
-        ];
+            'password' => bcrypt('password'),
+            'is_active' => true,
+            'is_doctor' => false,
+            'is_admin' => false,
+        ]);
+        $this->command->info("✅ Created patient: patient@demo.com / password");
 
-        $patientExists = User::where('email', $patientData['email'])->first();
-        if (!$patientExists) {
-            User::create([
-                'name' => $patientData['name'],
-                'email' => $patientData['email'],
-                'phone' => $patientData['phone'],
-                'password' => bcrypt($patientData['password']),
-                'is_active' => true,
-                'is_doctor' => false,
-                'is_admin' => false,
-            ]);
-            $this->command->info("✅ Created patient: {$patientData['name']}");
-        } else {
-            $this->command->info("⏭️  Skipped patient (already exists)");
-        }
-
-        // Seed 1 admin user
-        $adminData = [
+        // Create 1 admin user
+        User::create([
             'name' => 'Admin User',
             'email' => 'admin@demo.com',
             'phone' => '+1234567000',
-            'password' => 'admin123',
-        ];
+            'password' => bcrypt('admin123'),
+            'is_active' => true,
+            'is_admin' => true,
+            'is_doctor' => false,
+        ]);
+        $this->command->info("✅ Created admin: admin@demo.com / admin123");
 
-        $adminExists = User::where('email', $adminData['email'])->first();
-        if (!$adminExists) {
-            User::create([
-                'name' => $adminData['name'],
-                'email' => $adminData['email'],
-                'phone' => $adminData['phone'],
-                'password' => bcrypt($adminData['password']),
-                'is_active' => true,
-                'is_admin' => true,
-                'is_doctor' => false,
-            ]);
-            $this->command->info("✅ Created admin: {$adminData['name']}");
-        } else {
-            $this->command->info("⏭️  Skipped admin (already exists)");
-        }
+        // Create 1 doctor user (doctor_id will be set by DoctorSeeder)
+        User::create([
+            'name' => 'Dr. Sarah Doctor',
+            'email' => 'doctor@demo.com',
+            'phone' => '+1234567002',
+            'password' => bcrypt('doctor123'),
+            'is_active' => true,
+            'is_doctor' => true,
+            'is_admin' => false,
+            'doctor_id' => null, // Will be linked by DoctorSeeder
+        ]);
+        $this->command->info("✅ Created doctor: doctor@demo.com / doctor123");
 
-        // Note: Doctor users are created in DoctorSeeder
-        // They link to the doctors table and have is_doctor = true
+        $this->command->info("📋 Total users: 3 (patient, admin, doctor)");
+        $this->command->info("💡 Run DoctorSeeder to link doctor user to doctor record");
     }
 }
