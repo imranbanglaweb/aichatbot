@@ -42,7 +42,7 @@ class VoiceService
             ];
 
             // Add language if specified (helps with accuracy)
-            if ($language && in_array($language, ['en', 'bn', 'hi', 'es', 'fr', 'de', 'zh', 'ar', 'ja'])) {
+            if ($language && in_array($language, ['en', 'bn', 'es', 'fr', 'de', 'zh', 'ar', 'ja'])) {
                 $requestData['language'] = $language;
             }
 

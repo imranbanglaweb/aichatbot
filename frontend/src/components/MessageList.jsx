@@ -115,6 +115,7 @@ const MessageItem = ({ message }) => {
               disabled={!getAudioSrc()}
               aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
             >
+              <span className="audio-icon">{isPlaying ? '⏸️' : '▶️'}</span>
               <span className="audio-label">
                 {isPlaying ? 'Playing...' : 'Listen to response'}
               </span>

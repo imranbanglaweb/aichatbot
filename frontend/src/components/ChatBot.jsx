@@ -24,7 +24,7 @@ const ChatBot = ({
   const [sessionId, setSessionId] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
   const [quickReplies, setQuickReplies] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [selectedLanguage, setSelectedLanguage] = useState('bn');
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   
   const messagesEndRef = useRef(null);
@@ -244,40 +244,16 @@ const ChatBot = ({
               {showLanguageMenu && (
                 <div className="language-dropdown">
                   <button 
-                    className={`language-option ${selectedLanguage === 'en' ? 'active' : ''}`}
-                    onClick={() => { setSelectedLanguage('en'); setShowLanguageMenu(false); }}
-                  >
-                    🇺🇸 English
-                  </button>
-                  <button 
                     className={`language-option ${selectedLanguage === 'bn' ? 'active' : ''}`}
                     onClick={() => { setSelectedLanguage('bn'); setShowLanguageMenu(false); }}
                   >
                     🇧🇩 বাংলা
                   </button>
                   <button 
-                    className={`language-option ${selectedLanguage === 'hi' ? 'active' : ''}`}
-                    onClick={() => { setSelectedLanguage('hi'); setShowLanguageMenu(false); }}
+                    className={`language-option ${selectedLanguage === 'en' ? 'active' : ''}`}
+                    onClick={() => { setSelectedLanguage('en'); setShowLanguageMenu(false); }}
                   >
-                    🇮🇳 हिंदी
-                  </button>
-                  <button 
-                    className={`language-option ${selectedLanguage === 'es' ? 'active' : ''}`}
-                    onClick={() => { setSelectedLanguage('es'); setShowLanguageMenu(false); }}
-                  >
-                    🇪🇸 Español
-                  </button>
-                  <button 
-                    className={`language-option ${selectedLanguage === 'fr' ? 'active' : ''}`}
-                    onClick={() => { setSelectedLanguage('fr'); setShowLanguageMenu(false); }}
-                  >
-                    🇫🇷 Français
-                  </button>
-                  <button 
-                    className={`language-option ${selectedLanguage === 'ar' ? 'active' : ''}`}
-                    onClick={() => { setSelectedLanguage('ar'); setShowLanguageMenu(false); }}
-                  >
-                    🇸🇦 العربية
+                    🇺🇸 English
                   </button>
                 </div>
               )}

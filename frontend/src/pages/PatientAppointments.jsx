@@ -1,8 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faCalendarCheck, 
+  faCalendarXmark, 
+  faCalendarDay,
+  faUserDoctor,
+  faHospital,
+  faMoneyBillWave,
+  faHashtag,
+  faClock,
+  faStethoscope,
+  faXmarkCircle,
+  faChevronRight,
+  faCalendarAlt,
+  faCheckCircle,
+  faTimesCircle
+} from '@fortawesome/free-solid-svg-icons';
 import DashboardLayout from './DashboardLayout';
 import api from '../services/api';
+import './PatientAppointments.css';
 
 const PatientAppointments = () => {
   const { user } = useAuth();
@@ -18,7 +36,6 @@ const PatientAppointments = () => {
   const fetchAppointments = async () => {
     try {
       const response = await api.getAppointments();
-      // API returns {success: true, data: {appointments: [...], pagination: {...}}} now
       setAppointments(response.data?.appointments || []);
     } catch (err) {
       setError('Failed to load appointments');
@@ -33,111 +50,207 @@ const PatientAppointments = () => {
     
     try {
       await api.cancelAppointment(appointmentNumber);
-      fetchAppointments(); // Refresh the list
+      fetchAppointments();
     } catch (err) {
       alert(err.message || 'Failed to cancel appointment');
     }
   };
 
   const filteredAppointments = appointments.filter(apt => {
-    if (activeTab === 'upcoming') return apt.status === 'scheduled' || apt.status === 'confirmed';
+    if (activeTab === 'all') return true;
+    if (activeTab === 'upcoming') return apt.status === 'pending' || apt.status === 'scheduled' || apt.status === 'confirmed';
     if (activeTab === 'completed') return apt.status === 'completed';
     if (activeTab === 'cancelled') return apt.status === 'cancelled';
     return true;
   });
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'pending':
+      case 'scheduled':
+      case 'confirmed':
+        return <FontAwesomeIcon icon={faCalendarCheck} />;
+      case 'completed':
+        return <FontAwesomeIcon icon={faCheckCircle} />;
+      case 'cancelled':
+        return <FontAwesomeIcon icon={faTimesCircle} />;
+      default:
+        return <FontAwesomeIcon icon={faCalendarAlt} />;
+    }
+  };
+
+  const getDoctorInitials = (name) => {
+    if (!name) return 'D';
+    const parts = name.split(' ');
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    return name.charAt(0).toUpperCase();
+  };
+
   if (loading) {
     return (
       <DashboardLayout title="My Appointments">
-        <div className="loading">Loading...</div>
+        <div className="premium-loading">
+          <div className="loading-spinner"></div>
+          <p>Loading your appointments...</p>
+        </div>
       </DashboardLayout>
     );
   }
 
   return (
     <DashboardLayout title="My Appointments">
-      <div className="page-container">
-        <div className="tabs">
+      <div className="appointments-page">
+        {/* Premium Tab Navigation */}
+        <div className="premium-tabs">
           <button 
-            className={`tab ${activeTab === 'upcoming' ? 'active' : ''}`}
+            className={`premium-tab ${activeTab === 'all' ? 'active' : ''}`}
+            onClick={() => setActiveTab('all')}
+          >
+            <FontAwesomeIcon icon={faCalendarAlt} />
+            <span>All</span>
+            <div className="tab-indicator"></div>
+          </button>
+          <button 
+            className={`premium-tab ${activeTab === 'upcoming' ? 'active' : ''}`}
             onClick={() => setActiveTab('upcoming')}
           >
-            Upcoming
+            <FontAwesomeIcon icon={faCalendarCheck} />
+            <span>Upcoming</span>
+            <div className="tab-indicator"></div>
           </button>
           <button 
-            className={`tab ${activeTab === 'completed' ? 'active' : ''}`}
+            className={`premium-tab ${activeTab === 'completed' ? 'active' : ''}`}
             onClick={() => setActiveTab('completed')}
           >
-            Completed
+            <FontAwesomeIcon icon={faCalendarDay} />
+            <span>Completed</span>
+            <div className="tab-indicator"></div>
           </button>
           <button 
-            className={`tab ${activeTab === 'cancelled' ? 'active' : ''}`}
+            className={`premium-tab ${activeTab === 'cancelled' ? 'active' : ''}`}
             onClick={() => setActiveTab('cancelled')}
           >
-            Cancelled
+            <FontAwesomeIcon icon={faCalendarXmark} />
+            <span>Cancelled</span>
+            <div className="tab-indicator"></div>
           </button>
         </div>
 
-        {error && <div className="error-message">{error}</div>}
+        {error && (
+          <div className="premium-error">
+            <FontAwesomeIcon icon={faTimesCircle} />
+            <span>{error}</span>
+          </div>
+        )}
 
         {filteredAppointments.length > 0 ? (
-          <div className="appointments-list">
+          <div className="appointments-grid">
             {filteredAppointments.map((appointment) => (
-              <div key={appointment.id} className="appointment-card">
-                <div className="appointment-header">
-                  <div className="appointment-date">
-                    <span className="date">{appointment.appointment_date}</span>
-                    <span className="time">{appointment.appointment_time}</span>
-                  </div>
-                  <span className={`status status-${appointment.status}`}>
-                    {appointment.status || 'scheduled'}
-                  </span>
-                </div>
-                
-                <div className="appointment-body">
-                  <div className="doctor-info">
-                    <div className="doctor-avatar">
-                      {appointment.doctor?.name?.charAt(0) || 'D'}
-                    </div>
-                    <div className="doctor-details">
-                      <h4>Dr. {appointment.doctor?.name || 'Doctor'}</h4>
-                      <p>{appointment.doctor?.specialization?.name || 'General Medicine'}</p>
+              <div key={appointment.id} className="premium-appointment-card">
+                {/* Card Header with Gradient */}
+                <div className="card-header-gradient">
+                  <div className="appointment-date-badge">
+                    <FontAwesomeIcon icon={faCalendarAlt} className="date-icon" />
+                    <div className="date-info">
+                      <span className="date">{appointment.date || appointment.appointment_date}</span>
+                      <span className="time">
+                        <FontAwesomeIcon icon={faClock} />
+                        {appointment.time || appointment.appointment_time}
+                      </span>
                     </div>
                   </div>
-                  
-                  <div className="appointment-details">
-                    <p><strong>Appointment #:</strong> {appointment.appointment_number}</p>
-                    <p><strong>Hospital:</strong> {appointment.doctor?.hospital_clinic || 'N/A'}</p>
-                    <p><strong>Consultation Fee:</strong> ৳{appointment.doctor?.consultation_fee || 0}</p>
+                  <div className={`status-badge-premium status-${appointment.status}`}>
+                    {getStatusIcon(appointment.status)}
+                    <span>{appointment.status === 'pending' ? 'Pending' : (appointment.status || 'scheduled')}</span>
                   </div>
                 </div>
 
-                {appointment.status === 'scheduled' && (
-                  <div className="appointment-actions">
+                {/* Card Body */}
+                <div className="card-body">
+                  {/* Doctor Info Section */}
+                  <div className="doctor-profile-section">
+                    <div className="doctor-avatar-premium">
+                      {appointment.doctor_image ? (
+                        <img src={appointment.doctor_image} alt="Doctor" />
+                      ) : (
+                        <span>{getDoctorInitials(appointment.doctor_name)}</span>
+                      )}
+                      <div className="avatar-ring"></div>
+                    </div>
+                    <div className="doctor-info-premium">
+                      <h3>
+                        <FontAwesomeIcon icon={faUserDoctor} />
+                        {appointment.doctor_name || 'Doctor'}
+                      </h3>
+                      <p className="specialization">
+                        <FontAwesomeIcon icon={faStethoscope} />
+                        {appointment.specialization || 'General Medicine'}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="info-divider"></div>
+
+                  {/* Appointment Details */}
+                  <div className="appointment-details-grid">
+                    <div className="detail-item">
+                      <FontAwesomeIcon icon={faHashtag} className="detail-icon" />
+                      <div className="detail-content">
+                        <span className="detail-label">Appointment #</span>
+                        <span className="detail-value">{appointment.appointment_number}</span>
+                      </div>
+                    </div>
+                    <div className="detail-item">
+                      <FontAwesomeIcon icon={faHospital} className="detail-icon" />
+                      <div className="detail-content">
+                        <span className="detail-label">Hospital</span>
+                        <span className="detail-value">{appointment.hospital || 'N/A'}</span>
+                      </div>
+                    </div>
+                    <div className="detail-item">
+                      <FontAwesomeIcon icon={faMoneyBillWave} className="detail-icon" />
+                      <div className="detail-content">
+                        <span className="detail-label">Consultation Fee</span>
+                        <span className="detail-value fee">৳{appointment.fee || 0}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Actions */}
+                {(appointment.status === 'pending' || appointment.status === 'scheduled' || appointment.status === 'confirmed') && (
+                  <div className="card-actions">
                     <button 
-                      className="btn btn-danger"
+                      className="btn-cancel-premium"
                       onClick={() => handleCancel(appointment.appointment_number)}
                     >
+                      <FontAwesomeIcon icon={faXmarkCircle} />
                       Cancel Appointment
                     </button>
                   </div>
                 )}
+
+                {/* Card Glow Effect */}
+                <div className="card-glow"></div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="empty-state">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-              <line x1="16" y1="2" x2="16" y2="6" />
-              <line x1="8" y1="2" x2="8" y2="6" />
-              <line x1="3" y1="10" x2="21" y2="10" />
-            </svg>
-            <h4>No {activeTab} Appointments</h4>
-            <p>You don't have any {activeTab} appointments</p>
+          /* Premium Empty State */
+          <div className="premium-empty-state">
+            <div className="empty-icon-wrapper">
+              <FontAwesomeIcon icon={faCalendarAlt} />
+            </div>
+            <h3>No {activeTab === 'all' ? '' : activeTab} Appointments</h3>
+            <p>You don't have any {activeTab} appointments at the moment</p>
             {activeTab === 'upcoming' && (
-              <Link to="/patient/doctors" className="btn btn-primary">
+              <Link to="/patient/doctors" className="btn-book-premium">
+                <FontAwesomeIcon icon={faCalendarCheck} />
                 Book an Appointment
+                <FontAwesomeIcon icon={faChevronRight} className="btn-arrow" />
               </Link>
             )}
           </div>
