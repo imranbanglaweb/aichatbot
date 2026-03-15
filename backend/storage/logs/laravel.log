@@ -1,0 +1,373 @@
+[2026-03-15 08:56:25] local.DEBUG: detectIntent called with message: 11 (lower: 11), currentIntent: book_appointment  
+[2026-03-15 08:56:25] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-15 08:56:25] local.DEBUG: matchTrainingData returned: general  
+[2026-03-15 08:56:25] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-15 08:56:25] local.DEBUG: extractEntitiesFromMessage called with: 11  
+[2026-03-15 08:56:25] local.DEBUG: Checking for date patterns in message: 11  
+[2026-03-15 08:56:25] local.DEBUG: expecting flag from context:   
+[2026-03-15 08:56:25] local.DEBUG: No date pattern matched for message: 11  
+[2026-03-15 08:56:25] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 11, hasDoctor=no, hasDate=no  
+[2026-03-15 08:56:25] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 08:56:25] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dakrar","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dakrar","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 08:56:25] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-15 08:56:42] local.DEBUG: detectIntent called with message: ent doctor dorkar (lower: ent doctor dorkar), currentIntent: general  
+[2026-03-15 08:56:42] local.DEBUG: Detected specialization: ent => ENT  
+[2026-03-15 08:56:42] local.DEBUG: Detected specialization in message: ent => ENT  
+[2026-03-15 08:56:42] local.DEBUG: extractEntitiesFromMessage called with: ent doctor dorkar  
+[2026-03-15 08:56:42] local.DEBUG: Checking for date patterns in message: ent doctor dorkar  
+[2026-03-15 08:56:42] local.DEBUG: expecting flag from context:   
+[2026-03-15 08:56:42] local.DEBUG: No date pattern matched for message: ent doctor dorkar  
+[2026-03-15 08:56:42] local.DEBUG: Name extracted (first word): Dorkar  
+[2026-03-15 08:56:42] local.DEBUG: Extracted entities from message: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 08:56:42] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dakrar","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 08:56:42] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 08:56:42] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dakrar","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 08:56:42] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 08:56:42] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
+[2026-03-15 08:56:42] local.DEBUG: Case 1: No doctor selected  
+[2026-03-15 08:57:00] local.DEBUG: detectIntent called with message: 1 (lower: 1), currentIntent: book_appointment  
+[2026-03-15 08:57:00] local.DEBUG: Detected doctor number, assuming booking intent: 1  
+[2026-03-15 08:57:00] local.DEBUG: extractEntitiesFromMessage called with: 1  
+[2026-03-15 08:57:00] local.DEBUG: Checking for date patterns in message: 1  
+[2026-03-15 08:57:00] local.DEBUG: expecting flag from context:   
+[2026-03-15 08:57:00] local.DEBUG: Numeric message "1" detected but skipping numeric day mapping: hasDate=no, isExpectingDateSelection=no  
+[2026-03-15 08:57:00] local.DEBUG: No date pattern matched for message: 1  
+[2026-03-15 08:57:00] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 1, hasDoctor=no, hasDate=no  
+[2026-03-15 08:57:00] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 08:57:00] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-15 08:57:00] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 08:57:00] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 08:57:00] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-15 08:57:00] local.DEBUG: Using merged values - doctorNumber: 1, date: null, time: null  
+[2026-03-15 08:57:00] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=1, specialization=ENT  
+[2026-03-15 08:57:00] local.DEBUG: Case 2: Filtering by specialization: ENT  
+[2026-03-15 08:57:00] local.DEBUG: Case 2: Doctor query result: Christopher Brown  
+[2026-03-15 08:57:00] local.DEBUG: Case 2: Stored selected_doctor_id: 29, doctor_name: Christopher Brown  
+[2026-03-15 08:57:00] local.DEBUG: Stashing available_days in extracted_data: ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]  
+[2026-03-15 08:57:19] local.DEBUG: detectIntent called with message: 1 (lower: 1), currentIntent: book_appointment  
+[2026-03-15 08:57:19] local.DEBUG: Detected doctor number, assuming booking intent: 1  
+[2026-03-15 08:57:19] local.DEBUG: extractEntitiesFromMessage called with: 1  
+[2026-03-15 08:57:19] local.DEBUG: Checking for date patterns in message: 1  
+[2026-03-15 08:57:19] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"thursday","5":"friday","6":"saturday","7":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-15 08:57:19] local.DEBUG: expecting flag from context:   
+[2026-03-15 08:57:19] local.DEBUG: Numeric day selected (doctor in context): 1 => monday, dateInContext=no, isExpectingDateSelection=no  
+[2026-03-15 08:57:19] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 08:57:19] local.DEBUG: Ignored doctor_number 1 because date or time_slot was extracted from same message  
+[2026-03-15 08:57:20] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, new={"specialization":"ENT","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-15 08:57:20] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 08:57:20] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-15 08:57:20] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":"2026-03-16","time_preference":null,"time_slot_number":null,"patient_name":"Dorkar","phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-15 08:57:20] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-16, time: null  
+[2026-03-15 08:57:20] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-16  
+[2026-03-15 08:57:20] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: ENT  
+[2026-03-15 08:57:20] local.DEBUG: Case 4: Found doctor by doctorNumber: Christopher Brown (ID: 29)  
+[2026-03-15 08:57:20] local.DEBUG: Case 3: Stored selected_doctor_id: 29, doctor_name: Christopher Brown  
+[2026-03-15 09:08:17] local.DEBUG: detectIntent called with message: need eye doctor (lower: need eye doctor), currentIntent: null  
+[2026-03-15 09:08:17] local.DEBUG: Detected specialization: eye => Ophthalmologist  
+[2026-03-15 09:08:17] local.DEBUG: Detected specialization in message: eye => Ophthalmologist  
+[2026-03-15 09:08:17] local.DEBUG: extractEntitiesFromMessage called with: need eye doctor  
+[2026-03-15 09:08:17] local.DEBUG: Checking for date patterns in message: need eye doctor  
+[2026-03-15 09:08:17] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:08:17] local.DEBUG: No date pattern matched for message: need eye doctor  
+[2026-03-15 09:08:17] local.DEBUG: Extracted entities from message: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:08:17] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:08:17] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}, context extracted_data: []  
+[2026-03-15 09:08:17] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[]}  
+[2026-03-15 09:08:17] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
+[2026-03-15 09:08:17] local.DEBUG: Case 1: No doctor selected  
+[2026-03-15 09:08:34] local.DEBUG: detectIntent called with message: 1 (lower: 1), currentIntent: book_appointment  
+[2026-03-15 09:08:34] local.DEBUG: Detected doctor number, assuming booking intent: 1  
+[2026-03-15 09:08:34] local.DEBUG: extractEntitiesFromMessage called with: 1  
+[2026-03-15 09:08:34] local.DEBUG: Checking for date patterns in message: 1  
+[2026-03-15 09:08:34] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:08:34] local.DEBUG: Numeric message "1" detected but skipping numeric day mapping: hasDate=no, inDisplayedRange=no  
+[2026-03-15 09:08:34] local.DEBUG: No date pattern matched for message: 1  
+[2026-03-15 09:08:34] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 1, hasDoctor=no, hasDate=no  
+[2026-03-15 09:08:34] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:08:34] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-15 09:08:34] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:08:34] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:08:34] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-15 09:08:34] local.DEBUG: Using merged values - doctorNumber: 1, date: null, time: null  
+[2026-03-15 09:08:34] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=1, specialization=Ophthalmologist  
+[2026-03-15 09:08:34] local.DEBUG: Case 2: Filtering by specialization: Ophthalmologist  
+[2026-03-15 09:08:34] local.DEBUG: Case 2: Doctor query result: Maya Patel  
+[2026-03-15 09:08:34] local.DEBUG: Case 2: Stored selected_doctor_id: 27, doctor_name: Maya Patel  
+[2026-03-15 09:08:34] local.DEBUG: Stashing available_days in extracted_data: ["monday","tuesday","wednesday","friday","saturday","sunday"]  
+[2026-03-15 09:08:56] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-15 09:08:56] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-15 09:08:56] local.DEBUG: extractEntitiesFromMessage called with: 5  
+[2026-03-15 09:08:56] local.DEBUG: Checking for date patterns in message: 5  
+[2026-03-15 09:08:56] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-15 09:08:56] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:08:56] local.DEBUG: Numeric day selected (doctor in context): 5 => saturday, dateInContext=no, inDisplayedRange=yes  
+[2026-03-15 09:08:56] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:08:56] local.DEBUG: Ignored doctor_number 5 because date or time_slot was extracted from same message  
+[2026-03-15 09:08:56] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:08:56] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:08:56] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:08:56] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:08:56] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-21, time: null  
+[2026-03-15 09:08:56] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-21  
+[2026-03-15 09:08:56] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-15 09:08:56] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 27)  
+[2026-03-15 09:08:56] local.DEBUG: Case 3: Stored selected_doctor_id: 27, doctor_name: Maya Patel  
+[2026-03-15 09:09:23] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-15 09:09:23] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-15 09:09:23] local.DEBUG: extractEntitiesFromMessage called with: 5  
+[2026-03-15 09:09:23] local.DEBUG: Checking for date patterns in message: 5  
+[2026-03-15 09:09:23] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-15 09:09:23] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:09:23] local.DEBUG: Numeric day selected (doctor in context): 5 => saturday, dateInContext=yes, inDisplayedRange=yes  
+[2026-03-15 09:09:23] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:09:23] local.DEBUG: Ignored doctor_number 5 because date or time_slot was extracted from same message  
+[2026-03-15 09:09:23] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:09:23] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:09:23] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:09:23] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:09:23] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-21, time: null  
+[2026-03-15 09:09:23] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-21  
+[2026-03-15 09:09:23] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-15 09:09:23] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 27)  
+[2026-03-15 09:09:23] local.DEBUG: Case 3: Stored selected_doctor_id: 27, doctor_name: Maya Patel  
+[2026-03-15 09:12:52] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-15 09:12:52] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-15 09:12:52] local.DEBUG: extractEntitiesFromMessage called with: 5  
+[2026-03-15 09:12:52] local.DEBUG: Checking for date patterns in message: 5  
+[2026-03-15 09:12:52] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-15 09:12:52] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:12:52] local.DEBUG: Numeric message "5" detected but skipping numeric day mapping: hasDate=yes, hasDoctor=yes  
+[2026-03-15 09:12:52] local.DEBUG: No date pattern matched for message: 5  
+[2026-03-15 09:12:52] local.DEBUG: Doctor in context, setting time_slot_number: 5, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-15 09:12:52] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":5,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:12:52] local.DEBUG: Ignored doctor_number 5 because date or time_slot was extracted from same message  
+[2026-03-15 09:12:52] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":5,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:12:52] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:12:52] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":5,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:12:52] local.DEBUG: Time slot number selected (5), preserving date and doctor info  
+[2026-03-15 09:12:52] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":5,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:12:52] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-21, time: null  
+[2026-03-15 09:12:52] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-15 09:12:52] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-15 09:12:52] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 27)  
+[2026-03-15 09:12:52] local.DEBUG: Case 4: Stored selected_doctor_id: 27, doctor_name: Maya Patel  
+[2026-03-15 09:12:52] local.DEBUG: Case 4 - patient_name from mergedData: NULL  
+[2026-03-15 09:12:52] local.DEBUG: Case 4 - phone from mergedData: NULL  
+[2026-03-15 09:12:52] local.DEBUG: Case 4 - after trim, patient_name: NULL, phone: NULL  
+[2026-03-15 09:13:11] local.DEBUG: detectIntent called with message: imran,01918329829 (lower: imran,01918329829), currentIntent: book_appointment  
+[2026-03-15 09:13:11] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-15 09:13:11] local.DEBUG: extractEntitiesFromMessage called with: imran,01918329829  
+[2026-03-15 09:13:11] local.DEBUG: Checking for date patterns in message: imran,01918329829  
+[2026-03-15 09:13:11] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:13:11] local.DEBUG: No date pattern matched for message: imran,01918329829  
+[2026-03-15 09:13:11] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-15 09:13:11] local.DEBUG: Name extracted from remaining: Imran  
+[2026-03-15 09:13:11] local.DEBUG: matchTrainingData returned: general  
+[2026-03-15 09:13:11] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-15 09:13:11] local.DEBUG: extractEntitiesFromMessage called with: imran,01918329829  
+[2026-03-15 09:13:11] local.DEBUG: Checking for date patterns in message: imran,01918329829  
+[2026-03-15 09:13:11] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-15 09:13:11] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:13:11] local.DEBUG: No date pattern matched for message: imran,01918329829  
+[2026-03-15 09:13:11] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-15 09:13:11] local.DEBUG: Name extracted from remaining: Imran  
+[2026-03-15 09:13:11] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:13:11] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":5,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":5,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:13:11] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-15 09:13:11] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
+[2026-03-15 09:13:11] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":5,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":5,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:13:11] local.DEBUG: Time slot number selected (5), preserving date and doctor info  
+[2026-03-15 09:13:11] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":5,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:13:11] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-21, time: null  
+[2026-03-15 09:13:11] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-15 09:13:11] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-15 09:13:12] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 27)  
+[2026-03-15 09:13:12] local.DEBUG: Case 4: Stored selected_doctor_id: 27, doctor_name: Maya Patel  
+[2026-03-15 09:13:12] local.DEBUG: Case 4 - patient_name from mergedData: Imran  
+[2026-03-15 09:13:12] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
+[2026-03-15 09:13:12] local.DEBUG: Case 4 - after trim, patient_name: Imran, phone: 01918329829  
+[2026-03-15 09:13:12] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-15 09:13:12] local.ERROR: Case 4: Appointment creation failed: Patient not found. Please register first or check your phone number.  
+[2026-03-15 09:13:12] local.DEBUG: Preserved book_appointment intent due to existing booking data  
+[2026-03-15 09:38:29] local.DEBUG: detectIntent called with message: eye doctor (lower: eye doctor), currentIntent: null  
+[2026-03-15 09:38:29] local.DEBUG: Detected specialization: eye => Ophthalmologist  
+[2026-03-15 09:38:29] local.DEBUG: Detected specialization in message: eye => Ophthalmologist  
+[2026-03-15 09:38:29] local.DEBUG: extractEntitiesFromMessage called with: eye doctor  
+[2026-03-15 09:38:29] local.DEBUG: Checking for date patterns in message: eye doctor  
+[2026-03-15 09:38:29] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:38:29] local.DEBUG: No date pattern matched for message: eye doctor  
+[2026-03-15 09:38:29] local.DEBUG: Extracted entities from message: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:38:30] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:38:30] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}, context extracted_data: []  
+[2026-03-15 09:38:30] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[]}  
+[2026-03-15 09:38:30] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
+[2026-03-15 09:38:30] local.DEBUG: Case 1: No doctor selected  
+[2026-03-15 09:38:56] local.DEBUG: detectIntent called with message: 1 (lower: 1), currentIntent: book_appointment  
+[2026-03-15 09:38:56] local.DEBUG: Detected doctor number, assuming booking intent: 1  
+[2026-03-15 09:38:56] local.DEBUG: extractEntitiesFromMessage called with: 1  
+[2026-03-15 09:38:56] local.DEBUG: Checking for date patterns in message: 1  
+[2026-03-15 09:38:56] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:38:56] local.DEBUG: Numeric message "1" detected but skipping numeric day mapping: hasDate=no, hasDoctor=no  
+[2026-03-15 09:38:56] local.DEBUG: No date pattern matched for message: 1  
+[2026-03-15 09:38:56] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 1, hasDoctor=no, hasDate=no  
+[2026-03-15 09:38:56] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:38:56] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}, new={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-15 09:38:56] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:38:56] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:38:56] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1}  
+[2026-03-15 09:38:56] local.DEBUG: Using merged values - doctorNumber: 1, date: null, time: null  
+[2026-03-15 09:38:56] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=1, specialization=Ophthalmologist  
+[2026-03-15 09:38:56] local.DEBUG: Case 2: Filtering by specialization: Ophthalmologist  
+[2026-03-15 09:38:56] local.DEBUG: Case 2: Doctor query result: Maya Patel  
+[2026-03-15 09:38:56] local.DEBUG: Case 2: Stored selected_doctor_id: 27, doctor_name: Maya Patel  
+[2026-03-15 09:38:56] local.DEBUG: Stashing available_days in extracted_data: ["monday","tuesday","wednesday","friday","saturday","sunday"]  
+[2026-03-15 09:39:14] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-15 09:39:14] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-15 09:39:14] local.DEBUG: extractEntitiesFromMessage called with: 5  
+[2026-03-15 09:39:14] local.DEBUG: Checking for date patterns in message: 5  
+[2026-03-15 09:39:14] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-15 09:39:14] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:39:14] local.DEBUG: Numeric day selected (doctor in context): 5 => saturday, dateInContext=no  
+[2026-03-15 09:39:14] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:39:14] local.DEBUG: Ignored doctor_number 5 because date or time_slot was extracted from same message  
+[2026-03-15 09:39:14] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:39:14] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:39:14] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:39:14] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:39:14] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-21, time: null  
+[2026-03-15 09:39:14] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-21  
+[2026-03-15 09:39:14] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-15 09:39:14] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 27)  
+[2026-03-15 09:39:14] local.DEBUG: Case 3: Stored selected_doctor_id: 27, doctor_name: Maya Patel  
+[2026-03-15 09:39:40] local.DEBUG: detectIntent called with message: 10 (lower: 10), currentIntent: book_appointment  
+[2026-03-15 09:39:40] local.DEBUG: Detected doctor number, assuming booking intent: 10  
+[2026-03-15 09:39:40] local.DEBUG: extractEntitiesFromMessage called with: 10  
+[2026-03-15 09:39:40] local.DEBUG: Checking for date patterns in message: 10  
+[2026-03-15 09:39:40] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-15 09:39:40] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:39:40] local.DEBUG: No date pattern matched for message: 10  
+[2026-03-15 09:39:40] local.DEBUG: Doctor in context, setting time_slot_number: 10, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-15 09:39:40] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:39:40] local.DEBUG: Ignored doctor_number 10 because date or time_slot was extracted from same message  
+[2026-03-15 09:39:40] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:39:40] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:39:40] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:39:40] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-15 09:39:40] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:39:40] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-21, time: null  
+[2026-03-15 09:39:40] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-15 09:39:40] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-15 09:39:40] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 27)  
+[2026-03-15 09:39:40] local.DEBUG: Case 4: Stored selected_doctor_id: 27, doctor_name: Maya Patel  
+[2026-03-15 09:39:40] local.DEBUG: Case 4 - patient_name from mergedData: NULL  
+[2026-03-15 09:39:40] local.DEBUG: Case 4 - phone from mergedData: NULL  
+[2026-03-15 09:39:40] local.DEBUG: Case 4 - after trim, patient_name: NULL, phone: NULL  
+[2026-03-15 09:39:58] local.DEBUG: detectIntent called with message: imran,01918329829 (lower: imran,01918329829), currentIntent: book_appointment  
+[2026-03-15 09:39:58] local.DEBUG: Previous intent was booking, checking for specialization or doctor number  
+[2026-03-15 09:39:58] local.DEBUG: extractEntitiesFromMessage called with: imran,01918329829  
+[2026-03-15 09:39:58] local.DEBUG: Checking for date patterns in message: imran,01918329829  
+[2026-03-15 09:39:58] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:39:58] local.DEBUG: No date pattern matched for message: imran,01918329829  
+[2026-03-15 09:39:58] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-15 09:39:58] local.DEBUG: Name extracted from remaining: Imran  
+[2026-03-15 09:39:58] local.DEBUG: matchTrainingData returned: general  
+[2026-03-15 09:39:58] local.DEBUG: No intent detected, returning INTENT_GENERAL  
+[2026-03-15 09:39:58] local.DEBUG: extractEntitiesFromMessage called with: imran,01918329829  
+[2026-03-15 09:39:58] local.DEBUG: Checking for date patterns in message: imran,01918329829  
+[2026-03-15 09:39:58] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"friday","5":"saturday","6":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-15 09:39:58] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:39:58] local.DEBUG: No date pattern matched for message: imran,01918329829  
+[2026-03-15 09:39:58] local.DEBUG: Phone extracted: 01918329829  
+[2026-03-15 09:39:58] local.DEBUG: Name extracted from remaining: Imran  
+[2026-03-15 09:39:58] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null}  
+[2026-03-15 09:39:58] local.DEBUG: Merged extracted_data: context={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, new={"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":10,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:39:58] local.DEBUG: buildResponse called with intent: general, language: bn  
+[2026-03-15 09:39:58] local.DEBUG: Overriding intent to book_appointment due to existing booking data  
+[2026-03-15 09:39:58] local.DEBUG: buildBookingResponse called with data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":10,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":10,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:39:58] local.DEBUG: Time slot number selected (10), preserving date and doctor info  
+[2026-03-15 09:39:58] local.DEBUG: Fully merged data: {"specialization":"Ophthalmologist","symptoms":[],"date":"2026-03-21","time_preference":null,"time_slot_number":10,"patient_name":"Imran","phone":"01918329829","email":null,"location":null,"appointment_number":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","friday","saturday","sunday"]}  
+[2026-03-15 09:39:58] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-21, time: null  
+[2026-03-15 09:39:58] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-15 09:39:58] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: Ophthalmologist  
+[2026-03-15 09:39:58] local.DEBUG: Case 4: Found doctor by doctorNumber: Maya Patel (ID: 27)  
+[2026-03-15 09:39:58] local.DEBUG: Case 4: Stored selected_doctor_id: 27, doctor_name: Maya Patel  
+[2026-03-15 09:39:58] local.DEBUG: Case 4 - patient_name from mergedData: Imran  
+[2026-03-15 09:39:58] local.DEBUG: Case 4 - phone from mergedData: 01918329829  
+[2026-03-15 09:39:58] local.DEBUG: Case 4 - after trim, patient_name: Imran, phone: 01918329829  
+[2026-03-15 09:39:58] local.DEBUG: Case 4: Both name and phone available, confirming appointment  
+[2026-03-15 09:39:58] local.INFO: Appointment created: 1  
+[2026-03-15 09:40:00] local.INFO: Notifications sent: {"sms":{"success":false,"error":"Authentication Error - invalid username"}}  
+[2026-03-15 09:40:00] local.DEBUG: Case 4: Appointment created successfully: 1  
+[2026-03-15 09:40:00] local.DEBUG: Preserved book_appointment intent due to existing booking data  
+[2026-03-15 09:49:50] local.DEBUG: detectIntent called with message: ent doctor darkar (lower: ent doctor darkar), currentIntent: null  
+[2026-03-15 09:49:50] local.DEBUG: Detected specialization: ent => ENT  
+[2026-03-15 09:49:50] local.DEBUG: Detected specialization in message: ent => ENT  
+[2026-03-15 09:49:50] local.DEBUG: extractEntitiesFromMessage called with: ent doctor darkar  
+[2026-03-15 09:49:50] local.DEBUG: Checking for date patterns in message: ent doctor darkar  
+[2026-03-15 09:49:50] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:49:50] local.DEBUG: No date pattern matched for message: ent doctor darkar  
+[2026-03-15 09:49:50] local.DEBUG: Name extracted (first word): Darkar  
+[2026-03-15 09:49:50] local.DEBUG: Extracted entities from message: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null}  
+[2026-03-15 09:49:50] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:49:50] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null}, context extracted_data: []  
+[2026-03-15 09:49:50] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"patient_name":"Darkar"}  
+[2026-03-15 09:49:50] local.DEBUG: Using merged values - doctorNumber: null, date: null, time: null  
+[2026-03-15 09:49:50] local.DEBUG: Case 1: No doctor selected  
+[2026-03-15 09:50:04] local.DEBUG: detectIntent called with message: 1 (lower: 1), currentIntent: book_appointment  
+[2026-03-15 09:50:04] local.DEBUG: Detected doctor number, assuming booking intent: 1  
+[2026-03-15 09:50:04] local.DEBUG: extractEntitiesFromMessage called with: 1  
+[2026-03-15 09:50:04] local.DEBUG: Checking for date patterns in message: 1  
+[2026-03-15 09:50:04] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:50:04] local.DEBUG: Numeric message "1" detected but skipping numeric day mapping: hasDate=no, hasDoctor=no  
+[2026-03-15 09:50:04] local.DEBUG: No date pattern matched for message: 1  
+[2026-03-15 09:50:04] local.DEBUG: No date/time preference in context, not setting time_slot_number for: 1, hasDoctor=no, hasDate=no  
+[2026-03-15 09:50:04] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null}  
+[2026-03-15 09:50:04] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null}, new={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1}  
+[2026-03-15 09:50:04] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:50:04] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null}  
+[2026-03-15 09:50:04] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1}  
+[2026-03-15 09:50:04] local.DEBUG: Using merged values - doctorNumber: 1, date: null, time: null  
+[2026-03-15 09:50:04] local.DEBUG: Case 2: Doctor selected, need date. doctorNumber=1, specialization=ENT  
+[2026-03-15 09:50:04] local.DEBUG: Case 2: Filtering by specialization: ENT  
+[2026-03-15 09:50:04] local.DEBUG: Case 2: Doctor query result: Christopher Brown  
+[2026-03-15 09:50:04] local.DEBUG: Case 2: Stored selected_doctor_id: 29, doctor_name: Christopher Brown  
+[2026-03-15 09:50:04] local.DEBUG: Stashing available_days in extracted_data: ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]  
+[2026-03-15 09:50:22] local.DEBUG: detectIntent called with message: 5 (lower: 5), currentIntent: book_appointment  
+[2026-03-15 09:50:22] local.DEBUG: Detected doctor number, assuming booking intent: 5  
+[2026-03-15 09:50:22] local.DEBUG: extractEntitiesFromMessage called with: 5  
+[2026-03-15 09:50:22] local.DEBUG: Checking for date patterns in message: 5  
+[2026-03-15 09:50:22] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"thursday","5":"friday","6":"saturday","7":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-15 09:50:22] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:50:22] local.DEBUG: Numeric day selected (doctor in context): 5 => friday, dateInContext=no  
+[2026-03-15 09:50:22] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null}  
+[2026-03-15 09:50:22] local.DEBUG: Ignored doctor_number 5 because date or time_slot was extracted from same message  
+[2026-03-15 09:50:22] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, new={"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-15 09:50:22] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:50:22] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":null,"time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-15 09:50:22] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-15 09:50:22] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-20, time: null  
+[2026-03-15 09:50:22] local.DEBUG: Case 3: Doctor and date selected, need time. Date: 2026-03-20  
+[2026-03-15 09:50:22] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: ENT  
+[2026-03-15 09:50:22] local.DEBUG: Case 4: Found doctor by doctorNumber: Christopher Brown (ID: 29)  
+[2026-03-15 09:50:22] local.DEBUG: Case 3: Stored selected_doctor_id: 29, doctor_name: Christopher Brown  
+[2026-03-15 09:50:31] local.DEBUG: detectIntent called with message: 4 (lower: 4), currentIntent: book_appointment  
+[2026-03-15 09:50:31] local.DEBUG: Number within slot count (4 <= 10), treating as time slot  
+[2026-03-15 09:50:31] local.DEBUG: extractEntitiesFromMessage called with: 4  
+[2026-03-15 09:50:31] local.DEBUG: Checking for date patterns in message: 4  
+[2026-03-15 09:50:31] local.DEBUG: Using dynamic day number map from context: {"1":"monday","2":"tuesday","3":"wednesday","4":"thursday","5":"friday","6":"saturday","7":"sunday","8":"tomorrow","9":"today"}  
+[2026-03-15 09:50:31] local.DEBUG: expecting flag from context:   
+[2026-03-15 09:50:31] local.DEBUG: Numeric message "4" detected but skipping numeric day mapping: hasDate=yes, hasDoctor=yes  
+[2026-03-15 09:50:31] local.DEBUG: No date pattern matched for message: 4  
+[2026-03-15 09:50:31] local.DEBUG: Doctor in context, setting time_slot_number: 4, hasDate=yes, hasDateExtracted=no, hasTimePref=no  
+[2026-03-15 09:50:31] local.DEBUG: Extracted entities from message: {"specialization":null,"symptoms":[],"date":null,"time_preference":null,"time_slot_number":4,"patient_name":null,"phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null}  
+[2026-03-15 09:50:31] local.DEBUG: Ignored doctor_number 4 because date or time_slot was extracted from same message  
+[2026-03-15 09:50:31] local.DEBUG: Merged extracted_data: context={"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, new={"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":4,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-15 09:50:31] local.DEBUG: buildResponse called with intent: book_appointment, language: bn  
+[2026-03-15 09:50:31] local.DEBUG: buildBookingResponse called with data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":4,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}, context extracted_data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":null,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-15 09:50:31] local.DEBUG: Time slot number selected (4), preserving date and doctor info  
+[2026-03-15 09:50:31] local.DEBUG: Fully merged data: {"specialization":"ENT","symptoms":[],"date":"2026-03-20","time_preference":null,"time_slot_number":4,"patient_name":"Darkar","phone":null,"email":null,"location":null,"appointment_number":null,"booking_for":null,"doctor_number":1,"available_days":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}  
+[2026-03-15 09:50:31] local.DEBUG: Using merged values - doctorNumber: 1, date: 2026-03-20, time: null  
+[2026-03-15 09:50:31] local.DEBUG: Case 4: Doctor, date/time, and time slot selected  
+[2026-03-15 09:50:31] local.DEBUG: Case 4: Looking up doctor by doctorNumber: 1, specialization: ENT  
+[2026-03-15 09:50:31] local.DEBUG: Case 4: Found doctor by doctorNumber: Christopher Brown (ID: 29)  
+[2026-03-15 09:50:31] local.DEBUG: Case 4: Stored selected_doctor_id: 29, doctor_name: Christopher Brown  

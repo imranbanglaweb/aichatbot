@@ -1237,6 +1237,7 @@ class AIService
             'email' => null,
             'location' => null,
             'appointment_number' => null,
+            'booking_for' => null, // 'myself' or 'someone_else'
         ];
 
         Log::debug('extractEntitiesFromMessage called with: ' . $message);
@@ -1275,6 +1276,9 @@ class AIService
             $dayNumberMap['8'] = 'tomorrow';
             $dayNumberMap['9'] = 'today';
             Log::debug('Using dynamic day number map from context: ' . json_encode($dayNumberMap));
+            
+            // Track if the day number is within the displayed available days range
+            $maxDisplayedDayNumber = count($displayedAvailableDays);
         } else {
             // Fall back to standard week order
             $dayNumberMap = [
@@ -1282,20 +1286,28 @@ class AIService
                 '4' => 'thursday', '5' => 'friday', '6' => 'saturday', '7' => 'sunday',
                 '8' => 'tomorrow', '9' => 'today'
             ];
+            $maxDisplayedDayNumber = 0;
         }
         
+        // Check if user was told "no slots available" recently - this flag allows date re-selection
+        $wasToldNoSlots = $context['extracted_data']['expecting'] ?? '';
+        $isExpectingDateSelection = ($wasToldNoSlots === 'date_selection');
+        Log::debug('expecting flag from context: ' . $wasToldNoSlots);
+        
         // Check for numeric day selection first (e.g., "1" for Monday).
-        // Only treat bare numbers as dates when a doctor is already selected in
-        // the context AND there's no date already selected. Otherwise, numbers
-        // should be treated as time slot selections.
+        // Treat bare numbers as dates when:
+        // 1. Doctor is in context AND no date is already selected, OR
+        // 2. The number falls within the displayed available days range (allows date re-selection)
         $hasDateInContext = !empty($context['extracted_data']['date']);
+        
         if (is_numeric(trim($message)) && isset($dayNumberMap[trim($message)])) {
-            // Only extract date if doctor is in context AND no date is already selected
+            // Extract date ONLY if doctor is in context AND no date is already selected
+            // Don't extract date if there's already a date - numbers should be treated as time slots
             if ($hasDoctorInContext && !$hasDateInContext) {
-                Log::debug('Numeric day selected (doctor in context, no date): ' . $message . ' => ' . $dayNumberMap[trim($message)]);
+                Log::debug('Numeric day selected (doctor in context): ' . $message . ' => ' . $dayNumberMap[trim($message)] . ', dateInContext=' . ($hasDateInContext ? 'yes' : 'no'));
                 $entities['date'] = $this->parseRelativeDate($dayNumberMap[trim($message)]);
             } else {
-                Log::debug('Numeric message "' . $message . '" detected but date already in context or no doctor, skipping numeric day mapping');
+                Log::debug('Numeric message "' . $message . '" detected but skipping numeric day mapping: hasDate=' . ($hasDateInContext ? 'yes' : 'no') . ', hasDoctor=' . ($hasDoctorInContext ? 'yes' : 'no'));
             }
         } elseif (preg_match('/(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/', $message, $matches)) {
             Log::debug('Date pattern matched: ' . $matches[1]);
@@ -1406,6 +1418,36 @@ class AIService
                 $entities['phone'] = $matches[0];
                 Log::debug('Phone extracted: ' . $entities['phone']);
                 break;
+            }
+        }
+
+        // Extract booking_for: "myself" or "someone else"
+        $myselfPatterns = [
+            '/^(myself|me|my|own|i am|for me)$/i',
+            '/^(আমি|নিজের|আমার|আমাকে)$/u',
+            '/^(हैं|मेरे|मैं)$/i',
+        ];
+        $someoneElsePatterns = [
+            '/^(someone|some other|other|another|family|son|daughter|father|mother|husband|wife|brother|sister|friend)$/i',
+            '/^(অন্য|অন্যর|পরিবার|ছেলে|মেয়ে|বাবা|মা|স্বামী|স্ত্রী|ভাই|বোন|বন্ধু)$/u',
+            '/^(किसी और|परिवार|बेटा|बेटी|पिता|माता|पति|पत्नी|भाई|बहन|दोस्त)$/i',
+        ];
+        
+        $lowerMessage = strtolower(trim($message));
+        foreach ($myselfPatterns as $pattern) {
+            if (preg_match($pattern, $lowerMessage)) {
+                $entities['booking_for'] = 'myself';
+                Log::debug('Booking for: myself');
+                break;
+            }
+        }
+        if (!$entities['booking_for']) {
+            foreach ($someoneElsePatterns as $pattern) {
+                if (preg_match($pattern, $lowerMessage)) {
+                    $entities['booking_for'] = 'someone_else';
+                    Log::debug('Booking for: someone_else');
+                    break;
+                }
             }
         }
 
@@ -1554,6 +1596,8 @@ class AIService
 
     /**
      * Build booking response
+    /**
+     * Build booking response
      */
     protected function buildBookingResponse(array $data, string $language, array $context = []): string
     {
@@ -1569,20 +1613,58 @@ class AIService
             });
             $mergedData = array_merge($contextData, $dataWithNonNulls);
             
+            // Fix: Don't let null values from new data overwrite existing context values
+            // This preserves specialization, doctor_number, etc. from context
+            $dataWithNonNulls = array_filter($data, function($value) {
+                return $value !== null;
+            });
+            $mergedData = array_merge($contextData, $dataWithNonNulls);
+            
             // Check if user selected a NEW doctor number (different from context)
             // If so, clear the stale date so they can pick a new date for the new doctor
             // BUT don't clear if user is selecting a time slot (time_slot_number is also set)
             $previousDoctorNumber = $contextData['doctor_number'] ?? null;
             $newDoctorNumber = $data['doctor_number'] ?? null;
             $newTimeSlotNumber = $data['time_slot_number'] ?? null;
+            $newDate = $data['date'] ?? null;
+            $previousDate = $contextData['date'] ?? null;
             
-            // Only clear date if it's truly a new doctor selection, NOT a time slot selection
+            // Check if user is selecting a NEW date (from displayed available days) - clear time slot
+            // This handles the case where user gets "no slots available" and picks another date
+            $displayedAvailableDays = $contextData['available_days'] ?? [];
+            $isSelectingNewDateFromAvailableDays = false;
+            if ($newDate && $previousDate && $newDate !== $previousDate && empty($newTimeSlotNumber)) {
+                // User selected a different date - check if it's from the displayed available days
+                if (!empty($displayedAvailableDays)) {
+                    $dayNumberMap = [];
+                    $dayIndex = 1;
+                    foreach ($displayedAvailableDays as $day) {
+                        $dayNumberMap[$dayIndex] = strtolower($day);
+                        $dayIndex++;
+                    }
+                    // Check if the new date corresponds to one of the displayed day numbers
+                    foreach ($dayNumberMap as $dayNum => $dayName) {
+                        $parsedNewDate = $this->parseRelativeDate($dayName);
+                        if ($parsedNewDate === $newDate) {
+                            $isSelectingNewDateFromAvailableDays = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // Clear date only if it's a new doctor selection, NOT a date re-selection
             if ($newDoctorNumber && $previousDoctorNumber && intval($newDoctorNumber) !== intval($previousDoctorNumber) && !$newTimeSlotNumber) {
                 // User selected a different doctor - clear the stale date
                 Log::debug('New doctor selected (' . $newDoctorNumber . ' vs ' . $previousDoctorNumber . '), clearing stale date');
                 $mergedData['date'] = null;
                 unset($mergedData['date']);
                 $date = null; // Also clear local variable
+            } elseif ($isSelectingNewDateFromAvailableDays) {
+                // User selected a new date from displayed available days - clear time slot so they pick a new time
+                Log::debug('New date selected from available days (' . $newDate . ' vs ' . $previousDate . '), clearing time slot');
+                unset($mergedData['time_slot_number']);
+                $mergedData['time_slot_number'] = null;
             } elseif ($newTimeSlotNumber) {
                 // User is selecting a time slot - preserve the date
                 Log::debug('Time slot number selected (' . $newTimeSlotNumber . '), preserving date and doctor info');
@@ -1788,6 +1870,9 @@ class AIService
                     }
                 }
                 
+                // Set flag indicating we're expecting date selection
+                $extractedData['expecting'] = 'date_selection';
+                
                 return match($language) {
                     'bn' => "আপনি Dr. {$doctorName}-কে বেছে নিয়েছেন।" . 
                            (!empty($availableDaysInfo) ? "\n\nউপলব্ধ দিন:" . $availableDaysInfo : "") . 
@@ -1891,12 +1976,18 @@ class AIService
                         $slotList .= "\n" . ($index + 1) . ". " . $startTime;
                     }
                     
+                    // Set flag indicating we're expecting time slot selection
+                    $extractedData['expecting'] = 'time_slot';
+                    
                     return match($language) {
                         'bn' => "তারিখ {$date} তে Dr. {$doctorName}-এর উপলব্ধ সময়:\n{$slotList}\n\nসময়ের নম্বর বলুন (1-" . count($slots) . ")।",
                         'hi' => "Dr. {$doctorName} की {$date} को उपलब्ध समय:\n{$slotList}\n\nसमय का नंबर बताएं (1-" . count($slots) . ")।",
                         default => "Available times for Dr. {$doctorName} on {$date}:\n{$slotList}\n\nPlease specify the time number (1-" . count($slots) . ").",
                     };
                 } else {
+                    // Set flag indicating we're expecting date selection (no slots available)
+                    $extractedData['expecting'] = 'date_selection';
+                    
                     return match($language) {
                         'bn' => "দুঃখিত, {$date} তারিখে Dr. {$doctorName}-এর কোনো স্লট উপলব্ধ নেই। অন্য তারিখ বলুন।",
                         'hi' => "माफ करें, {$date} को Dr. {$doctorName} के लिए कोई स्लॉट उपलब्ध नहीं है। कृपया कोई और तारीख बताएं।",
@@ -2010,13 +2101,56 @@ class AIService
                     
                     $patientName = $mergedData['patient_name'] ?? null;
                     $phone = $mergedData['phone'] ?? null;
+                    $bookingFor = $mergedData['booking_for'] ?? null;
                     
                     Log::debug('Case 4 - patient_name from mergedData: ' . ($patientName ?? 'NULL'));
                     Log::debug('Case 4 - phone from mergedData: ' . ($phone ?? 'NULL'));
+                    Log::debug('Case 4 - booking_for from mergedData: ' . ($bookingFor ?? 'NULL'));
                     
                     // Ensure we have actual values, not empty strings
                     $patientName = !empty(trim($patientName)) ? trim($patientName) : null;
                     $phone = !empty(trim($phone)) ? trim($phone) : null;
+                    
+                    // Check if we need to ask about booking_for
+                    if (!$bookingFor && !$patientName && !$phone) {
+                        // Ask who the booking is for
+                        return match($language) {
+                            'bn' => "আপনি কি নিজের জন্য বুক করবেন না অন্য কারো জন্য? (নিজের/অন্য)",
+                            'hi' => 'क्या यह अपॉनल लिए है या किसी और के लिए? (myself/someone else)',
+                            default => 'Is this for yourself or someone else? (myself/someone else)',
+                        };
+                    }
+                    
+                    // If booking_for is 'myself' - get user info or ask for phone only
+                    if ($bookingFor === 'myself') {
+                        if (!$phone) {
+                            return match($language) {
+                                'bn' => "আপনার ফোন নম্বর কী?",
+                                'hi' => 'आपका फोन नंबर क्या है?',
+                                default => 'What is your phone number?',
+                            };
+                        }
+                        // Use phone number as patient name for 'myself'
+                        $patientName = $patientName ?? 'Patient';
+                    }
+                    
+                    // If booking_for is 'someone_else' - need both name and phone
+                    if ($bookingFor === 'someone_else') {
+                        if (!$patientName) {
+                            return match($language) {
+                                'bn' => "রোগীর নাম কী?",
+                                'hi' => 'मरीज का नाम क्या है?',
+                                default => "What is the patient's name?",
+                            };
+                        }
+                        if (!$phone) {
+                            return match($language) {
+                                'bn' => "রোগীর ফোন নম্বর কী?",
+                                'hi' => 'मरीज का फोन नंबर क्या है?',
+                                default => "What is the patient's phone number?",
+                            };
+                        }
+                    }
                     
                     Log::debug('Case 4 - after trim, patient_name: ' . ($patientName ?? 'NULL') . ', phone: ' . ($phone ?? 'NULL'));
                     
@@ -2061,9 +2195,9 @@ class AIService
                     }
                     
                     return match($language) {
-                        'bn' => "চমৎকার! আমি আপনার জন্য Dr. {$doctorName}-এর সাথে {$date} তারিখে {$selectedTime} সময়ে অ্যাপয়েন্টমেন্ট বুক করছি।\n\nআপনার নাম এবং ফোন নম্বর কী?",
-                        'hi' => "बढ़िया! मैं आपके लिए Dr. {$doctorName} के साथ {$date} को {$selectedTime} अपॉइंटमेंट बुक कर रहा हूं।\n\nआपका नाम और फोन नंबर क्या है?",
-                        default => "Great! I'm booking an appointment with Dr. {$doctorName} on {$date} at {$selectedTime}.\n\nWhat is your name and phone number?",
+                        'bn' => "চমৎকার! আমি আপনার জন্য Dr. {$doctorName}-এর সাথে {$date} তারিখে {$selectedTime} সময়ে অ্যাপয়েন্টমেন্ট বুক করছি।\n\nআপনি কি নিজের জন্য বুক করবেন না অন্য কারো জন্য? (নিজের/অন্য)",
+                        'hi' => "बढ़िया! मैं आपके लिए Dr. {$doctorName} के साथ {$date} को {$selectedTime} अपॉइंटमेंट बुक कर रहा हूं।\n\nक्या यह अपॉनल लिए है या किसी और के लिए? (myself/someone else)",
+                        default => "Great! I'm booking an appointment with Dr. {$doctorName} on {$date} at {$selectedTime}.\n\nIs this for yourself or someone else? (myself/someone else)",
                     };
                 } else {
                     return match($language) {
@@ -2114,6 +2248,48 @@ class AIService
                 $patientName = $mergedData['patient_name'] ?? null;
                 $phone = $mergedData['phone'] ?? null;
                 $email = $mergedData['email'] ?? null;
+                $bookingFor = $mergedData['booking_for'] ?? null;
+                
+                // Check if we need to ask about booking_for
+                if (!$bookingFor && !$patientName && !$phone) {
+                    // Ask who the booking is for
+                    return match($language) {
+                        'bn' => "আপনি কি নিজের জন্য বুক করবেন না অন্য কারো জন্য? (নিজের/অন্য)",
+                        'hi' => 'क्या यह अपॉनल लिए है या किसी और के लिए? (myself/someone else)',
+                        default => 'Is this for yourself or someone else? (myself/someone else)',
+                    };
+                }
+                
+                // If booking_for is 'myself' - get user info or ask for phone only
+                if ($bookingFor === 'myself') {
+                    if (!$phone) {
+                        return match($language) {
+                            'bn' => "আপনার ফোন নম্বর কী?",
+                            'hi' => 'आपका फोन नंबर क्या है?',
+                            default => 'What is your phone number?',
+                        };
+                    }
+                    // Use phone number as patient name for 'myself'
+                    $patientName = $patientName ?? 'Patient';
+                }
+                
+                // If booking_for is 'someone_else' - need both name and phone
+                if ($bookingFor === 'someone_else') {
+                    if (!$patientName) {
+                        return match($language) {
+                            'bn' => "রোগীর নাম কী?",
+                            'hi' => 'मरीज का नाम क्या है?',
+                            default => "What is the patient's name?",
+                        };
+                    }
+                    if (!$phone) {
+                        return match($language) {
+                            'bn' => "রোগীর ফোন নম্বর কী?",
+                            'hi' => 'मरीज का फोन नंबर क्या है?',
+                            default => "What is the patient's phone number?",
+                        };
+                    }
+                }
                 
                 // Ensure we have actual values, not empty strings
                 $patientName = !empty(trim($patientName)) ? trim($patientName) : null;
@@ -2152,9 +2328,9 @@ class AIService
                 }
                 
                 return match($language) {
-                    'bn' => "চমৎকার! আমি আপনার জন্য Dr. {$doctorName}-এর সাথে {$date} তারিখে {$time} সময়ে অ্যাপয়েন্টমেন্ট বুক করছি।\n\nআপনার নাম এবং ফোন নম্বর কী?",
-                    'hi' => "बढ़िया! मैं आपके लिए Dr. {$doctorName} के साथ {$date} को {$time} अपॉइंटमेंट बुक कर रहा हूं।\n\nआपका नाम और फोन नंबर क्या है?",
-                    default => "Great! I'm booking an appointment with Dr. {$doctorName} on {$date} at {$time}.\n\nWhat is your name and phone number?",
+                    'bn' => "চমৎকার! আমি আপনার জন্য Dr. {$doctorName}-এর সাথে {$date} তারিখে {$time} সময়ে অ্যাপয়েন্টমেন্ট বুক করছি।\n\nআপনি কি নিজের জন্য বুক করবেন না অন্য কারো জন্য? (নিজের/অন্য)",
+                    'hi' => "बढ़िया! मैं आपके लिए Dr. {$doctorName} के साथ {$date} को {$time} अपॉइंटमेंट बुक कर रहा हूं।\n\nक्या यह अपॉनल लिए है या किसी और के लिए? (myself/someone else)",
+                    default => "Great! I'm booking an appointment with Dr. {$doctorName} on {$date} at {$time}.\n\nIs this for yourself or someone else? (myself/someone else)",
                 };
             }
             
@@ -2180,35 +2356,29 @@ class AIService
     protected function createAppointmentAndNotify(Doctor $doctor, string $date, string $time, string $patientName, string $phone, string $language = 'en', string $email = null): array
     {
         try {
-            // Find or create patient user
-            $patient = User::where('phone', $phone)->first();
-            
-            // Generate placeholder email if not provided
-            if (empty($email)) {
-                $email = $phone . '@patient.local';
+            // Get authenticated user if available
+            $authUser = null;
+            try {
+                $authUser = auth()->user();
+            } catch (\Exception $e) {
+                // Not authenticated
             }
             
-            if (!$patient) {
-                // Create a new patient user with a random password
-                $patient = User::create([
-                    'name' => $patientName,
-                    'phone' => $phone,
-                    'email' => $email,
-                    'password' => bcrypt(Str::random(12)), // Generate random password
-                    'role' => 'patient',
-                ]);
+            // If user is authenticated, use their ID as patient_id
+            // The patient name/phone from bot is stored separately for history
+            $patientId = null;
+            if ($authUser && $authUser->id) {
+                $patientId = $authUser->id;
             } else {
-                // Update name and email if provided
-                $updateData = [];
-                if ($patient->name !== $patientName) {
-                    $updateData['name'] = $patientName;
+                // For non-authenticated users, find by phone
+                $patient = User::where('phone', $phone)->first();
+                if (!$patient) {
+                    return [
+                        'success' => false,
+                        'error' => 'Unable to book appointment. Please try again.',
+                    ];
                 }
-                if ($email && $patient->email !== $email) {
-                    $updateData['email'] = $email;
-                }
-                if (!empty($updateData)) {
-                    $patient->update($updateData);
-                }
+                $patientId = $patient->id;
             }
             
             // Parse time to get start and end times
@@ -2222,13 +2392,16 @@ class AIService
             
             // Create appointment
             $appointment = Appointment::create([
-                'patient_id' => $patient->id,
+                'patient_id' => $patientId,
                 'doctor_id' => $doctor->id,
                 'appointment_date' => $date,
                 'start_time' => $startTime24,
                 'end_time' => $endTime24,
                 'status' => 'confirmed',
                 'notes' => 'Booked via AI Chatbot',
+                'patient_name' => $patientName,
+                'patient_phone' => $phone,
+                'patient_email' => $email,
             ]);
             
             Log::info('Appointment created: ' . $appointment->id);
@@ -2248,8 +2421,8 @@ class AIService
                     $notificationResults['sms'] = $this->notificationService->sendAppointmentConfirmationSms($phone, $appointmentData);
                     
                     // Send email if patient has email
-                    if ($patient->email) {
-                        $notificationResults['email'] = $this->notificationService->sendAppointmentConfirmationEmail($patient->email, $appointmentData);
+                    if ($email) {
+                        $notificationResults['email'] = $this->notificationService->sendAppointmentConfirmationEmail($email, $appointmentData);
                     }
                     
                     Log::info('Notifications sent: ' . json_encode($notificationResults));

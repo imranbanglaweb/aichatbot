@@ -164,7 +164,7 @@ class DoctorSeeder extends Seeder
                 ]
             ],
             [
-                'user' => ['name' => 'Dr. Mohammad Khan', 'email' => 'mohammad.khan@dental.com', 'phone' => '+1234567895'],
+                'user' => ['name' => 'Mohammad Khan', 'email' => 'mohammad.khan@dental.com', 'phone' => '+1234567895'],
                 'specialization' => 'Dentist',
                 'license_number' => 'DDS-DENT-003',
                 'qualification' => 'BDS - Conservative Dentistry',
@@ -184,7 +184,7 @@ class DoctorSeeder extends Seeder
                 ]
             ],
             [
-                'user' => ['name' => 'Dr. Fatema Begum', 'email' => 'fatema.begum@dental.com', 'phone' => '+1234567896'],
+                'user' => ['name' => 'Fatema Begum', 'email' => 'fatema.begum@dental.com', 'phone' => '+1234567896'],
                 'specialization' => 'Dentist',
                 'license_number' => 'DDS-DENT-004',
                 'qualification' => 'BDS, MPH - Dental Surgery',
@@ -204,7 +204,7 @@ class DoctorSeeder extends Seeder
                 ]
             ],
             [
-                'user' => ['name' => 'Dr. Ali Hassan', 'email' => 'ali.hassan@dental.com', 'phone' => '+1234567897'],
+                'user' => ['name' => 'Ali Hassan', 'email' => 'ali.hassan@dental.com', 'phone' => '+1234567897'],
                 'specialization' => 'Dentist',
                 'license_number' => 'DDS-DENT-005',
                 'qualification' => 'DDS - Implantology',
@@ -327,7 +327,7 @@ class DoctorSeeder extends Seeder
             [
                 'user' => ['name' => 'Christopher Brown', 'email' => 'chris.brown@hospital.com', 'phone' => '+1234567898'],
                 'specialization' => 'ENT Specialist',
-                'license_number' => 'MD-ENT-001',
+                'license_number' => 'MD-ENT-002',
                 'qualification' => 'FCPS ENT',
                 'experience_years' => 9,
                 'bio' => 'Ear, nose, and throat specialist with expertise in sinus treatment.',

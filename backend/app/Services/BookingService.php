@@ -168,12 +168,19 @@ class BookingService
             ];
         }
 
-        // Create or get patient user
-        $patient = $this->getOrCreatePatient($data);
+        // Get patient user (must exist)
+        $patient = $this->getPatient($data);
+
+        if (!$patient) {
+            return [
+                'success' => false,
+                'message' => 'Patient not found. Please register first or check your phone number.',
+            ];
+        }
 
         // Book appointment with first available slot
         $slot = $slots[0];
-        $appointment = $this->createAppointment($patient, $doctor, $data['date'], $slot);
+        $appointment = $this->createAppointment($patient, $doctor, $data['date'], $slot, $data);
 
         // Send notifications
         $this->notificationService->sendAppointmentConfirmation($appointment);
@@ -354,20 +361,33 @@ class BookingService
     }
 
     /**
-     * Get or create patient
+     * Get patient (auto-create if not exists)
      */
-    protected function getOrCreatePatient(array $data): User
+    protected function getPatient(array $data): ?User
     {
+        // Get authenticated user if available
+        $authUser = null;
+        try {
+            $authUser = auth()->user();
+        } catch (\Exception $e) {
+            // Not authenticated
+        }
+        
+        // If user is authenticated, use their ID
+        if ($authUser && $authUser->id) {
+            return $authUser;
+        }
+        
         // Check if user exists by phone
         $user = User::where('phone', $data['phone'])->first();
 
-        if (!$user) {
-            // Create new user
+        // If user doesn't exist, create a new one
+        if (!$user && !empty($data['phone']) && !empty($data['patient_name'])) {
             $user = User::create([
                 'name' => $data['patient_name'],
                 'phone' => $data['phone'],
-                'email' => $data['email'] ?? null,
-                'password' => bcrypt(str_random(16)),
+                'email' => $data['phone'] . '@patient.local',
+                'password' => bcrypt($data['phone']),
             ]);
         }
 
@@ -377,7 +397,7 @@ class BookingService
     /**
      * Create appointment
      */
-    protected function createAppointment(User $patient, Doctor $doctor, string $date, array $slot): Appointment
+    protected function createAppointment(User $patient, Doctor $doctor, string $date, array $slot, array $data = []): Appointment
     {
         return Appointment::create([
             'patient_id' => $patient->id,
@@ -389,6 +409,9 @@ class BookingService
             'type' => 'in_person',
             'fee' => $doctor->consultation_fee,
             'reason' => $slot['reason'] ?? null,
+            'patient_name' => $data['patient_name'] ?? $patient->name,
+            'patient_phone' => $data['phone'] ?? $patient->phone,
+            'patient_email' => $data['email'] ?? ($patient->email ?? null),
         ]);
     }
 
