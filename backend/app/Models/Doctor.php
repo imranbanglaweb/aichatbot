@@ -101,10 +101,20 @@ class Doctor extends Model
             return [];
         }
 
+        // First, try to find a schedule with matching schedule_date
         $schedule = $this->schedules()
-            ->where('day_of_week', $dayOfWeek)
+            ->where('schedule_date', $date)
             ->where('is_active', true)
             ->first();
+        
+        // If no specific date schedule, fall back to day_of_week matching
+        if (!$schedule) {
+            $schedule = $this->schedules()
+                ->where('day_of_week', $dayOfWeek)
+                ->whereNull('schedule_date')
+                ->where('is_active', true)
+                ->first();
+        }
 
         if (!$schedule) {
             return [];

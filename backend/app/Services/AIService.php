@@ -1400,8 +1400,8 @@ class AIService
         }
 
         $phonePatterns = [
-            // International format with +88 (Bangladesh)
-            '/\+88\d{10}/',
+            // International format with +880 (Bangladesh) - 13 digits total
+            '/\+880\d{10}/',
             // Bangladeshi mobile: 01XXXXXXXXX (11 digits starting with 01)
             '/01[3-9]\d{9}/',
             // Alternative Bangladeshi format (10 digits)
@@ -1424,12 +1424,12 @@ class AIService
         // Extract booking_for: "myself" or "someone else"
         $myselfPatterns = [
             '/^(myself|me|my|own|i am|for me)$/i',
-            '/^(আমি|নিজের|আমার|আমাকে)$/u',
+            '/^(আমি|নিজের|আমার|আমাকে|নিজের জন্য).*$/u',
             '/^(हैं|मेरे|मैं)$/i',
         ];
         $someoneElsePatterns = [
             '/^(someone|some other|other|another|family|son|daughter|father|mother|husband|wife|brother|sister|friend)$/i',
-            '/^(অন্য|অন্যর|পরিবার|ছেলে|মেয়ে|বাবা|মা|স্বামী|স্ত্রী|ভাই|বোন|বন্ধু)$/u',
+            '/^(অন্য|অন্যর|পরিবার|ছেলে|মেয়ে|বাবা|মা|স্বামী|স্ত্রী|ভাই|বোন|বন্ধু|অন্য জন্য).*$/u',
             '/^(किसी और|परिवार|बेटा|बेटी|पिता|माता|पति|पत्नी|भाई|बहन|दोस्त)$/i',
         ];
         
@@ -1472,8 +1472,8 @@ class AIService
                         $potentialName = trim($nameParts[0]);
                         // Clean up the name - only keep letters
                         $potentialName = preg_replace('/[^A-Za-z]/', '', $potentialName);
-                        // Also filter out single words like "my", "hi", "hello", "ok"
-                        $notNameSingle = ['my', 'hi', 'hello', 'ok', 'yes', 'no', 'sure', 'please', 'thanks', 'thank'];
+                        // Also filter out single words like "my", "hi", "hello", "ok" and Bengali words
+                        $notNameSingle = ['my', 'hi', 'hello', 'ok', 'yes', 'no', 'sure', 'please', 'thanks', 'thank', 'নিজের', 'জন্য', 'আমি', 'আমার', 'আমাকে', 'অন্য', 'অন্যর'];
                         if (strlen($potentialName) >= 2 && !in_array(strtolower($potentialName), $notNameSingle)) {
                             $entities['patient_name'] = ucfirst(strtolower($potentialName));
                             Log::debug('Name extracted from remaining: ' . $entities['patient_name']);
@@ -1483,26 +1483,29 @@ class AIService
             }
         } else {
             // No phone found - try to extract just the name
-            // Check for common name patterns
-            if (preg_match('/(?:my name is|i am|i\'m)\s+([A-Za-z]+(?:\s+[A-Za-z]+)*)/i', $message, $matches)) {
-                $entities['patient_name'] = ucfirst(strtolower($matches[1]));
-                Log::debug('Name extracted (no phone): ' . $entities['patient_name']);
-            } elseif (empty($entities['patient_name']) && preg_match('/^([A-Za-z]+)\s+\d{5,}/', $message, $matches)) {
-                // Name followed by number (like "John 01918329829")
-                $entities['patient_name'] = ucfirst(strtolower($matches[1]));
-                Log::debug('Name extracted (name before number): ' . $entities['patient_name']);
-            } elseif (empty($entities['patient_name'])) {
-                // Try to find a name at the start of message (first word with letters only)
-                $words = preg_split('/\s+/', $message);
-                foreach ($words as $word) {
-                    $cleanWord = preg_replace('/[^A-Za-z]/', '', $word);
-                    if (strlen($cleanWord) >= 2 && !is_numeric($cleanWord)) {
-                        // Filter out common medical/specialization terms and other non-name words
-                        $notNameTerms = ['heart', 'cardio', 'cardiac', 'neuro', 'brain', 'ortho', 'bone', 'derma', 'skin', 'eye', 'optic', 'ear', 'ent', 'child', 'pediatric', 'baby', 'women', 'female', 'pregnant', 'cancer', 'tumor', 'diabetes', 'sugar', 'kidney', 'liver', 'lung', 'breath', 'stomach', 'gas', 'thyroid', 'doctor', 'need', 'want', 'help', 'please', 'book', 'appointment', 'make', 'get', 'have', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'today', 'tomorrow', 'yesterday', 'morning', 'afternoon', 'evening', 'night', 'specialist', 'special', 'specilist'];
-                        if (!in_array(strtolower($cleanWord), $notNameTerms)) {
-                            $entities['patient_name'] = ucfirst(strtolower($cleanWord));
-                            Log::debug('Name extracted (first word): ' . $entities['patient_name']);
-                            break;
+            // BUT skip if booking_for is already set (like "নিজের" means myself)
+            if (empty($entities['booking_for'])) {
+                // Check for common name patterns
+                if (preg_match('/(?:my name is|i am|i\'m)\s+([A-Za-z]+(?:\s+[A-Za-z]+)*)/i', $message, $matches)) {
+                    $entities['patient_name'] = ucfirst(strtolower($matches[1]));
+                    Log::debug('Name extracted (no phone): ' . $entities['patient_name']);
+                } elseif (empty($entities['patient_name']) && preg_match('/^([A-Za-z]+)\s+\d{5,}/', $message, $matches)) {
+                    // Name followed by number (like "John 01918329829")
+                    $entities['patient_name'] = ucfirst(strtolower($matches[1]));
+                    Log::debug('Name extracted (name before number): ' . $entities['patient_name']);
+                } elseif (empty($entities['patient_name'])) {
+                    // Try to find a name at the start of message (first word with letters only)
+                    $words = preg_split('/\s+/', $message);
+                    foreach ($words as $word) {
+                        $cleanWord = preg_replace('/[^A-Za-z]/', '', $word);
+                        if (strlen($cleanWord) >= 2 && !is_numeric($cleanWord)) {
+                            // Filter out common medical/specialization terms and other non-name words, including Bengali
+                            $notNameTerms = ['heart', 'cardio', 'cardiac', 'neuro', 'brain', 'ortho', 'bone', 'derma', 'skin', 'eye', 'optic', 'ear', 'ent', 'child', 'pediatric', 'baby', 'women', 'female', 'pregnant', 'cancer', 'tumor', 'diabetes', 'sugar', 'kidney', 'liver', 'lung', 'breath', 'stomach', 'gas', 'thyroid', 'doctor', 'need', 'want', 'help', 'please', 'book', 'appointment', 'make', 'get', 'have', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'today', 'tomorrow', 'yesterday', 'morning', 'afternoon', 'evening', 'night', 'specialist', 'special', 'specilist', 'নিজের', 'জন্য', 'আমি', 'আমার', 'আমাকে', 'অন্য', 'অন্যর', 'ডাক্তার', 'ডাক্টর', 'ডা'];
+                            if (!in_array(strtolower($cleanWord), $notNameTerms)) {
+                                $entities['patient_name'] = ucfirst(strtolower($cleanWord));
+                                Log::debug('Name extracted (first word): ' . $entities['patient_name']);
+                                break;
+                            }
                         }
                     }
                 }
@@ -1545,6 +1548,14 @@ class AIService
                         break;
                     }
                 }
+            }
+        }
+        
+        // Extract email from message
+        if (preg_match_all('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $message, $emailMatches)) {
+            if (!empty($emailMatches[0])) {
+                $entities['email'] = $emailMatches[0][0];
+                Log::debug('Email extracted: ' . $entities['email']);
             }
         }
 
@@ -2122,16 +2133,21 @@ class AIService
                     }
                     
                     // If booking_for is 'myself' - get user info or ask for phone only
+                    // IMPORTANT: Reset patientName when booking_for is 'myself' to avoid using old context values
                     if ($bookingFor === 'myself') {
+                        // Only reset patientName if we don't already have a valid phone
+                        // This allows the flow to continue if phone was just provided
                         if (!$phone) {
+                            $patientName = null;
+                            
                             return match($language) {
-                                'bn' => "আপনার ফোন নম্বর কী?",
+                                'bn' => "আপনার ফোন নম্বর?",
                                 'hi' => 'आपका फोन नंबर क्या है?',
                                 default => 'What is your phone number?',
                             };
                         }
                         // Use phone number as patient name for 'myself'
-                        $patientName = $patientName ?? 'Patient';
+                        $patientName = 'Patient';
                     }
                     
                     // If booking_for is 'someone_else' - need both name and phone
@@ -2145,7 +2161,7 @@ class AIService
                         }
                         if (!$phone) {
                             return match($language) {
-                                'bn' => "রোগীর ফোন নম্বর কী?",
+                                'bn' => "রোগীর ফোন নম্বর?",
                                 'hi' => 'मरीज का फोन नंबर क्या है?',
                                 default => "What is the patient's phone number?",
                             };
@@ -2177,13 +2193,13 @@ class AIService
                         Log::debug('Case 4: Appointment created successfully: ' . ($appointmentResult['appointment_id'] ?? 'unknown'));
                         
                         return match($language) {
-                            'bn' => "অ্যাপয়েন্টমেন্ট সফলভাবে নিশ্চিত হয়েছে! " .
-                                "ডাক্টার: ডক্টর {$doctorName}. " .
-                                "তারিখ: {$date}. " .
-                                "সময়: {$selectedTime}. " .
-                                "রোগীর নাম: {$patientName}. " .
-                                "যোগাযোগ নম্বর: {$phone}. " .
-                                "আপনার অ্যাপয়েন্টমেন্ট নিশ্চিত হয়েছে। আমাদের টিম শীঘ্রই আপনার সাথে যোগাযোগ করবে। ধন্যবাদ।",
+                    'bn' => "আপনার অ্যাপয়েন্টমেন্ট সফলভাবে নিশ্চিত হয়েছে। " .
+                            "ডক্টর {$doctorName} এর সাথে। " .
+                            "তারিখ {$date}। " .
+                            "সময় {$selectedTime}। " .
+                            "রোগীর নাম {$patientName}। " .
+                            "যোগাযোগ নম্বর {$phone}। " .
+                            "আমাদের টিম শীঘ্রই আপনার সাথে যোগাযোগ করবে। ধন্যবাদ।",
                             default => "Your appointment has been confirmed! " .
                                 "Doctor: Dr. {$doctorName}. " .
                                 "Appointment Date: {$date}. " .
@@ -2365,20 +2381,69 @@ class AIService
             }
             
             // If user is authenticated, use their ID as patient_id
-            // The patient name/phone from bot is stored separately for history
+            // Use authenticated user's name and email
             $patientId = null;
+            $finalPatientName = $patientName;
+            $finalEmail = $email;
+            
             if ($authUser && $authUser->id) {
+                // Use authenticated user's info
                 $patientId = $authUser->id;
-            } else {
-                // For non-authenticated users, find by phone
-                $patient = User::where('phone', $phone)->first();
-                if (!$patient) {
-                    return [
-                        'success' => false,
-                        'error' => 'Unable to book appointment. Please try again.',
-                    ];
+                $finalPatientName = $authUser->name;
+                $finalEmail = $authUser->email;
+                
+                // Use authenticated user's phone if provided, otherwise use extracted phone
+                if (!empty($authUser->phone)) {
+                    $phone = $authUser->phone;
+                } elseif (!empty($phone)) {
+                    $normalizedPhone = $this->normalizePhoneNumber($phone);
+                    $phone = $normalizedPhone;
+                    // Update authenticated user's phone if provided
+                    $authUser->update(['phone' => $normalizedPhone]);
                 }
-                $patientId = $patient->id;
+                Log::debug('Using authenticated user: ' . $patientId);
+            } else {
+                // No authenticated user - try to find user by phone or allow guest booking
+                Log::debug('No authenticated user, checking for phone: ' . ($phone ?? 'null'));
+                if (!empty($phone)) {
+                    $normalizedPhone = $this->normalizePhoneNumber($phone);
+                    Log::debug('Normalized phone: ' . $normalizedPhone);
+                    $patientUser = \App\Models\User::where('phone', $normalizedPhone)->first();
+                    
+                    if ($patientUser) {
+                        $patientId = $patientUser->id;
+                        // Use found user's name and email
+                        $finalPatientName = $patientUser->name;
+                        $finalEmail = $patientUser->email;
+                        Log::debug('Found existing user by phone: ' . $patientId);
+                    } else {
+                        // Create a new user for guest booking
+                        try {
+                            // Generate a dummy email if not provided
+                            $dummyEmail = 'guest_' . time() . '@example.com';
+                            
+                            $patientUser = \App\Models\User::create([
+                                'name' => $patientName ?? 'Guest Patient',
+                                'phone' => $normalizedPhone,
+                                'email' => $email ?? $dummyEmail,
+                                'password' => bcrypt('guest_' . time()),
+                                'is_active' => true,
+                                'is_doctor' => false,
+                                'is_admin' => false,
+                            ]);
+                            $patientId = $patientUser->id;
+                            $finalPatientName = $patientUser->name;
+                            $finalEmail = $patientUser->email;
+                            Log::debug('Created new guest user: ' . $patientId);
+                        } catch (\Exception $e) {
+                            Log::error('Failed to create guest user: ' . $e->getMessage());
+                            // Allow booking without patient_id
+                            $patientId = null;
+                        }
+                    }
+                } else {
+                    Log::debug('No phone provided, patientId will be null');
+                }
             }
             
             // Parse time to get start and end times
@@ -2391,6 +2456,7 @@ class AIService
             $endTime24 = date('H:i:s', strtotime($endTime));
             
             // Create appointment
+            Log::debug('Creating appointment with: patientId=' . ($patientId ?? 'null') . ', patientName=' . ($finalPatientName ?? 'null') . ', phone=' . ($phone ?? 'null') . ', email=' . ($finalEmail ?? 'null'));
             $appointment = Appointment::create([
                 'patient_id' => $patientId,
                 'doctor_id' => $doctor->id,
@@ -2399,9 +2465,9 @@ class AIService
                 'end_time' => $endTime24,
                 'status' => 'confirmed',
                 'notes' => 'Booked via AI Chatbot',
-                'patient_name' => $patientName,
+                'patient_name' => $finalPatientName,
                 'patient_phone' => $phone,
-                'patient_email' => $email,
+                'patient_email' => $finalEmail,
             ]);
             
             Log::info('Appointment created: ' . $appointment->id);
@@ -2414,7 +2480,9 @@ class AIService
                         'doctor_name' => $doctor->user->name,
                         'date' => $date,
                         'time' => $time,
-                        'patient_name' => $patientName,
+                        'patient_name' => $finalPatientName,
+                        'patient_phone' => $phone,
+                        'patient_email' => $finalEmail,
                     ];
                     
                     // Send SMS
@@ -3381,5 +3449,32 @@ PROMPT;
             default:
                 return $date->format('Y-m-d');
         }
+    }
+
+    /**
+     * Normalize phone number for matching
+     * Handles formats like 01918329829, +8801918329829, 8801918329829
+     */
+    protected function normalizePhoneNumber(string $phone): string
+    {
+        // Remove all non-digit characters except +
+        $cleaned = preg_replace('/[^0-9+]/', '', $phone);
+        
+        // Handle +880 format (Bangladesh)
+        if (strpos($cleaned, '+880') === 0) {
+            return $cleaned;
+        }
+        
+        // Handle 880 format
+        if (strpos($cleaned, '880') === 0) {
+            return '+' . $cleaned;
+        }
+        
+        // Handle 0 prefix (Bangladesh mobile numbers)
+        if (strpos($cleaned, '0') === 0) {
+            return '+88' . substr($cleaned, 1);
+        }
+        
+        return $cleaned;
     }
 }

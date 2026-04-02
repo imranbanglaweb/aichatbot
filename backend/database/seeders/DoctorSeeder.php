@@ -414,58 +414,47 @@ class DoctorSeeder extends Seeder
     }
 
     /**
-     * Create doctor schedules
+     * Create doctor schedules - 2 days/week, evening 6-8 PM, for next 6 months
      */
     protected function createDoctorSchedules(\App\Models\Doctor $doctor, array $schedule): void
     {
         // Delete existing schedules
         DoctorSchedule::where('doctor_id', $doctor->id)->delete();
 
-        // Create daytime schedule
-        foreach ($schedule['days'] as $day) {
-            DoctorSchedule::create([
-                'doctor_id' => $doctor->id,
-                'day_of_week' => $day,
-                'start_time' => $schedule['start_time'],
-                'end_time' => $schedule['end_time'],
-                'break_start' => '12:00:00',
-                'break_end' => '13:00:00',
-                'max_appointments' => 16,
-                'is_active' => true,
-            ]);
+        // Two days per week (friday and saturday)
+        $days = ['friday', 'saturday'];
+        
+        // Generate dates for next 6 months
+        $startDate = now();
+        $endDate = now()->addMonths(6);
+        
+        // Find all fridays and saturdays in the next 6 months
+        $scheduleDates = [];
+        $currentDate = $startDate->copy();
+        
+        while ($currentDate->lte($endDate)) {
+            if (in_array(strtolower($currentDate->format('l')), $days)) {
+                $scheduleDates[] = $currentDate->format('Y-m-d');
+            }
+            $currentDate->addDay();
         }
 
-        // Add evening slots (6 PM - 11 PM) for 2-3 days
-        $eveningDays = $this->getEveningDaysForDoctor($doctor->id);
-        foreach ($eveningDays as $day) {
+        // Create schedules for each date with evening time 6 PM to 8 PM
+        foreach ($scheduleDates as $date) {
+            $dayOfWeek = strtolower(date('l', strtotime($date)));
             DoctorSchedule::create([
                 'doctor_id' => $doctor->id,
-                'day_of_week' => $day,
+                'day_of_week' => $dayOfWeek,
+                'schedule_date' => $date,
                 'start_time' => '18:00:00',
-                'end_time' => '23:00:00',
+                'end_time' => '20:00:00',
                 'break_start' => null,
                 'break_end' => null,
-                'max_appointments' => 10,
+                'max_appointments' => 8, // 2 hours, 15 min per appointment = 8
                 'is_active' => true,
             ]);
         }
-    }
 
-    /**
-     * Get evening days for each doctor (2-3 days per week)
-     */
-    protected function getEveningDaysForDoctor(int $doctorId): array
-    {
-        // Assign 2-3 evening days based on doctor ID for variety
-        $eveningSchedules = [
-            ['friday', 'saturday'],
-            ['thursday', 'friday', 'saturday'],
-            ['friday', 'saturday', 'sunday'],
-            ['saturday', 'sunday'],
-            ['thursday', 'friday'],
-        ];
-
-        $index = $doctorId % count($eveningSchedules);
-        return $eveningSchedules[$index];
+        $this->command->info("   ✅ Created " . count($scheduleDates) . " schedules for Dr. {$doctor->user->name} (2 days/week, 6-8 PM, 6 months)");
     }
 }

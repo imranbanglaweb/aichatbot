@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'John Patient',
             'email' => 'patient@demo.com',
-            'phone' => '+1234567001',
+            'phone' => '+8801712345678',
             'password' => bcrypt('password'),
             'is_active' => true,
             'is_doctor' => false,
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@demo.com',
-            'phone' => '+1234567000',
+            'phone' => '+8801912345678',
             'password' => bcrypt('admin123'),
             'is_active' => true,
             'is_admin' => true,
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Dr. Sarah Doctor',
             'email' => 'doctor@demo.com',
-            'phone' => '+1234567002',
+            'phone' => '+8801512345678',
             'password' => bcrypt('doctor123'),
             'is_active' => true,
             'is_doctor' => true,
